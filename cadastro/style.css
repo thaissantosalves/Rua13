@@ -51,13 +51,6 @@
     padding-bottom: 80px;
 }
 
-.nav-menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
 .nav-roupas nav ul {
     display: flex;
     gap: 40px;
@@ -175,6 +168,15 @@ input {
     font-size: 1rem;
 }
 
+select {
+    border: 0;
+    border-bottom: solid 3px black;
+    margin-bottom: 50px;
+    width: 480px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
 button {
     padding: 10px 80px;
     border: 2px solid black;
@@ -182,7 +184,7 @@ button {
     cursor: pointer;
 }
 
-.button-enviar {
+.button-enviarclas {
     margin-right: 10px;
     background-color: black;
 
@@ -191,12 +193,13 @@ button {
     font-weight: 200;
 }
 
-.button-limpar {
+.button-limparclas {
     border: 2px solid black;
     font-size: 1.2rem;
     font-weight: 200;
     background-color: white;
 }
+/* ************ CINFIG MAIN ************ */
 
 a {
     color: black;
@@ -225,8 +228,9 @@ a {
         font-size: 12px;
     }
 
-    input {
-        width: 400px; /* não */
+    input,
+    select {
+        width: 400px;
     }
 
     .header-nav {
@@ -256,8 +260,9 @@ a {
         display: none;
     }
 
-    input {
-        width: 320px; /* não */
+    input,
+    select {
+        width: 320px;
     }
 
     .header-nav {

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Conta | STREET KACE</title>
+        <title>Registro | STREET KACE</title>
         <!-- LINK CSS -->
         <link rel="stylesheet" href="style.css" />
         <!-- LINK CSS -->
@@ -50,20 +50,15 @@
             </div>
 
             <div class="header-principal">
-                <img class="img-logo" src="img/kace.png" alt="logo" />
+                <img src="img/kace.png" alt="logo" />
                 <div class="header-nav">
-                    <nav class="nav-menu">
-                        <div class="mobile-menu">
-                            <div class="line1"></div>
-                            <div class="line2"></div>
-                            <div class="line3"></div>
-                        </div>
-                        <ul class="nav-list">
+                    <nav>
+                        <ul>
                             <li>
                                 <a href="#"><img src="img/lupa.png" alt="lupa-de-busca" /></a>
                             </li>
                             <li>
-                                <a href="index.html"><img src="img/login.png" alt="icone-login" /></a>
+                                <a href="../Login/index.html"><img src="img/login.png" alt="icone-login" /></a>
                             </li>
                             <li>
                                 <a href="#"><img src="img/carrinho.png" alt="carrinho" /></a>
@@ -85,20 +80,65 @@
                 </nav>
             </div>
         </header>
-
+        <!-- FIM HEADER -->
         <main>
-            <h1>LOGIN</h1>
+            <h1>CRIAR UMA CONTA</h1>
             <section class="cadastro-form">
                 <form id="formulario">
+                    <input
+                        type="text"
+                        name="nome"
+                        placeholder="Nome completo"
+                        minlength="15"
+                        maxlength="80"
+                        pattern="[A-Za-zÀ-ÿ\s]+"
+                        title="Use apenas letras e espaços, entre 15 e 80 caracteres"
+                        required
+                    />
+
+                    <input type="date" name="dataNascimento" placeholder="Data de Nascimento" required />
+
+                    <select name="sexo" required>
+                        <option value="" disabled selected>Selecione o sexo</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="outro">Outro</option>
+                    </select>
+
+                    <input type="text" name="nomeMaterno" placeholder="Nome materno" required />
+
+                    <input type="text" id="cpf" maxlength="14" placeholder="___.___.___-__" />
+
+                    <input type="email" name="email" placeholder="E-mail" required />
+
+                    <input type="tel" name="telefoneCelular" placeholder="Telefone celular" pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}" title="Formato: (XX)XXXXX-XXXX" required />
+
+                    <input type="tel" name="telefoneFixo" placeholder="Telefone fixo" pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}" title="Formato: (XX)XXXX-XXXX" required />
+
+                    <input type="text" id="cep" name="CEP" placeholder="Cep" required />
+
+                    <input type="text" id="endereco" name="endereco" placeholder="Endereço" required />
+
+                    <input type="text" id="numero" name="numero" placeholder="Numero" required />
+
+                    <input type="text" id="bairro" name="bairro" placeholder="Bairro" required />
+
+                    <input type="text" id="cidade" name="cidade" placeholder="Cidade" required />
+
+                    <input type="text" id="estado" name="estado" placeholder="Estado" required />
+
                     <input type="text" id="login" name="login" placeholder="Login" required />
 
-                    <input type="password" id="senha1" name="senha" placeholder="Senha" required />
+                    <input type="password" name="senha" id="senha1" placeholder="Senha" required />
 
-                    <button id="button-enviar" class="button-enviar" type="submit">Enviar</button>
-                    <button class="button-limpar" type="reset"><a href="../Cadastro/index.html">Cadrastro</a></button>
+                    <input type="password" name="senha" id="senha2" placeholder="Confirmação de Senha" required />
+
+                    <button id="button-enviar" class="button-enviarclas" type="submit">Enviar</button>
+                    <button id="button-limpar" class="button-limparclas" type="reset">Limpar</button>
                 </form>
             </section>
         </main>
+        <!-- FIM MAIN -->
         <script src="index.js"></script>
     </body>
 </html>

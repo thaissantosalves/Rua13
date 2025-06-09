@@ -1,0 +1,571 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+.frete {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/*Galeria de produtos*/
+
+.galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/*Produtos*/
+
+.item-roupa {
+      width: 30%;
+      box-sizing: border-box;
+      padding: 10px;
+      text-align: center;
+}
+
+.item-roupa img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.descricao {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.preco {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.botao-comprar {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+footer {
+    background-color: black;
+    padding: 40px 0;
+    width: 100%;
+    margin: 0;
+}
+
+.footer-container {
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.footer-container h1,
+.footer-container h2,
+.footer-container h3 {
+    gap: 8px;
+    font-size: 16px;
+    margin: 0;
+}
+
+.footer-container p {
+    text-align: justify;
+    font-weight: normal;
+}
+
+.footer-container p:first-of-type {
+    margin-top: 8px;
+}
+
+
+.footer-container a {
+    text-decoration: none;
+    display: block;
+    text-align: justify;
+    color: white;
+    font-weight: normal;
+    margin-top: 8px;
+}
+
+.cadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: justify;
+    color: white;
+    gap: 8px;
+}
+
+.email-cadastro {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  gap: 8px;
+}
+
+.email-cadastro {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+}
+
+.input-container input {
+  width: 239.2px;
+  height: 46px;
+  border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccc;
+  font-size: 14px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.input-container button {
+  width: 52.8px;
+  height: 45px;
+  border-radius: 2px;
+  border: none;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+
+
+@media (max-width: 900px) {
+  .footer-container {
+    gap: 40px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .header-nav {
+    right: 40px;
+  }
+  .nav-roupas nav ul {
+    gap: 18px;
+    font-size: 15px;
+  }
+  .item-roupa {
+    width: 45%;
+    min-width: 180px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-principal {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .header-nav {
+    position: static;
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .nav-roupas nav ul {
+    gap: 10px;
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+  .item-roupa {
+    width: 90%;
+    min-width: 140px;
+    max-width: 100%;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .galeria {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  .item-roupa {
+    width: 98%;
+    min-width: 120px;
+    max-width: 100%;
+    margin-bottom: 16px;
+    padding: 8px;
+  }
+  .header-principal {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-nav {
+    position: static;
+    margin-top: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .nav-roupas {
+    padding-bottom: 30px;
+  }
+  .nav-roupas nav ul {
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .footer-container {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+  }
+  .cadastro {
+    align-items: center;
+    text-align: center;
+  }
+  .email-cadastro {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .input-container {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  .input-container input,
+  .input-container button {
+    width: 100%;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
+}
+
+.redes-sociais {
+  display: flex;
+
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.redes-sociais a {
+  color: #fff; 
+  font-size: 24px;
+  transition: color 0.3s;
+  text-decoration: none;
+}
+
+.redes-sociais a:hover {
+  color: #ee0808;
+}
+
+
+
+.faixa-promo {
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 11px 0;
+}
+.faixa-promo p {
+    font-weight: 300;
+    font-size: 13px;
+}
+.text-faixa-promo {
+    text-align: center;
+}
+
+.header-principal {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.header-nav {
+    position: absolute;
+    right: 200px;
+}
+.header-nav nav ul {
+    display: flex;
+    gap: 15px;
+}
+.header-nav nav ul li {
+    list-style: none;
+}
+
+.nav-roupas {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 80px;
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-roupas nav ul {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-roupas nav ul li {
+    list-style: none;
+}
+.nav-roupas nav ul li a {
+    text-decoration: none;
+    color: black;
+}
+/* ************ CINFIG HEADER ************ */
+
+/* ************ CINFIG HEADER MOBILE ************ */
+
+.mobile-menu-responsivo {
+    cursor: pointer;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    z-index: 10;
+    display: none;
+}
+
+.mobile-menu-responsivo div {
+    width: 32px;
+    height: 2px;
+    background-color: #000000;
+    margin: 8px;
+}
+
+.menu-mobile-responsivo {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.904);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    display: none;
+}
+
+.nav-menu-mobile {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    gap: 10px;
+}
+
+.nav-menu-mobile ul {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-menu-mobile ul li {
+    color: white;
+}
+
+.nav-list {
+    list-style: none;
+}
+
+.nav-roupas-mobile nav ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100vh;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-roupas-mobile nav ul li a {
+    color: white;
+}
+
+#botaoFecharMenu {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #00000000;
+    border: 0;
+}
+
+/* ************ CINFIG HEADER MOBILE ************ */
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .header-nav {
+        right: 50px;
+    }
+}
+
+@media (min-width: 425px) and (max-width: 768px) {
+    .nav-roupas nav ul {
+        gap: 10px;
+    }
+
+    .nav-roupas nav ul li {
+        font-size: 12px;
+    }
+
+
+
+    .header-nav {
+        display: none;
+    }
+
+    .nav-roupas {
+        display: none;
+    }
+
+    .mobile-menu-responsivo {
+        display: block;
+    }
+
+   
+}
+
+@media (min-width: 320px) and (max-width: 425px) {
+    .img-logo {
+        width: 320px;
+        height: auto;
+    }
+
+    .nav-roupas {
+        display: none;
+    }
+
+
+
+    .header-nav {
+        display: none;
+    }
+    .nav-roupas {
+        display: none;
+    }
+
+    .mobile-menu-responsivo {
+        display: block;
+    }  
+
+}
+
+.mensagem-sucesso {
+    font-size: 13px;
+    margin-top: 8px;
+    transition: opacity 0.3s ease;
+}
+
+
+.modal-carrinho {
+  display: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 300px;
+  background-color: white;
+  border-left: 2px solid #000;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  z-index: 1001;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.conteudo-carrinho h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+#lista-carrinho {
+  list-style: none;
+  padding: 0;
+}
+
+#lista-carrinho li {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+.fechar-carrinho {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.btn-limpar {
+  margin-top: 15px;
+  background-color: #e60000;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.total-carrinho {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+}

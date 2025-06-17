@@ -89,7 +89,6 @@ h1 {
 .item-roupa {
     width: 30%; /* Define a largura de cada item */
     box-sizing: border-box; /* Inclui padding e bordas na largura */
-    background-color: #fff; /* Fundo branco */
     padding: 10px; /* Espaçamento interno */
     text-align: center; /* Centraliza o conteúdo */
 }
@@ -108,12 +107,12 @@ h1 {
 
 .preco {
     font-size: 14px; /* Tamanho da fonte */
-    color: #333; /* Cor cinza escuro */
+    color: #b8b2b2;
     margin-bottom: 10px; /* Espaço inferior */
 }
 
 .botao-comprar {
-    background-color: #000; /* Fundo preto */
+    background-color: rgb(167, 16, 16);
     color: #fff; /* Texto branco */
     border: none; /* Sem borda */
     padding: 10px 20px; /* Espaçamento interno */
@@ -496,4 +495,36 @@ ul {
   font-weight: bold;
   font-size: 16px;
   color: black;
+}
+
+/* body com modo claro/escuro */
+
+/* Estilo padrão claro */
+body {
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Modo escuro ativado */
+body.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+header, footer, .card {
+  background-color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode .card {
+  background-color: #000000; 
+  color: white;
+}
+
+.dark-mode header, 
+.dark-mode header * {
+  color: #eee !important;
 }

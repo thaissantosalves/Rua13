@@ -349,4 +349,36 @@ ul {
     }
 }
 
+/* body com modo claro/escuro */
+
+/* Estilo padrão claro */
+body {
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Modo escuro ativado */
+body.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+header, footer, .card {
+  background-color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode .card {
+  background-color: #000000; 
+  color: white;
+}
+
+.dark-mode header, 
+.dark-mode header * {
+  color: #eee !important;
+}
+
 

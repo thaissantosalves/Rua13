@@ -51,6 +51,13 @@
     padding-bottom: 80px;
 }
 
+.nav-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 .nav-roupas nav ul {
     display: flex;
     gap: 40px;
@@ -168,15 +175,6 @@ input {
     font-size: 1rem;
 }
 
-select {
-    border: 0;
-    border-bottom: solid 3px black;
-    margin-bottom: 50px;
-    width: 480px;
-    padding: 10px;
-    font-size: 1rem;
-}
-
 button {
     padding: 10px 80px;
     border: 2px solid black;
@@ -184,7 +182,7 @@ button {
     cursor: pointer;
 }
 
-.button-enviarclas {
+.button-enviar {
     margin-right: 10px;
     background-color: black;
 
@@ -193,13 +191,12 @@ button {
     font-weight: 200;
 }
 
-.button-limparclas {
+.button-limpar {
     border: 2px solid black;
     font-size: 1.2rem;
     font-weight: 200;
     background-color: white;
 }
-/* ************ CINFIG MAIN ************ */
 
 a {
     color: black;
@@ -228,9 +225,8 @@ a {
         font-size: 12px;
     }
 
-    input,
-    select {
-        width: 400px;
+    input {
+        width: 400px; /* não */
     }
 
     .header-nav {
@@ -260,9 +256,8 @@ a {
         display: none;
     }
 
-    input,
-    select {
-        width: 320px;
+    input {
+        width: 320px; /* não */
     }
 
     .header-nav {
@@ -278,3 +273,37 @@ a {
 }
 
 /* ************ CINFIG RESPONSIVO ************ */
+
+/* body com modo claro/escuro */
+
+/* Estilo padrão claro */
+body {
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Modo escuro ativado */
+body.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+header, footer, .card {
+  background-color: white;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode header,
+body.dark-mode footer,
+body.dark-mode .card {
+  background-color: #000000; 
+  color: white;
+}
+
+.dark-mode header, 
+.dark-mode header * {
+  color: #eee !important;
+}
+
+

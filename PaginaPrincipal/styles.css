@@ -296,6 +296,7 @@ ul {
 
 
 /* ************ CINFIG HEADER ************ */
+
 .icons-header{
   width: 20px;
 }
@@ -317,9 +318,8 @@ ul {
 .header-principal {
     width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
-    /* position: relative; */
+    justify-content: center;
 }
 
 .header-nav {

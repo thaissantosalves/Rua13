@@ -295,7 +295,6 @@ header, footer, .card {
 }
 
 body.dark-mode header,
-body.dark-mode footer,
 body.dark-mode .card {
   background-color: #000000; 
   color: white;
@@ -306,4 +305,7 @@ body.dark-mode .card {
   color: #eee !important;
 }
 
-
+body.dark-mode footer {
+  background-color: #1f1f1f; 
+  color: #ddd;
+}

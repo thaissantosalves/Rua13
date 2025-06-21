@@ -512,13 +512,18 @@ body.dark-mode {
   color: white;
 }
 
+/* Modal carrinho - escuro */
+body.dark-mode .modal-carrinho {
+  background-color: black; 
+  color: white;
+}
+
 header, footer, .card {
   background-color: white;
   transition: background-color 0.3s, color 0.3s;
 }
 
 body.dark-mode header,
-body.dark-mode footer,
 body.dark-mode .card {
   background-color: #000000; 
   color: white;
@@ -527,4 +532,116 @@ body.dark-mode .card {
 .dark-mode header, 
 .dark-mode header * {
   color: #eee !important;
+}
+
+body.dark-mode footer {
+  background-color: #1f1f1f; 
+  color: #ddd;
+}
+
+
+/* Footer */
+footer {
+    background-color: black;
+    padding: 40px 0;
+}
+
+.footer-container {
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.footer-container h1,
+.footer-container h2,
+.footer-container h3 {
+    gap: 8px;
+    font-size: 16px;
+    margin: 0;
+}
+
+.footer-container p {
+    text-align: justify;
+    font-weight: normal;
+}
+
+.footer-container p:first-of-type {
+    margin-top: 8px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.footer-container a {
+    text-decoration: none;
+    display: block;
+    text-align: justify;
+    color: white;
+    font-weight: normal;
+    margin-top: 8px;
+}
+
+.cadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: justify;
+    color: white;
+    gap: 8px;
+}
+
+.email-cadastro {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.input-container input {
+    width: 239.2px;
+    height: 46px;
+    border-radius: 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc;
+    font-size: 14px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.input-container button {
+    width: 52.8px;
+    height: 45px;
+    border-radius: 2px;
+    border: none;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.redes-sociais {
+    display: flex;
+
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.redes-sociais a {
+    color: #fff;
+    font-size: 24px;
+    transition: color 0.3s;
+    text-decoration: none;
+}
+
+.redes-sociais a:hover {
+    color: #ee0808;
 }

@@ -44,7 +44,6 @@ footer,
 }
 
 body.dark-mode header,
-body.dark-mode footer,
 body.dark-mode .card {
     background-color: #000000;
     color: white;
@@ -53,6 +52,11 @@ body.dark-mode .card {
 .dark-mode header,
 .dark-mode header * {
     color: #eee !important;
+}
+
+body.dark-mode footer {
+  background-color: #1f1f1f; 
+  color: #ddd;
 }
 
 /* body */
@@ -368,6 +372,60 @@ ul {
 .icone-usuario {
     width: 45px;
 }
+
+#btn-acessibilidade {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+#btn-acessibilidade img {
+  width: 40px;
+}
+
+/* Menu lateral */
+.menu-acessibilidade {
+  position: fixed;
+  left: -250px; 
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+  transition: left 0.3s ease;
+  padding: 20px;
+  z-index: 999;
+}
+
+.menu-acessibilidade.ativo {
+  left: 0;
+}
+
+/* Estilo do menu no modo escuro */
+.dark-mode #menu-acessibilidade {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+.dark-mode #menu-acessibilidade hr {
+  border-color: #555;
+}
+
+.dark-mode #menu-acessibilidade button {
+  background-color: transparent;
+  color: #f0f0f0;
+  border: none;
+}
+
+.dark-mode #btn-acessibilidade img {
+  filter: brightness(0) invert(1);
+}
+
 /* ************ CINFIG HEADER ************ */
 
 /* ************ CINFIG HEADER MOBILE ************ */

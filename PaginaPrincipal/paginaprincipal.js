@@ -1,60 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Menu mobile
-    document.getElementById("botaoFecharMenu").addEventListener("click", function () {
-        document.querySelector(".menu-mobile-responsivo").style.display = "none";
-    });
+  // Menu mobile
+  document.getElementById("botaoFecharMenu")?.addEventListener("click", () => {
+    document.querySelector(".menu-mobile-responsivo").style.display = "none";
+  });
 
-    document.querySelector(".mobile-menu-responsivo").addEventListener("click", function () {
-        document.querySelector(".menu-mobile-responsivo").style.display = "block";
-    });
+  document.querySelector(".mobile-menu-responsivo")?.addEventListener("click", () => {
+    document.querySelector(".menu-mobile-responsivo").style.display = "block";
+  });
 
-    // Dark mode
-    const botaoDarkMode = document.getElementById("toggle-dark-mode");
-    const iconeModo = document.getElementById("icone-modo");
-    const iconeLogin = document.getElementById("icone-login");
-    const iconeCarrinho = document.getElementById("icone-carrinho");
-    const iconeLupa = document.getElementById("icone-lupa");
-    const logoModo = document.getElementById("logo-modo");
+  // Dark mode
+  const botaoDarkMode = document.getElementById("toggle-dark-mode");
+  const botaoDarkMenu = document.getElementById("btn-dark-menu");
 
-    function trocarIconePorTema(elemento, caminhoClaro, caminhoEscuro) {
-        const estaNoDark = document.body.classList.contains("dark-mode");
-        elemento.src = estaNoDark ? caminhoEscuro : caminhoClaro;
-    }
+  const iconeModo = document.getElementById("icone-modo");
+  const iconeLogin = document.getElementById("icone-login");
+  const iconeCarrinho = document.getElementById("icone-carrinho");
+  const iconeLupa = document.getElementById("icone-lupa");
+  const logoModo = document.getElementById("logo-modo");
 
-    function toggleDarkMode() {
-        const darkAtivo = document.body.classList.toggle("dark-mode");
-        localStorage.setItem("darkMode", darkAtivo ? "enabled" : "disabled");
+  function trocarIconePorTema(elemento, caminhoClaro, caminhoEscuro) {
+    if (!elemento) return;
+    const estaNoDark = document.body.classList.contains("dark-mode");
+    elemento.src = estaNoDark ? caminhoEscuro : caminhoClaro;
+  }
 
-        trocarIconePorTema(iconeModo, "imgpaginaprincipal/modoclaro.png", "iconsmodoescuro/modoescuro.png");
-        trocarIconePorTema(iconeLogin, "svgheader/login.png", "iconsmodoescuro/login.png");
-        trocarIconePorTema(iconeCarrinho, "svgheader/carrinho.png", "iconsmodoescuro/carrinho-de-compras.png");
-        trocarIconePorTema(iconeLupa, "svgheader/lupa.png", "iconsmodoescuro/lupa.png");
-        trocarIconePorTema(logoModo, "svgheader/logo.png", "iconsmodoescuro/logomodo.png");
-    }
+  function toggleDarkMode() {
+    const darkAtivo = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("darkMode", darkAtivo ? "enabled" : "disabled");
 
-    function loadDarkModeSetting() {
-        const darkAtivo = localStorage.getItem("darkMode") === "enabled";
-        if (darkAtivo) document.body.classList.add("dark-mode");
+    trocarIconePorTema(iconeModo, "imgpaginaprincipal/modoclaro.png", "iconsmodoescuro/modoescuro.png");
+    trocarIconePorTema(iconeLogin, "svgheader/login.png", "iconsmodoescuro/login.png");
+    trocarIconePorTema(iconeCarrinho, "svgheader/carrinho.png", "iconsmodoescuro/carrinho-de-compras.png");
+    trocarIconePorTema(iconeLupa, "svgheader/lupa.png", "iconsmodoescuro/lupa.png");
+    trocarIconePorTema(logoModo, "svgheader/logo.png", "iconsmodoescuro/logomodo.png");
+  }
 
-        trocarIconePorTema(iconeModo, "imgpaginaprincipal/modoclaro.png", "iconsmodoescuro/modoescuro.png");
-        trocarIconePorTema(iconeLogin, "svgheader/login.png", "iconsmodoescuro/login.png");
-        trocarIconePorTema(iconeCarrinho, "svgheader/carrinho.png", "iconsmodoescuro/carrinho-de-compras.png");
-        trocarIconePorTema(iconeLupa, "svgheader/lupa.png", "iconsmodoescuro/lupa.png");
-        trocarIconePorTema(logoModo, "svgheader/logo.png", "iconsmodoescuro/logomodo.png");
-    }
+  function loadDarkModeSetting() {
+    const darkAtivo = localStorage.getItem("darkMode") === "enabled";
+    if (darkAtivo) document.body.classList.add("dark-mode");
 
-    loadDarkModeSetting();
-    botaoDarkMode.addEventListener("click", toggleDarkMode);
-});
+    trocarIconePorTema(iconeModo, "imgpaginaprincipal/modoclaro.png", "iconsmodoescuro/modoescuro.png");
+    trocarIconePorTema(iconeLogin, "svgheader/login.png", "iconsmodoescuro/login.png");
+    trocarIconePorTema(iconeCarrinho, "svgheader/carrinho.png", "iconsmodoescuro/carrinho-de-compras.png");
+    trocarIconePorTema(iconeLupa, "svgheader/lupa.png", "iconsmodoescuro/lupa.png");
+    trocarIconePorTema(logoModo, "svgheader/logo.png", "iconsmodoescuro/logomodo.png");
+  }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const usuarioLogado = localStorage.getItem("usuarioLogado");
+  loadDarkModeSetting();
 
-    if (usuarioLogado) {
-        const divUsuario = document.getElementById("div-usuario");
-        const mensagemUsuario = document.getElementById("mensagem-usuario");
+  botaoDarkMode?.addEventListener("click", toggleDarkMode);
+  botaoDarkMenu?.addEventListener("click", toggleDarkMode);
 
-        mensagemUsuario.textContent = `Bem-vindo, ${usuarioLogado}`;
-        divUsuario.style.display = "flex"; // ou "block", dependendo do seu layout
-    }
+  // Usuário logado
+  const usuarioLogado = localStorage.getItem("usuarioLogado");
+  if (usuarioLogado) {
+    const divUsuario = document.getElementById("div-usuario");
+    const mensagemUsuario = document.getElementById("mensagem-usuario");
+    mensagemUsuario.textContent = `Bem-vindo, ${usuarioLogado}`;
+    divUsuario.style.display = "flex";
+  }
+
+  // Acessibilidade
+  const botao = document.getElementById('btn-acessibilidade');
+  const menu = document.getElementById('menu-acessibilidade');
+
+  botao?.addEventListener('click', () => {
+    menu?.classList.toggle('ativo');
+  });
+
+  document.getElementById('btn-aumentar-fonte')?.addEventListener('click', () => {
+    document.body.style.fontSize = 'larger';
+  });
+
+  document.getElementById('btn-diminuir-fonte')?.addEventListener('click', () => {
+    document.body.style.fontSize = 'smaller';
+  });
 });

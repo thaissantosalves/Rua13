@@ -98,11 +98,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!validarCPF(cpf)) {
             alert("CPF inválido!");
+            window.location.href = "pagerro.html";
             return;
         }
 
         if (senha !== senha2) {
             alert("As senhas não são iguais!");
+            window.location.href = "pagerro.html";
             return;
         }
 
@@ -112,11 +114,12 @@ document.addEventListener("DOMContentLoaded", function () {
         usuarios.push(novoUsuario);
 
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
+        localStorage.setItem("usuarioLogado", login);
 
         console.log("Usuários cadastrados:", usuarios);
         alert("Usuário salvo com sucesso!");
 
-        window.location.href = "../Login/index.html";
+        window.location.href = "../principal.html";
 
         // Redirecionar ou limpar o formulário se quiser
         // window.location.href = "pagina-destino.html";

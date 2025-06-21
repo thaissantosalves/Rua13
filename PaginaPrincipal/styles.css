@@ -1,304 +1,296 @@
-
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
 
 body {
-  font-family: sans-serif;
+    font-family: sans-serif;
 }
 
-
 .frete {
-  background-color: black;
-  color: white;
-  text-align: center;
-  font-size: 12px;
-  line-height: 24px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    line-height: 24px;
 }
 
 .logo-container {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 /* body com modo claro/escuro */
 
 /* Estilo padrão claro */
 body {
-  background-color: white;
-  color: black;
-  transition: background-color 0.3s, color 0.3s;
+    background-color: white;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Modo escuro ativado */
 body.dark-mode {
-  background-color: black;
-  color: white;
+    background-color: black;
+    color: white;
 }
 
-header, footer, .card {
-  background-color: white;
-  transition: background-color 0.3s, color 0.3s;
+header,
+footer,
+.card {
+    background-color: white;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 body.dark-mode header,
 body.dark-mode footer,
 body.dark-mode .card {
-  background-color: #000000; 
-  color: white;
+    background-color: #000000;
+    color: white;
 }
 
-.dark-mode header, 
+.dark-mode header,
 .dark-mode header * {
-  color: #eee !important;
+    color: #eee !important;
 }
 
 /* body */
 
 .banner {
-  margin: 0%;
-  padding: 0%;
-  width: 100%;
-  height: 100%;
+    margin: 0%;
+    padding: 0%;
+    width: 100%;
+    height: 100%;
 }
 
 .colecao-hot {
-  text-align: center;
-  margin: 50px 20px 50px 20px;
+    text-align: center;
+    margin: 50px 20px 50px 20px;
 }
 
-.colecao-hot h2{
-  margin-top: 20px;
-  font-weight: normal;
-
+.colecao-hot h2 {
+    margin-top: 20px;
+    font-weight: normal;
 }
 
 .colecao {
-  position: relative;
-  width: 80%;
-  margin: 0 auto;
-  overflow: hidden;
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
-.info{
-  display: flex;
-  align-items: stretch;
-  gap: 2rem; 
-  padding: 2rem;
+.info {
+    display: flex;
+    align-items: stretch;
+    gap: 2rem;
+    padding: 2rem;
 }
 
 .img-prox-colecao {
-  flex: 1;
-  display: flex;
-  justify-content: center;
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }
 
-.img-info{
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.img-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.img-info img{
-   width: 530px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 10px;
+.img-info img {
+    width: 530px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-.container-text{
-  flex: 1;
-  overflow-y: auto;
-
+.container-text {
+    flex: 1;
+    overflow-y: auto;
 }
 
-.container-text h1{
-  font-size: 25px;
-  padding-bottom: 12px;
+.container-text h1 {
+    font-size: 25px;
+    padding-bottom: 12px;
 }
 
-.container-text p{
-  font-size: 20px;
+.container-text p {
+    font-size: 20px;
 }
 
 .linha-separadora {
-  border: none;
-  height: 2px;
-  background: linear-gradient(to right, #ff5500, #ffdd00);
-  margin: 3rem auto;
-  width: 80%;
-  border-radius: 10px;
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, #ff5500, #ffdd00);
+    margin: 3rem auto;
+    width: 80%;
+    border-radius: 10px;
 }
 
 button {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
 }
 
 button img {
-  display: block;
-  width: 25px;
-  height: auto;
+    display: block;
+    width: 25px;
+    height: auto;
 }
 
-.modo{
-  padding-left: 10px;
+.modo {
+    padding-left: 10px;
 }
 
-.modo img{
-  width: 25px;
+.modo img {
+    width: 25px;
 }
 
 @media (max-width: 768px) {
-  .info {
-    text-align: justify;
-    flex-direction: column;
-    padding: 1rem;
-    gap: 1.5rem;
-  }
+    .info {
+        text-align: justify;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1.5rem;
+    }
 
-  .container-text, .img-prox-colecao {
-    width: 100%;
-    text-align: center;
-  }
+    .container-text,
+    .img-prox-colecao {
+        width: 100%;
+        text-align: center;
+    }
 
-  .container-text h1 {
-    font-size: 1.5rem;
-  }
+    .container-text h1 {
+        font-size: 1.5rem;
+    }
 
-  .container-text p {
-    font-size: 1rem;
-  }
+    .container-text p {
+        font-size: 1rem;
+    }
 
-  .img-info img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-  }
+    .img-info img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
 }
-
 
 /* Footer */
 footer {
-  background-color: black;
-  padding: 40px 0;
+    background-color: black;
+    padding: 40px 0;
 }
 
-
 .footer-container {
-  color: white;
-  display: flex;
-  justify-content: center;
-  gap: 150px;
-  text-align: center;
-  flex-wrap: wrap; 
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+    text-align: center;
+    flex-wrap: wrap;
 }
 
 .footer-container h1,
 .footer-container h2,
 .footer-container h3 {
-  gap: 8px;
-  font-size: 16px;
-  margin: 0;
+    gap: 8px;
+    font-size: 16px;
+    margin: 0;
 }
 
 .footer-container p {
-  text-align: justify;
-  font-weight: normal;
+    text-align: justify;
+    font-weight: normal;
 }
 
 .footer-container p:first-of-type {
-  margin-top: 8px;
+    margin-top: 8px;
 }
 
 ul {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 .footer-container a {
-  text-decoration: none;
-  display: block;
-  text-align: justify;
-  color: white;
-  font-weight: normal;
-  margin-top: 8px;
+    text-decoration: none;
+    display: block;
+    text-align: justify;
+    color: white;
+    font-weight: normal;
+    margin-top: 8px;
 }
 
-
 .cadastro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: justify;
-  color: white;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: justify;
+    color: white;
+    gap: 8px;
 }
 
 .email-cadastro {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .input-container {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 .input-container input {
-  width: 239.2px;
-  height: 46px;
-  border-radius: 2px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #ccc;
-  font-size: 14px;
-  padding: 0 10px;
-  box-sizing: border-box;
+    width: 239.2px;
+    height: 46px;
+    border-radius: 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc;
+    font-size: 14px;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .input-container button {
-  width: 52.8px;
-  height: 45px;
-  border-radius: 2px;
-  border: none;
-  background-color: white;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
+    width: 52.8px;
+    height: 45px;
+    border-radius: 2px;
+    border: none;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .redes-sociais {
-  display: flex;
+    display: flex;
 
-  gap: 20px;
-  padding: 20px 0;
+    gap: 20px;
+    padding: 20px 0;
 }
 
 .redes-sociais a {
-  color: #fff; 
-  font-size: 24px;
-  transition: color 0.3s;
-  text-decoration: none;
+    color: #fff;
+    font-size: 24px;
+    transition: color 0.3s;
+    text-decoration: none;
 }
 
 .redes-sociais a:hover {
-  color: #ee0808; 
+    color: #ee0808;
 }
-
-
-
 
 /* ************ CINFIG HEADER ************ */
 
-.icons-header{
-  width: 20px;
+.icons-header {
+    width: 20px;
 }
 
 .faixa-promo {
@@ -362,8 +354,19 @@ ul {
     color: black;
 }
 
-.nav-list img{
-  width: 20px;
+.nav-list img {
+    width: 20px;
+}
+
+.div-icone-usuario {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-left: 4%;
+}
+
+.icone-usuario {
+    width: 45px;
 }
 /* ************ CINFIG HEADER ************ */
 
@@ -476,4 +479,4 @@ ul {
     .mobile-menu-responsivo {
         display: block;
     }
-  }
+}

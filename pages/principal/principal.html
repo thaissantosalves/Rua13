@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS custom -->
+    <link rel="stylesheet" href="principal.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Bootstrap CSS via npm -->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="shortcut icon" href="svgheader/logo.png" type="image/x-icon" />
+    <title>StreetKace</title>
+</head>
+
+<body>
+    <!-- ================= HEADER ================= -->
+    <header>
+        <div class="faixa-promo">
+            <p class="text-faixa-promo">Frete Grátis nas compras acima de R$ 399</p>
+        </div>
+
+        <div class="mobile-menu-responsivo">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+
+        <div class="menu-mobile-responsivo">
+            <button id="botaoFecharMenu"><img src="svgheader/icons8-x-50.png" alt="close-menu" /></button>
+            <nav class="nav-menu-mobile">
+                <ul class="nav-list">
+                    <li>
+                        <a href="#"><img src="svgheader/lupa.png" alt="lupa-de-busca" /></a>
+                    </li>
+                    <li>
+                        <a href="/pages/login.html"><img class="icons-header" src="/assets/icons/usuario-do-circulo.png" alt=""></a>                    </li>
+                    <li>
+                        <a href="#"><img src="svgheader/carrinho.png" alt="carrinho" /></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="div-icone-usuario" id="div-usuario" style="display: none">
+            <img src="/assets/iconsmodoescuro/login.png" class="icone-usuario" />
+            <p id="mensagem-usuario"></p>
+        </div>
+
+        <div class="header-principal">
+            <img class="img-logo" id="logo-modo" src="/assets/logo.png" alt="logo" />
+            <div class="header-nav">
+                <nav class="nav-menu">
+                    <ul class="nav-list">
+                        <li>
+                            <a href="#"><img class="icons-header" id="icone-lupa" src="/assets/icons/procurar (1).png"
+                                    alt="lupa-de-busca" /></a>
+                        </li>
+                        <li>
+                            <a href="/pages/login/login.html"><img class="icons-header" id="icone-login"
+                                    src="/assets/icons/usuario-do-circulo.png" alt="icone-login" /></a>
+                        </li>
+                        <li>
+                            <a href="#"><img class="icons-header" id="icone-carrinho"
+                                    src="/assets/icons/carrinho-de-compras (3).png" alt="carrinho" /></a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <button id="btn-acessibilidade" class="btn btn-outline-light">
+                    <img src="/assets/icons/definicoes (1).png" alt="Acessibilidade" />
+                </button>
+
+                <div id="menu-acessibilidade" class="menu-acessibilidade">
+                    <h3>Acessibilidade</h3>
+                    <hr>
+                    <ul>
+                        <li><button id="btn-dark-menu" class="btn btn-dark w-100">Modo escuro/Modo claro</button></li>
+                        <hr>
+                        <li><button id="btn-aumentar-fonte" class="btn btn-secondary w-100">Aumentar Fonte</button></li>
+                        <hr>
+                        <li><button id="btn-diminuir-fonte" class="btn btn-secondary w-100">Diminuir Fonte</button></li>
+                        <hr>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-roupas">
+            <nav>
+                <ul>
+                    <li><a href="/pages/principal/principal.html">HOME</a></li>
+                    <li><a href="/pages/masculino/masculino.html">MASCULINO</a></li>
+                    <li><a href="/pages/feminino/feminino.html">FEMININO</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <banner>
+        <img src="/assets/banner.png" alt="banner" class="banner img-fluid" />
+    </banner>
+
+    <!-- ================= SEÇÃO 1 ================= -->
+    <section class="colecao container">
+        <div class="colecao-hot text-center">
+            <h1>Próxima coleção</h1>
+            <h2>Street HOT</h2>
+        </div>
+        <div class="info row">
+            <div class="container-text col-md-6">
+                <p> O verão está chegando com tudo — e a próxima coleção da <strong>HOT</strong> vem pronta para
+                    incendiar as ruas com estilo, atitude e identidade.<br /> Inspirada no calor urbano, nos dias longos
+                    e nas noites elétricas, essa nova linha streetwear traz o contraste entre o sol escaldante e a
+                    energia fria da cidade.<br /><br /> <strong>Cores quentes, tecidos leves e personalidade de
+                        sobra.</strong><br /> A coleção mistura tons vibrantes como laranja, amarelo neon, rosa choque e
+                    verde-limão, com cortes ousados e modelagens confortáveis — tudo pensado para quem vive o verão
+                    intensamente e com estilo próprio.<br /> As peças trazem uma pegada genderless, sem rótulos, apenas
+                    expressão.<br /><br /> <strong>Camisetas oversized, bermudas largas, regatas cavadas, bucket hats,
+                        óculos espelhados e tênis robustos</strong> compõem o mix dessa estação.<br /> As estampas têm
+                    forte influência do grafite, do skate, da música e da arte de rua — símbolos da liberdade e da
+                    rebeldia urbana.<br /><br /> Além da estética, a coleção também pensa em <strong>sustentabilidade e
+                        funcionalidade</strong>:<br /> tecidos respiráveis, fibras recicladas e materiais resistentes ao
+                    suor e à rotina pesada dos dias quentes.<br /><br /> <strong>HOT não é só uma marca, é um
+                        movimento.</strong><br /> E essa coleção de verão vem para reafirmar que estilo não tira férias,
+                    e que cada rua pode ser uma passarela quando você se veste com atitude.<br /><br /> Se prepara: o
+                    <strong>verão vai ser quente, e a moda vai ser HOT.</strong> </p>
+            </div>
+            <div class="img-prox-colecao col-md-6">
+                <div class="img-info">
+                    <img src="/assets/imgpaginaprincipal/colecaohot.png" class="img-fluid rounded shadow" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="linha-separadora" />
+
+    <!-- ================= SEÇÃO 2 ================= -->
+    <section class="colecao container">
+        <div class="colecao-hot text-center">
+            <h1>Coleção prevista</h1>
+            <h2>NEON FREEZE</h2>
+        </div>
+        <div class="info row">
+            <div class="container-text col-md-6">
+                <h1>– O INVERNO EXPLODIU EM CORES</h1>
+                <p> A última temporada chegou rasgando o padrão: <strong>a "Neon Freeze"</strong> foi a coleção de
+                    inverno que quebrou as regras e descongelou o visual monótono dos dias frios.<br /> Nada de cinza,
+                    preto e marrom apagado — <strong>a proposta foi ousar</strong>, foi levar <strong>vida, vibração e
+                        atitude</strong> pra um inverno mais quente na essência.<br /><br /> Inspirada no contraste
+                    entre o frio das ruas e o calor da autoexpressão, a coleção trouxe <strong>tons neon, cores
+                        saturadas e estampas psicodélicas</strong> que se destacavam como graffiti no concreto
+                    gelado.<br /> <strong>Rosa elétrico, verde-limão, azul cobalto e amarelo fluorescente</strong>
+                    dominaram os looks, trazendo energia até pros dias mais nublados.<br /><br /> <strong>Modelagens
+                        amplas, sobreposições inteligentes e tecidos tecnológicos</strong> garantiram o conforto térmico
+                    sem abrir mão do estilo.<br /> <strong>Jaquetas puff oversized, calças cargo multibolso, gorros
+                        statement e moletons com cortes assimétricos</strong> formaram a base do drop.<br /> Tudo isso
+                    com a assinatura street que a <strong>HOT</strong> carrega com orgulho: <strong>urbana, autêntica e
+                        livre de padrões.</strong><br /><br /> <strong>"Neon Freeze"</strong> não foi só uma coleção —
+                    <strong>foi um manifesto visual</strong> de que <strong>a moda de inverno também pode
+                        brilhar</strong>, ousar e fugir da mesmice.<br /> <strong>Quem vestiu, acendeu.</strong> </p>
+
+            </div>
+            <div class="img-prox-colecao col-md-6">
+                <div class="img-info">
+                    <img src="/assets/imgpaginaprincipal/colecaofreeze.png" class="img-fluid rounded shadow" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <h2>KaceWear</h2>
+                <p>&copy; 2025 Todos os direitos reservados</p>
+            </div>
+
+            <ul class="footer-links">
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Catálogo</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+
+            <div class="footer-socials">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="global.js"></script>
+</body>
+
+</html>

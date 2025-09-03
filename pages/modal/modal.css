@@ -1,0 +1,35 @@
+:root {
+    --hot: #ff005c;
+    --warm: #ff6a00;
+    --warm2: #ff6b00
+}
+
+.btn-gradient {
+    background: linear-gradient(90deg, var(--warm), var(--hot));
+    color: #111;
+    font-weight: 800;
+    border: 0
+}
+
+.btn-gradient:hover {
+    filter: brightness(1.06);
+    color: #111
+}
+
+.price {
+    color: #ffddb3;
+    font-weight: 700
+}
+
+.qty-btn {
+    width: 42px
+}
+
+.qty-input {
+    width: 64px;
+    text-align: center
+}
+
+.text-hot {
+    color: var(--warm2)
+}

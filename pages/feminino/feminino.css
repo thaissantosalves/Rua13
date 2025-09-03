@@ -1,0 +1,246 @@
+/* ====== BASE ====== */
+:root {
+    --bg: #111111;
+    --panel: #181818;
+    --line: #1f1f1f;
+    --text: #f5f5f5;
+    --muted: #bdbdbd;
+    --warm1: #ff6a00;
+    --warm2: #ff005c;
+    --grad: linear-gradient(90deg, #ff6a00, #ff005c);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* ====== HEADER ====== */
+.faixa-promo {
+    background: linear-gradient(90deg, #4b4b4b, #706b6d);
+    text-align: center;
+    padding: 6px 0;
+    font-size: .9rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    color: #fff;
+}
+
+.header-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 50px;
+    background: #111;
+    border-bottom: 1px solid var(--line);
+}
+
+.img-logo {
+    width: 220px;
+    max-width: 50vw;
+    height: auto
+}
+
+.nav-menu .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    align-items: center
+}
+
+.icons-header {
+    width: 24px;
+    height: 24px;
+    display: block;
+    transition: transform .2s ease, filter .2s ease;
+    cursor: pointer
+}
+
+.icons-header:hover {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 6px rgba(255, 0, 92, .25))
+}
+
+/* nav secundária */
+.nav-roupas {
+    background: var(--panel);
+    padding: 12px 0
+}
+
+.nav-roupas ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 48px
+}
+
+.nav-roupas a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding-bottom: 4px;
+    position: relative;
+    transition: color .25s ease
+}
+
+.nav-roupas a:hover {
+    color: var(--warm2)
+}
+
+.nav-roupas a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    margin: auto;
+    width: 0;
+    height: 2px;
+    background: var(--warm2);
+    transition: width .25s ease
+}
+
+.nav-roupas a:hover::after {
+    width: 100%
+}
+
+/* ====== TÍTULOS ====== */
+.title-gradient {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ====== CARD LISTA ====== */
+.card-hot {
+    background: #151515;
+    border: 1px solid #222;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+}
+
+.card-hot:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 0, 92, .15);
+    border-color: #333;
+}
+
+.card-hot .card-img-top {
+    border-bottom: 1px solid #222;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card-hot:hover .card-img-top {
+    transform: scale(1.02);
+    box-shadow: 0 0 14px rgba(255, 0, 92, .18) inset;
+}
+
+.card-hot .card-title {
+    color: #fff;
+    font-weight: 600
+}
+
+.price {
+    color: var(--muted);
+    font-weight: 600
+}
+
+/* ====== BOTÕES ====== */
+.btn-gradient {
+    background: var(--grad);
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: .3px;
+    border-radius: .6rem;
+    box-shadow: 0 6px 16px rgba(255, 0, 92, .18);
+}
+
+.btn-gradient:hover {
+    filter: brightness(1.06);
+    color: #fff
+}
+
+.btn-icon {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #1b1b1b;
+    border: 1px solid #2a2a2a;
+    border-radius: .6rem;
+    transition: .2s
+}
+
+.btn-icon:hover {
+    background: #222
+}
+
+.icon-cart {
+    width: 20px;
+    height: 20px
+}
+
+/* badge do carrinho */
+.cart-badge {
+    top: 12px;
+    left: 22px;
+    background: var(--warm2);
+    color: #fff;
+    font-size: .65rem;
+    border: 1px solid #000
+}
+
+/* ====== FOOTER ====== */
+footer {
+    background: #111;
+    color: #eee
+}
+
+.footer-links .nav-link {
+    color: #bbb
+}
+
+.footer-links .nav-link:hover {
+    color: var(--warm1)
+}
+
+.footer-socials a {
+    color: #eee
+}
+
+.footer-socials a:hover {
+    color: var(--warm1)
+}
+
+/* ====== UTIL ====== */
+.text-hot {
+    color: var(--warm2)
+}
+
+.border-secondary {
+    border-color: #2a2a2a !important
+}
+
+/* ====== RESPONSIVO ====== */
+@media (max-width:768px) {
+    .header-principal {
+        padding: 14px 20px
+    }
+
+    .nav-roupas ul {
+        gap: 24px
+    }
+}

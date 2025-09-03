@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recuperar senha | STREET KACE</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Estilo da tela -->
+  <link rel="stylesheet" href="./esqueci-senha.css">
+</head>
+
+<body>
+  <main class="auth-shell">
+    <div class="auth-card">
+      <div class="grid">
+        <section class="hero d-none d-lg-flex">
+          <div>
+            <span class="badge-brand">STREET KACE</span>
+            <h1 class="auth-title mt-3 mb-0">Recuperar senha<span class="dot"></span></h1>
+            <p class="text-secondary mb-0" style="max-width:42ch">
+              Informe seu e-mail, valide o código e defina uma nova senha.
+            </p>
+          </div>
+        </section>
+
+        <section class="form-col">
+          <h1 class="auth-title d-lg-none">Recuperar senha<span class="dot"></span></h1>
+
+          <!-- Stepper rústico -->
+          <div class="steps mb-3">
+            <span class="step" data-step="1">1</span>
+            <span class="sep"></span>
+            <span class="step" data-step="2">2</span>
+            <span class="sep"></span>
+            <span class="step" data-step="3">3</span>
+          </div>
+
+          <form id="resetForm" class="needs-validation" novalidate>
+            <!-- ETAPA 1: Email -->
+            <fieldset data-step-panel="1">
+              <div class="mb-18">
+                <label for="email" class="form-label">E-mail</label>
+                <input id="email" name="email" type="email" class="form-control"
+                       placeholder="email@dominio.com" autocomplete="email" required>
+                <div class="invalid-feedback">Digite um e-mail válido.</div>
+              </div>
+
+              <button id="btnSendCode" class="btn-gradient w-100" type="submit">
+                Enviar código
+              </button>
+
+              <div class="text-center mt-3 auth-links">
+                <a href="/pages/login/login.html">Voltar ao login</a>
+              </div>
+            </fieldset>
+
+            <!-- ETAPA 2: Código -->
+            <fieldset data-step-panel="2" class="d-none">
+              <p class="text-secondary small mb-2" id="hintEmail"></p>
+
+              <div class="mb-12">
+                <label for="code" class="form-label">Código de verificação</label>
+                <input id="code" name="code" inputmode="numeric" pattern="\\d{6}"
+                       class="form-control" placeholder="000000" required>
+                <div class="invalid-feedback">Informe o código de 6 dígitos.</div>
+                <small class="text-secondary d-block mt-1">
+                  <strong>DEV:</strong> <span id="devCode">—</span>
+                </small>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mb-18">
+                <button class="btn btn-outline-light" id="btnBack1" type="button">Voltar</button>
+                <button class="btn btn-outline-light" id="btnResend" type="button" disabled>Reenviar (30s)</button>
+              </div>
+
+              <button id="btnValidateCode" class="btn-gradient w-100" type="submit">
+                Validar código
+              </button>
+            </fieldset>
+
+            <!-- ETAPA 3: Nova senha -->
+            <fieldset data-step-panel="3" class="d-none">
+              <div class="mb-12">
+                <label for="pass1" class="form-label">Nova senha</label>
+                <input id="pass1" name="pass1" type="password" minlength="8"
+                       class="form-control" placeholder="Mínimo 8 caracteres" required>
+                <div class="invalid-feedback">Mínimo 8 caracteres.</div>
+              </div>
+
+              <div class="mb-18">
+                <label for="pass2" class="form-label">Confirmar senha</label>
+                <input id="pass2" name="pass2" type="password" minlength="8"
+                       class="form-control" placeholder="Repita a senha" required>
+                <div class="invalid-feedback">As senhas precisam coincidir.</div>
+              </div>
+
+              <div class="form-check mb-18">
+                <input class="form-check-input" type="checkbox" id="toggleShow">
+                <label class="form-check-label" for="toggleShow">Mostrar senha</label>
+              </div>
+
+              <button id="btnSave" class="btn-gradient w-100" type="submit">
+                Salvar nova senha
+              </button>
+
+              <div class="text-center mt-3 auth-links">
+                <a href="/pages/login/login.html">Ir para o login</a>
+              </div>
+            </fieldset>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
+    <div id="toast" class="toast text-bg-dark border border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">StreetKace</strong>
+        <small>agora</small>
+        <button type="button" class="btn-close btn-close-white ms-2 mb-1" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body" id="toastMsg">—</div>
+    </div>
+  </div>
+
+  <!-- Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Lógica da tela -->
+  <script type="module" src="./esqueci-senha.js"></script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  body {
+    background: #111111;
+    color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  
+  /* ====== HEADER ====== */
+  .faixa-promo {
+    background: linear-gradient(90deg, #4b4b4b, #706b6d);
+    text-align: center;
+    padding: 6px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  
+  .header-principal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 50px;
+    background: #111;
+    border-bottom: 1px solid #1f1f1f;
+  }
+  
+  .img-logo {
+    width: 220px;
+  }
+ 
+  
+  .nav-menu .nav-list {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .nav-menu .nav-list li a img {
+    width: 24px;
+    
+    transition: 0.25s;
+  }
+  .nav-menu .nav-list li a img:hover {
+    transform: scale(1.15);
+  }
+  
+  .nav-roupas {
+    background: #181818;
+    padding: 12px 0;
+  }
+  .nav-roupas ul {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    list-style: none;
+  }
+  .nav-roupas ul li a {
+    text-decoration: none;
+    color: #f5f5f5;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding-bottom: 4px;
+    transition: color 0.3s;
+  }
+  .nav-roupas ul li a:hover {
+    color: #ff005c;
+  }
+  .nav-roupas ul li a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #ff005c;
+    transition: width 0.3s;
+    margin: auto;
+  }
+  .nav-roupas ul li a:hover::after {
+    width: 100%;
+  }
+  
+  /* ====== BANNER ====== */
+  .banner {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
+  }
+  
+  /* ====== SEÇÕES COLEÇÃO ====== */
+  .colecao {
+    padding: 70px 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+  }
+  
+  .colecao-hot h1 {
+    font-size: 1rem;
+    color: #ff005c;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  
+  .colecao-hot h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff6a00, #ff005c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+  }
+  
+  .container-text {
+    flex: 1;
+    min-width: 280px;
+  }
+  .container-text h1 {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .container-text p {
+    font-size: 1rem;
+    color: #bbb;
+  }
+  
+  .img-prox-colecao {
+    flex: 1;
+    text-align: center;
+  }
+  .img-prox-colecao img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255, 0, 92, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .img-prox-colecao img:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 18px rgba(255, 0, 92, 0.35);
+  }
+  
+  /* ====== LINHA SEPARADORA ====== */
+  .linha-separadora {
+    margin: 60px auto;
+    width: 70%;
+    border: none;
+    border-top: 1px solid #222;
+  }
+  /* ====== MENU MOBILE ====== */
+  .mobile-menu-responsivo,
+  .menu-mobile-responsivo {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .mobile-menu-responsivo,
+    .menu-mobile-responsivo {
+      display: block;
+    }
+    .header-principal .nav-menu,
+    .nav-roupas {
+      display: none;
+    }
+  }
+  
+  /* ====== ACESSIBILIDADE ====== */
+  #btn-acessibilidade {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  #btn-acessibilidade img {
+    width: 38px;
+  }
+  .menu-acessibilidade {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background-color: #181818;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease;
+    padding: 20px;
+    z-index: 999;
+  }
+  .menu-acessibilidade.ativo {
+    left: 0;
+  }
+
+  footer {
+    background: #111;
+    color: #eee;
+    padding: 30px 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* logo */
+  .footer-logo h2 {
+    color: #ff6b00;
+    margin: 0 0 5px;
+    font-size: 20px;
+  }
+  
+  .footer-logo p {
+    font-size: 12px;
+    color: #aaa;
+  }
+  
+  /* links */
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .footer-links a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  
+  .footer-links a:hover {
+    color: #ff6b00;
+  }
+  
+  /* socials */
+  .footer-socials a {
+    color: #eee;
+    margin-right: 15px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-socials a:hover {
+    color: #ff6b00;
+  }
+  
+  
+  

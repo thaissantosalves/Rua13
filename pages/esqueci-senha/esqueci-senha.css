@@ -1,0 +1,184 @@
+:root {
+    --bg: #111;
+    --panel: #161616;
+    --muted: #bbb;
+    --muted2: #8b8b8b;
+    --border: #222;
+    --text: #fff;
+    --hot1: #ff6a00;
+    --hot2: #ff005c;
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Shell */
+.auth-shell {
+    min-height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 32px 16px;
+}
+
+.auth-card {
+    width: min(1100px, 100%);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    overflow: hidden;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+}
+
+@media (max-width: 991px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Hero */
+.hero {
+    background:
+        radial-gradient(1200px 500px at -10% 110%, rgba(255, 0, 92, .2), transparent),
+        radial-gradient(1200px 500px at 120% -10%, rgba(255, 106, 0, .15), transparent);
+    padding: 48px;
+    border-right: 1px solid var(--border);
+    align-items: center;
+}
+
+.badge-brand {
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--muted);
+}
+
+.auth-title {
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.dot {
+    display: inline-block;
+    width: .45em;
+    height: .45em;
+    background: linear-gradient(90deg, var(--hot1), var(--hot2));
+    border-radius: 999px;
+    margin-left: .3em
+}
+
+/* Coluna do formulário */
+.form-col {
+    padding: 32px 20px 28px;
+}
+
+@media (min-width:992px) {
+    .form-col {
+        padding: 44px;
+    }
+}
+
+.form-label {
+    color: var(--muted);
+    margin-bottom: .35rem
+}
+
+.form-control {
+    background: #0f0f0f;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.form-control:focus {
+    background: #0f0f0f;
+    color: var(--text);
+    border-color: #333;
+    box-shadow: none
+}
+
+.btn-gradient {
+    display: inline-block;
+    border: 0;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--hot1), var(--hot2));
+    color: #fff;
+}
+
+.btn-outline-light {
+    border-color: #444 !important
+}
+
+.text-secondary {
+    color: var(--muted2) !important
+}
+
+/* Stepper */
+.steps {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.step {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .9rem;
+    background: #1b1b1b;
+    border: 1px solid var(--border);
+    color: #aaa;
+}
+
+.step.active {
+    color: #fff;
+    box-shadow: 0 0 0 2px rgba(255, 0, 92, .15) inset;
+    outline: 1px solid #333;
+}
+
+.sep {
+    width: 22px;
+    height: 2px;
+    background: #2a2a2a;
+    border-radius: 2px
+}
+
+/* util */
+.mb-12 {
+    margin-bottom: 12px
+}
+
+.mb-18 {
+    margin-bottom: 18px
+}
+
+.mb-24 {
+    margin-bottom: 24px
+}
+
+/* Toast */
+.toast .toast-header {
+    background: #1b1b1b;
+    color: #ddd;
+    border-bottom: 1px solid var(--border)
+}

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <link rel="stylesheet" href="feminino.css">
-  <link rel="stylesheet" href="../../assets/css/cart.css">
+  <link rel="stylesheet" href="../../cart.css">
 
 </head>
 
@@ -25,29 +25,24 @@
     </div>
 
     <div class="header-principal">
-      <img class="img-logo" id="logo-modo" src="/assets/logo.png"
-        onerror="this.onerror=null;this.src='../../assets/logo.png';" alt="logo" />
+      <img class="img-logo" id="logo-modo" src="../../assets/logo.png" alt="logo" />
 
       <div class="header-nav">
         <nav class="nav-menu">
           <ul class="nav-list">
             <li>
               <a href="#">
-                <img class="icons-header" id="icone-lupa" src="/assets/icons/procurar (1).png"
-                  onerror="this.onerror=null;this.src='../../assets/icons/procurar (1).png';" alt="Buscar" />
+                <img class="icons-header" id="icone-lupa" src="../../assets/icons/procurar (1).png" alt="Buscar" />
               </a>
             </li>
             <li>
-              <a href="/pages/login.html">
-                <img class="icons-header" id="icone-login" src="/assets/icons/usuario-do-circulo.png"
-                  onerror="this.onerror=null;this.src='../../assets/icons/usuario-do-circulo.png';" alt="Login" />
+              <a href="../login/login.html">
+                <img class="icons-header" id="icone-login" src="../../assets/icons/usuario-do-circulo.png" alt="Login" />
               </a>
             </li>
             <li>
               <a href="#" id="btnCart" class="position-relative">
-                <img class="icons-header" id="icone-carrinho" src="/assets/icons/carrinho-de-compras (3).png"
-                  onerror="this.onerror=null;this.src='../../assets/icons/carrinho-de-compras (3).png';"
-                  alt="Carrinho" />
+                <img class="icons-header" id="icone-carrinho" src="../../assets/icons/carrinho-de-compras (3).png" alt="Carrinho" />
                 <span class="cart-badge position-absolute translate-middle badge rounded-pill">0</span>
               </a>
             </li>
@@ -58,9 +53,9 @@
     <div class="nav-roupas">
       <nav>
         <ul>
-          <li><a href="/pages/principal/principal.html">HOME</a></li>
-          <li><a href="/pages/masculino/masculino.html">MASCULINO</a></li>
-          <li><a href="/pages/feminino/feminino.html">FEMININO</a></li>
+          <li><a href="../principal/principal.html">HOME</a></li>
+          <li><a href="../masculino/masculino.html">MASCULINO</a></li>
+          <li><a href="feminino.html">FEMININO</a></li>
         </ul>
       </nav>
     </div>
@@ -238,12 +233,12 @@
             <small class="text-secondary">&copy; 2025 Todos os direitos reservados</small>
           </div>
           <div class="col-12 col-md-4">
-            <ul class="nav justify-content-md-center footer-links">
-              <li class="nav-item"><a class="nav-link px-2" href="/pages/principal.html">Início</a></li>
-              <li class="nav-item"><a class="nav-link px-2" href="/catalogo.html">Catálogo</a></li>
-              <li class="nav-item"><a class="nav-link px-2" href="/pages/sobre/sobre.html">Sobre</a></li>
-              <li class="nav-item"><a class="nav-link px-2" href="/contato.html">Contato</a></li>
-            </ul>
+          <ul class="nav justify-content-md-center footer-links">
+            <li class="nav-item"><a class="nav-link px-2" href="../principal/principal.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link px-2" href="../catalogo.html">Catálogo</a></li>
+            <li class="nav-item"><a class="nav-link px-2" href="../sobre/sobre.html">Sobre</a></li>
+            <li class="nav-item"><a class="nav-link px-2" href="../contato.html">Contato</a></li>
+          </ul>
           </div>
           <div class="col-12 col-md-4 text-md-end footer-socials">
             <a href="#" class="me-3"><i class="fa-brands fa-instagram"></i></a>
@@ -257,12 +252,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
-    <link rel="stylesheet" href="/assets/css/cart.css">
+    <link rel="stylesheet" href="../../cart.css">
     <script src="../../cart-drawer.js" defer></script>
 
     <!-- Loader do modal (lazy, ESM) -->
     <script type="module">
-      const MODAL_BASE = '/pages/modal/';
+      const MODAL_BASE = '../modal/';
 
       const ensureModalLoaded = async () => {
         if (!document.getElementById('comprarModal')) {
@@ -306,8 +301,8 @@
       });
     </script>
 
-    <script src="/global.js" defer></script>
-    <script src="/cart.js" defer></script>
+    <script src="../../global.js" defer></script>
+    <script src="../../cart.js" defer></script>
 </body>
 
 </html>

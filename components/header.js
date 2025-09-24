@@ -61,6 +61,7 @@ class HeaderComponent {
         this.initMobileMenu();
         this.initThemeToggle();
         this.initCartFunctionality();
+        this.initUserInterface();
     }
 
     initMobileMenu() {
@@ -202,6 +203,79 @@ class HeaderComponent {
                     display: none;
                 }
             }
+
+            /* ====== USER INTERFACE ====== */
+            .user-dropdown-btn {
+                color: #fff !important;
+                text-decoration: none !important;
+                border: none !important;
+                background: none !important;
+                padding: 8px 12px !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+            }
+
+            .user-dropdown-btn:hover {
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 6px !important;
+            }
+
+            .user-dropdown-btn::after {
+                border-top-color: #fff !important;
+                margin-left: 8px !important;
+            }
+
+            .dropdown-menu {
+                background-color: #181818 !important;
+                border: 1px solid #333 !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+            }
+
+            .dropdown-item {
+                color: #fff !important;
+                padding: 10px 16px !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+
+            .dropdown-item:hover {
+                background-color: #333 !important;
+                color: #fff !important;
+            }
+
+            .dropdown-header {
+                color: #ccc !important;
+                font-size: 0.85rem !important;
+                font-weight: 500 !important;
+                padding: 8px 16px 4px !important;
+            }
+
+            .dropdown-divider {
+                border-color: #333 !important;
+                margin: 8px 0 !important;
+            }
+
+            .dropdown-item.text-danger:hover {
+                background-color: rgba(220, 53, 69, 0.1) !important;
+                color: #dc3545 !important;
+            }
+
+            #user-name {
+                font-weight: 500;
+                font-size: 0.9rem;
+            }
+
+            @media (max-width: 768px) {
+                .user-dropdown-btn {
+                    padding: 6px 8px !important;
+                    font-size: 0.85rem !important;
+                }
+                
+                #user-name {
+                    display: none;
+                }
+            }
         `;
         
         document.head.appendChild(style);
@@ -245,6 +319,136 @@ class HeaderComponent {
                 }
             }
         }, 100);
+    }
+
+    initUserInterface() {
+        // Verifica se há usuário logado
+        this.checkUserLoginState();
+        
+        // Configura eventos do dropdown
+        this.setupUserDropdownEvents();
+    }
+
+    checkUserLoginState() {
+        const userData = this.getUserData();
+        
+        if (userData && userData.nome) {
+            this.showUserInterface(userData);
+        } else {
+            this.showLoginInterface();
+        }
+    }
+
+    getUserData() {
+        // Tenta buscar dados do usuário do localStorage ou sessionStorage
+        try {
+            const userData = localStorage.getItem('userData') || sessionStorage.getItem('userData');
+            return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            console.error('Erro ao recuperar dados do usuário:', error);
+            return null;
+        }
+    }
+
+    showUserInterface(userData) {
+        // Esconde ícone de login
+        const loginContainer = document.getElementById('login-icon-container');
+        const mobileLoginContainer = document.getElementById('mobile-login-container');
+        
+        if (loginContainer) loginContainer.style.display = 'none';
+        if (mobileLoginContainer) mobileLoginContainer.style.display = 'none';
+
+        // Mostra interface do usuário
+        const userContainer = document.getElementById('user-dropdown-container');
+        const mobileUserContainer = document.getElementById('mobile-user-container');
+        
+        if (userContainer) userContainer.style.display = 'block';
+        if (mobileUserContainer) mobileUserContainer.style.display = 'block';
+
+        // Atualiza dados do usuário
+        const userName = document.getElementById('user-name');
+        const userEmail = document.getElementById('user-email');
+        const mobileUserName = document.getElementById('mobile-user-name');
+
+        if (userName) userName.textContent = userData.nome;
+        if (userEmail) userEmail.textContent = userData.email;
+        if (mobileUserName) mobileUserName.textContent = userData.nome;
+    }
+
+    showLoginInterface() {
+        // Esconde interface do usuário
+        const userContainer = document.getElementById('user-dropdown-container');
+        const mobileUserContainer = document.getElementById('mobile-user-container');
+        
+        if (userContainer) userContainer.style.display = 'none';
+        if (mobileUserContainer) mobileUserContainer.style.display = 'none';
+
+        // Mostra ícone de login
+        const loginContainer = document.getElementById('login-icon-container');
+        const mobileLoginContainer = document.getElementById('mobile-login-container');
+        
+        if (loginContainer) loginContainer.style.display = 'block';
+        if (mobileLoginContainer) mobileLoginContainer.style.display = 'block';
+    }
+
+    setupUserDropdownEvents() {
+        // Evento de logout
+        const logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logoutUser();
+            });
+        }
+
+        // Eventos dos links do dropdown
+        const profileLink = document.getElementById('profile-link');
+        const ordersLink = document.getElementById('orders-link');
+        const settingsLink = document.getElementById('settings-link');
+
+        if (profileLink) {
+            profileLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Funcionalidade de perfil em desenvolvimento!');
+            });
+        }
+
+        if (ordersLink) {
+            ordersLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Funcionalidade de pedidos em desenvolvimento!');
+            });
+        }
+
+        if (settingsLink) {
+            settingsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Funcionalidade de configurações em desenvolvimento!');
+            });
+        }
+    }
+
+    logoutUser() {
+        // Remove dados do usuário
+        localStorage.removeItem('userData');
+        sessionStorage.removeItem('userData');
+        
+        // Volta para interface de login
+        this.showLoginInterface();
+        
+        // Redireciona para página inicial
+        window.location.href = '../principal/principal.html';
+    }
+
+    // Método público para atualizar interface após login
+    updateUserInterface(userData) {
+        if (userData) {
+            // Salva dados do usuário
+            localStorage.setItem('userData', JSON.stringify(userData));
+            this.showUserInterface(userData);
+        } else {
+            this.showLoginInterface();
+        }
     }
 }
 

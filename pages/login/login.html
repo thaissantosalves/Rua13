@@ -57,34 +57,7 @@
     </div>
   </main>
 
-  <script>
-    (() => {
-      'use strict';
-
-      const MAIN_URL = '../principal/principal.html'; 
-      const form = document.querySelector('.needs-validation');
-
-      form.addEventListener('submit', (evt) => {
-        if (!form.checkValidity()) {
-          evt.preventDefault();
-          evt.stopPropagation();
-          form.classList.add('was-validated');
-          return;
-        }
-
-        // válido: bloqueia envio e redireciona
-        evt.preventDefault();
-        form.classList.add('was-validated');
-
-        //guarda info simples p/ usar no header
-        const email = document.getElementById('email')?.value || '';
-        localStorage.setItem('sk_logged_in', '1');
-        localStorage.setItem('sk_user_email', email);
-
-        window.location.assign(MAIN_URL);
-      }, false);
-    })();
-  </script>
+  <script src="login.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

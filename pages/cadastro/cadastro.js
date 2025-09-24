@@ -291,8 +291,19 @@ form.addEventListener('submit', async (e)=>{
     loadingDiv.remove();
     
     if (result.status === 'sucesso') {
-      // Redirecionar diretamente para o login
-      window.location.href = '../login/login.html';
+      // Usar dados reais do usuário retornados pelo backend
+      if (result.usuario) {
+        // Salva dados reais do usuário
+        localStorage.setItem('userData', JSON.stringify(result.usuario));
+        
+        // Atualiza interface do header se estiver disponível
+        if (window.headerComponent) {
+          window.headerComponent.updateUserInterface(result.usuario);
+        }
+      }
+      
+      // Redirecionar diretamente para a página principal
+      window.location.href = '../principal/principal.html';
       
     } else {
       // Erro

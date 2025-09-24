@@ -119,10 +119,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdo->commit();
 
+        // Buscar dados do usuário recém-criado (sem a senha)
+        $stmt = $pdo->prepare("SELECT id, nome, email, login FROM usuario WHERE email = ?");
+        $stmt->execute([$email]);
+        $usuario = $stmt->fetch();
+
         echo json_encode([
             'status' => 'sucesso',
-            'mensagem' => 'Cadastro realizado com sucesso! Agora faça login para acessar o sistema.',
-            'redirect' => '../login/login.html'
+            'mensagem' => 'Cadastro realizado com sucesso!',
+            'usuario' => $usuario
         ]);
 
     } catch (\PDOException $e) {

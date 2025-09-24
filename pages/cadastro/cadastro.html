@@ -14,30 +14,8 @@
   <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon" />
 </head>
 <body>
-  <header>
-    <div class="faixa-promo"><p class="text-faixa-promo">Frete Grátis nas compras acima de R$ 399</p></div>
-    <div class="header-principal">
-      <img class="img-logo" src="../../assets/logo.png" alt="logo" />
-      <div class="header-nav">
-        <nav class="nav-menu">
-          <ul class="nav-list">
-            <li><a href="#"><img class="icons-header" src="../../assets/icons/procurar (1).png" alt=""></a></li>
-            <li><a href="/pages/login/login.html"><img class="icons-header" src="../../assets/icons/usuario-do-circulo.png" alt=""></a></li>
-            <li><a href="/pages/carrinho.html"><img class="icons-header" src="../../assets/icons/carrinho-de-compras (3).png" alt=""></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    <div class="nav-roupas">
-      <nav>
-        <ul>
-          <li><a href="../principal/principal.html">HOME</a></li>
-          <li><a href="../masculino/masculino.html">MASCULINO</a></li>
-          <li><a href="../feminino/feminino.html">FEMININO</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <!-- Header Component -->
+  <div id="header-container"></div>
 
   <!-- MAIN -->
   <main class="container py-5">
@@ -113,6 +91,7 @@
                 <label class="form-label">CEP</label>
                 <input type="text" id="cep" name="cep" class="form-control" required placeholder="00000-000" inputmode="numeric">
                 <div class="invalid-feedback">CEP inválido.</div>
+                <small class="text-muted">Digite o CEP para preenchimento automático</small>
               </div>
               <div class="col-12 col-md-8">
                 <label class="form-label">Endereço</label>
@@ -145,19 +124,10 @@
           <!-- STEP 3 -->
           <section class="step d-none" data-step="2">
             <div class="row g-3">
-              <div class="col-12 col-md-6">
+              <div class="col-12">
                 <label class="form-label">Login</label>
                 <input type="text" id="login" name="login" class="form-control" required>
                 <div class="invalid-feedback">Obrigatório.</div>
-              </div>
-              <div class="col-12 col-md-6">
-                <label class="form-label">Tipo de conta</label>
-                <select id="tipoConta" name="tipoConta" class="form-select" required>
-                  <option value="" disabled selected>Selecione</option>
-                  <option value="cliente">Cliente</option>
-                  <option value="vendedor">Vendedor</option>
-                </select>
-                <div class="invalid-feedback">Selecione uma opção.</div>
               </div>
               <div class="col-12 col-md-6">
                 <label class="form-label">Senha</label>
@@ -169,6 +139,44 @@
                 <input type="password" id="senha2" name="senha2" class="form-control" minlength="6" required>
                 <div class="invalid-feedback">As senhas não coincidem.</div>
               </div>
+              
+              <!-- Perguntas de Segurança -->
+              <div class="col-12">
+                <h6 class="text-warning mb-3">Perguntas de Segurança (2FA)</h6>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Pergunta 1</label>
+                <select name="pergunta1" class="form-select" required>
+                  <option value="" disabled selected>Selecione uma pergunta</option>
+                  <option value="Qual o nome do seu primeiro animal de estimação?">Qual o nome do seu primeiro animal de estimação?</option>
+                  <option value="Qual o nome da sua primeira escola?">Qual o nome da sua primeira escola?</option>
+                  <option value="Qual o nome da sua cidade natal?">Qual o nome da sua cidade natal?</option>
+                  <option value="Qual o nome do seu melhor amigo de infância?">Qual o nome do seu melhor amigo de infância?</option>
+                </select>
+                <div class="invalid-feedback">Selecione uma pergunta.</div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Resposta 1</label>
+                <input type="text" name="resposta1" class="form-control" required placeholder="Sua resposta">
+                <div class="invalid-feedback">Resposta obrigatória.</div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Pergunta 2</label>
+                <select name="pergunta2" class="form-select" required>
+                  <option value="" disabled selected>Selecione uma pergunta</option>
+                  <option value="Qual o nome do seu primeiro professor?">Qual o nome do seu primeiro professor?</option>
+                  <option value="Qual o nome da sua primeira namorada(o)?">Qual o nome da sua primeira namorada(o)?</option>
+                  <option value="Qual o nome do seu primeiro carro?">Qual o nome do seu primeiro carro?</option>
+                  <option value="Qual o nome da sua primeira empresa?">Qual o nome da sua primeira empresa?</option>
+                </select>
+                <div class="invalid-feedback">Selecione uma pergunta.</div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Resposta 2</label>
+                <input type="text" name="resposta2" class="form-control" required placeholder="Sua resposta">
+                <div class="invalid-feedback">Resposta obrigatória.</div>
+              </div>
+              
               <div class="col-12">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="termos" required>
@@ -214,6 +222,7 @@
     </div>
   </footer>
 
+  <script src="../../components/header.js"></script>
   <script src="cadastro.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

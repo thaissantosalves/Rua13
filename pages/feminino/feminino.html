@@ -19,46 +19,8 @@
 </head>
 
 <body>
-  <header>
-    <div class="faixa-promo">
-      <p class="text-faixa-promo">Frete Grátis nas compras acima de R$ 399</p>
-    </div>
-
-    <div class="header-principal">
-      <img class="img-logo" id="logo-modo" src="../../assets/logo.png" alt="logo" />
-
-      <div class="header-nav">
-        <nav class="nav-menu">
-          <ul class="nav-list">
-            <li>
-              <a href="#">
-                <img class="icons-header" id="icone-lupa" src="../../assets/icons/procurar (1).png" alt="Buscar" />
-              </a>
-            </li>
-            <li>
-              <a href="../login/login.html">
-                <img class="icons-header" id="icone-login" src="../../assets/icons/usuario-do-circulo.png" alt="Login" />
-              </a>
-            </li>
-            <li>
-              <a href="#" id="btnCart" class="position-relative">
-                <img class="icons-header" id="icone-carrinho" src="../../assets/icons/carrinho-de-compras (3).png" alt="Carrinho" />
-                <span class="cart-badge position-absolute translate-middle badge rounded-pill">0</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    <div class="nav-roupas">
-      <nav>
-        <ul>
-          <li><a href="../principal/principal.html">HOME</a></li>
-          <li><a href="../masculino/masculino.html">MASCULINO</a></li>
-          <li><a href="feminino.html">FEMININO</a></li>
-        </ul>
-      </nav>
-    </div>
+  <!-- Header Component -->
+  <div id="header-container"></div>
     <main class="container py-5">
       <h1 class="mb-4 fw-bold title-gradient">Roupas Femininas</h1>
 
@@ -301,6 +263,7 @@
       });
     </script>
 
+    <script src="../../components/header.js"></script>
     <script src="../../global.js" defer></script>
     <script src="../../cart.js" defer></script>
 </body>

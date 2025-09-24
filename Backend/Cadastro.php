@@ -1,8 +1,15 @@
 <?php
-ini_set('display_errors', 0); 
-error_reporting(0);
-require_once __DIR__ . '/../../config.php';
+ini_set('display_errors', 1); 
+error_reporting(E_ALL);
+require_once __DIR__ . '/config.php';
 header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -12,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha1 = $_POST['senha1'] ?? '';
     $senha2 = $_POST['senha2'] ?? '';
     $login = trim($_POST['login'] ?? '');
-    $tipoConta = trim($_POST['tipoConta'] ?? '');
 
     // Dados pessoais e contato
     $dataNascimento = $_POST['dataNascimento'] ?? '';
@@ -39,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (strlen($senha1) < 6) $erros[] = "Senha muito curta.";
     if ($senha1 !== $senha2) $erros[] = "Senhas não conferem.";
     if (empty($login)) $erros[] = "Login obrigatório.";
-    if (empty($tipoConta)) $erros[] = "Tipo de conta obrigatório.";
     if (empty($dataNascimento)) $erros[] = "Data de nascimento obrigatória.";
     if (empty($sexo)) $erros[] = "Sexo obrigatório.";
     if (empty($nomeMaterno)) $erros[] = "Nome materno obrigatório.";

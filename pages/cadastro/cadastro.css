@@ -49,6 +49,27 @@
   .stepper li small{display:block;font-size:.8rem}
   .step{min-height:220px}
   .review-box{background:#101010;border:1px solid #2a2a2a;border-radius:10px;padding:12px}
+  .text-warning{color:#ffc107!important}
+  .step h6{color:#ffc107;font-weight:600;border-bottom:1px solid #333;padding-bottom:8px}
+  
+  /* CEP Integration Styles */
+  .cep-loading, .cep-success, .cep-error {
+    margin-top: 4px;
+    display: block;
+  }
+  .cep-loading small {
+    color: #17a2b8 !important;
+  }
+  .cep-success small {
+    color: #28a745 !important;
+  }
+  .cep-error small {
+    color: #ffc107 !important;
+  }
+  .spinner-border-sm {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
   
   /* Footer */
   footer{background:#111;color:#eee;margin-top:40px}

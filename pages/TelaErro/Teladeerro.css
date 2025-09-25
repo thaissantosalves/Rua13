@@ -1,0 +1,83 @@
+
+        /* CSS Específico para a Tela de Erro */
+        :root {
+            /* Cores extraídas do seu CSS */
+            --dark-bg: #111111;
+            --card-bg: #181818; 
+            --text-light: #ffffff;
+            --highlight-color-1: #ff005c; /* Rosa/Vermelho Hot */
+            --highlight-color-2: #ff6a00; /* Laranja Hot */
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            /* Importante: Garantir que a fonte Montserrat seja usada */
+            font-family: "Montserrat", sans-serif; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .error-container {
+            max-width: 550px;
+            padding: 50px 40px;
+            border-radius: 12px;
+            background: var(--card-bg); 
+            box-shadow: 0 0 15px rgba(255, 0, 92, 0.2);
+        }
+
+        .error-icon {
+            font-size: 5rem;
+            /* Ícone no estilo gradiente */
+            background: linear-gradient(90deg, var(--highlight-color-2), var(--highlight-color-1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            animation: shake 0.5s;
+            animation-iteration-count: 2;
+        }
+        
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            50% { transform: translate(-1px, -2px) rotate(-1deg); }
+            100% { transform: translate(-3px, 0px) rotate(1deg); }
+        }
+
+        .error-title {
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            /* Título com o mesmo gradiente da sua seção .colecao-hot h2 */
+            background: linear-gradient(90deg, var(--highlight-color-2), var(--highlight-color-1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .error-message {
+            margin-bottom: 40px;
+            color: #bbb; /* Cor de texto secundário do seu CSS */
+            font-size: 1rem;
+        }
+
+        /* Classe de botão gradiente baseada no seu estilo de gradiente */
+        .btn-gradient-error {
+            background: linear-gradient(90deg, var(--highlight-color-2), var(--highlight-color-1));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 5px;
+            transition: opacity 0.3s;
+        }
+
+        .btn-gradient-error:hover {
+            opacity: 0.9;
+            color: white;
+        }
+  

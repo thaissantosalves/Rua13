@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/config.php';
 
 try {
-    // Receber dados JSON
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
     
@@ -28,7 +27,6 @@ try {
     $email = trim($data['email']);
     $senha = $data['senha'];
     
-    // Validar dados
     if (empty($email) || empty($senha)) {
         echo json_encode(['status' => 'erro', 'mensagem' => 'Email e senha são obrigatórios']);
         exit;
@@ -39,35 +37,25 @@ try {
         exit;
     }
     
-    // Buscar usuário no banco
+    // Buscar usuário
     $stmt = $pdo->prepare("SELECT id, nome, email, login, senha FROM usuario WHERE email = ?");
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
     
-    if (!$usuario) {
+    if (!$usuario || !password_verify($senha, $usuario['senha'])) {
         echo json_encode(['status' => 'erro', 'mensagem' => 'Email ou senha incorretos']);
         exit;
     }
     
-    // Verificar senha
-    if (!password_verify($senha, $usuario['senha'])) {
-        echo json_encode(['status' => 'erro', 'mensagem' => 'Email ou senha incorretos']);
-        exit;
-    }
-    
-    // Remover senha dos dados retornados
-    unset($usuario['senha']);
-    
-    // Login realizado com sucesso
+    // Não retorna ainda como logado, apenas indica que precisa do 2FA
     echo json_encode([
-        'status' => 'sucesso',
-        'mensagem' => 'Login realizado com sucesso!',
-        'usuario' => $usuario
+        'status' => '2fa',
+        'mensagem' => 'Senha correta, confirme suas palavras-chave.',
+        'id_usuario' => $usuario['id']
     ]);
     
 } catch (\PDOException $e) {
     echo json_encode(['status' => 'erro', 'mensagem' => 'Erro no banco de dados: ' . $e->getMessage()]);
 } catch (Exception $e) {
-    echo json_encode(['status' => 'erro', 'mensagem' => 'Erro interno: ' . $e->getMessage()]);
+    echo json_encode(['status' => 'erro', 'mensagem' => 'Erro interno: ' . $e->getMessage() ]);
 }
-?>

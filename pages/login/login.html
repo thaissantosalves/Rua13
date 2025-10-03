@@ -1,64 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Login | STREET KACE</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="login.css" />
+    </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login | STREET KACE</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="login.css">
+    <body>
+        <main class="auth-shell">
+            <div class="auth-card">
+                <div class="grid">
+                    <section class="hero d-none d-lg-flex">
+                        <div>
+                            <span class="badge-brand">STREET KACE</span>
+                            <h1 class="auth-title mt-3 mb-0">FAÇA SEU LOGIN<span class="dot"></span></h1>
+                            <p class="text-secondary mb-0" style="max-width: 38ch">Acesse sua conta e faça sua primeira compra.</p>
+                        </div>
+                    </section>
 
-</head>
+                    <section class="form-col">
+                        <h1 class="auth-title d-lg-none">FAÇA SEU LOGIN<span class="dot"></span></h1>
 
-<body>
-  <main class="auth-shell">
-    <div class="auth-card">
-      <div class="grid">
-        <section class="hero d-none d-lg-flex">
-          <div>
-            <span class="badge-brand">STREET KACE</span>
-            <h1 class="auth-title mt-3 mb-0">FAÇA SEU LOGIN<span class="dot"></span></h1>
-            <p class="text-secondary mb-0" style="max-width:38ch">
-              Acesse sua conta e faça sua primeira compra.
-            </p>
-          </div>
-        </section>
+                        <form class="needs-validation" novalidate>
+                            <div class="mb-18">
+                                <label for="email" class="form-label">Email</label>
+                                <input id="email" name="email" type="email" class="form-control" placeholder="email@dominio.com" autocomplete="email" required />
+                                <div class="invalid-feedback">Informe um e-mail válido.</div>
+                            </div>
 
-        <section class="form-col">
-          <h1 class="auth-title d-lg-none">FAÇA SEU LOGIN<span class="dot"></span></h1>
+                            <div class="mb-12">
+                                <label for="password" class="form-label">Senha</label>
+                                <input id="password" name="password" type="password" class="form-control" placeholder="********" autocomplete="current-password" required />
+                                <div class="invalid-feedback">Informe sua senha.</div>
+                            </div>
 
-          <form class="needs-validation" novalidate>
-            <div class="mb-18">
-              <label for="email" class="form-label">Email</label>
-              <input id="email" name="email" type="email" class="form-control" placeholder="email@dominio.com"
-                autocomplete="email" required>
-              <div class="invalid-feedback">Informe um e-mail válido.</div>
+                            <div class="d-flex justify-content-end auth-links mb-24">
+                                <a href="../esqueci-senha/esqueci-senha.html">Esqueci a senha</a>
+                            </div>
+
+                            <button type="submit" class="btn-gradient">Entrar</button>
+
+                            <div class="text-center mt-3 auth-links">
+                                <a href="../cadastro/cadastro.html">Criar Conta</a>
+                            </div>
+                        </form>
+                    </section>
+                </div>
             </div>
 
-            <div class="mb-12">
-              <label for="password" class="form-label">Senha</label>
-              <input id="password" name="password" type="password" class="form-control" placeholder="********"
-                autocomplete="current-password" required>
-              <div class="invalid-feedback">Informe sua senha.</div>
+            <!-- Modal 2FA (inicia escondido) -->
+            <div id="box-2fa" class="modal-2fa">
+                <div class="modal-content-2fa">
+                    <h2>Confirme suas palavras-chave</h2>
+                    <p>Digite suas duas respostas cadastradas</p>
+
+                    <input type="text" id="resposta1" placeholder="Resposta 1" required />
+                    <input type="text" id="resposta2" placeholder="Resposta 2" required />
+
+                    <button id="confirmar2fa">Confirmar</button>
+                    <button id="cancelar2fa" class="btn-cancel">Cancelar</button>
+
+                    <p id="msg-2fa" class="msg"></p>
+                </div>
             </div>
+        </main>
 
-            <div class="d-flex justify-content-end auth-links mb-24">
-              <a href="../esqueci-senha/esqueci-senha.html">Esqueci a senha</a>
-            </div>
-
-            <button type="submit" class="btn-gradient">Entrar</button>
-
-            <div class="text-center mt-3 auth-links">
-              <a href="../cadastro/cadastro.html">Criar Conta</a>
-            </div>
-          </form>
-        </section>
-      </div>
-    </div>
-  </main>
-
-  <script src="login.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+        <script src="login.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>

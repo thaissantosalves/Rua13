@@ -1,4 +1,4 @@
-// Sistema de Login com Backend
+// Sistema de Login com Backend e 2FA
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
 
@@ -49,6 +49,42 @@ document.addEventListener("DOMContentLoaded", () => {
                         window.location.href = "../principal/principal.html";
 
                         alert("Login realizado com sucesso!");
+                    } else if (result.status === "2fa") {
+                        console.log("=== DEBUG 2FA ===");
+                        console.log("Resultado completo:", result);
+                        console.log("Perguntas encontradas:", result.perguntas);
+                        
+                        // Guardar ID do usuário temporariamente
+                        sessionStorage.setItem("id_usuario", result.id_usuario);
+
+                        // Exibir as perguntas no modal
+                        if (result.perguntas && result.perguntas.length >= 2) {
+                            document.getElementById("pergunta1-label").textContent = result.perguntas[0];
+                            document.getElementById("pergunta2-label").textContent = result.perguntas[1];
+                            console.log("Perguntas carregadas do banco:", result.perguntas);
+                        } else {
+                            console.error("Erro: Perguntas não encontradas no banco de dados!");
+                            alert("Erro: Perguntas de segurança não encontradas. Entre em contato com o suporte.");
+                        }
+
+                        // Limpar campos de resposta
+                        const resposta1 = document.getElementById("resposta1");
+                        const resposta2 = document.getElementById("resposta2");
+                        const msg2fa = document.getElementById("msg-2fa");
+                        const modal = document.getElementById("box-2fa");
+                        
+                        if (resposta1) resposta1.value = "";
+                        if (resposta2) resposta2.value = "";
+                        if (msg2fa) msg2fa.innerText = "";
+                        
+                        // Abrir modal 2FA
+                        if (modal) {
+                            modal.style.display = "flex";
+                            console.log("Modal aberto com sucesso!");
+                        } else {
+                            console.error("Erro: Modal box-2fa não encontrado!");
+                        }
+                        console.log("=== FIM DEBUG ===");
                     } else {
                         alert("Erro no login: " + result.mensagem);
                     }
@@ -67,64 +103,73 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         console.error("Formulário não encontrado!");
     }
-});
 
-// Exemplo: login via fetch
-document.querySelector("#form-login").addEventListener("submit", async (e) => {
-    e.preventDefault();
+    // Confirmação do 2FA
+    console.log("Configurando evento do botão 2FA...");
+    const confirmar2faBtn = document.getElementById("confirmar2fa");
+    console.log("Botão confirmar2fa encontrado:", confirmar2faBtn);
+    
+    if (confirmar2faBtn) {
+        confirmar2faBtn.addEventListener("click", async () => {
+            const id_usuario = sessionStorage.getItem("id_usuario");
+            const resposta1 = document.getElementById("resposta1").value.trim();
+            const resposta2 = document.getElementById("resposta2").value.trim();
 
-    const email = document.querySelector("#email").value;
-    const senha = document.querySelector("#senha").value;
+            if (!resposta1 || !resposta2) {
+                document.getElementById("msg-2fa").innerText = "Preencha as duas respostas.";
+                return;
+            }
 
-    const resp = await fetch("http://localhost/seuprojeto/login.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha }),
-    });
+            try {
+                const resp = await fetch("http://localhost/Rua13/Backend/verificar2fa.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id_usuario, resposta1, resposta2 }),
+                });
 
-    const data = await resp.json();
+                const data = await resp.json();
+                console.log("Resposta do verificar2fa:", data);
 
-    if (data.status === "2fa") {
-        // guardar ID do usuário temporariamente
-        sessionStorage.setItem("id_usuario", data.id_usuario);
+                if (data.status === "sucesso") {
+                    // Salva dados do usuário
+                    localStorage.setItem("userData", JSON.stringify(data.usuario));
+                    console.log("Dados do usuário salvos no localStorage:", data.usuario);
+                    
+                    // Verificar se foi salvo corretamente
+                    const savedData = localStorage.getItem("userData");
+                    console.log("Dados recuperados do localStorage:", savedData);
 
-        // abrir box 2FA
-        document.getElementById("box-2fa").style.display = "flex";
-    } else if (data.status === "sucesso") {
-        alert("Login completo!");
-        window.location.href = "pagina-principal.html";
-    } else {
-        alert(data.mensagem);
+                    // Atualiza interface do header se estiver disponível
+                    if (window.headerComponent) {
+                        window.headerComponent.updateUserInterface(data.usuario);
+                    }
+
+                    // Limpar dados temporários
+                    sessionStorage.removeItem("id_usuario");
+                    
+                    // Fechar modal
+                    document.getElementById("box-2fa").style.display = "none";
+                    
+                    // Redirecionar para página principal
+                    window.location.href = "../principal/principal.html";
+                    
+                    alert("Login realizado com sucesso!");
+                } else {
+                    document.getElementById("msg-2fa").innerText = data.mensagem;
+                }
+            } catch (error) {
+                console.error("Erro na verificação 2FA:", error);
+                document.getElementById("msg-2fa").innerText = "Erro de conexão. Tente novamente.";
+            }
+        });
     }
-});
 
-// Confirmação do 2FA
-document.getElementById("confirmar2fa").addEventListener("click", async () => {
-    const id_usuario = sessionStorage.getItem("id_usuario");
-    const resposta1 = document.getElementById("resposta1").value.trim();
-    const resposta2 = document.getElementById("resposta2").value.trim();
-
-    if (!resposta1 || !resposta2) {
-        document.getElementById("msg-2fa").innerText = "Preencha as duas respostas.";
-        return;
+    // Cancelar fecha modal
+    const cancelar2faBtn = document.getElementById("cancelar2fa");
+    if (cancelar2faBtn) {
+        cancelar2faBtn.addEventListener("click", () => {
+            document.getElementById("box-2fa").style.display = "none";
+            sessionStorage.removeItem("id_usuario");
+        });
     }
-
-    const resp = await fetch("http://localhost/seuprojeto/verifica2fa.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_usuario, resposta1, resposta2 }),
-    });
-
-    const data = await resp.json();
-
-    if (data.status === "sucesso") {
-        window.location.href = "pagina-principal.html";
-    } else {
-        document.getElementById("msg-2fa").innerText = data.mensagem;
-    }
-});
-
-// Cancelar fecha modal
-document.getElementById("cancelar2fa").addEventListener("click", () => {
-    document.getElementById("box-2fa").style.display = "none";
 });

@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Inserir usuário
         $stmt = $pdo->prepare("
-            INSERT INTO usuario 
+            INSERT INTO usuarios 
             (nome, email, login, senha, perfil, numero_celular, telefone_residencial, cep, endereco, numero, bairro, cidade, estado, data_nascimento, sexo, nome_materno, cpf, criado_em)
             VALUES 
             (:nome, :email, :login, :senha, 'cliente', :celular, :residencial, :cep, :endereco, :numero, :bairro, :cidade, :estado, :data_nasc, :sexo, :nome_mae, :cpf, NOW())
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Inserir perguntas de segurança (2FA)
         $stmt2 = $pdo->prepare("
-            INSERT INTO dois_fa (id_usuario, perguntaescolhida, resposta_da_pergunta)
+            INSERT INTO autenticacao_2fa (id_usuario, perguntaescolhida, resposta_da_pergunta)
             VALUES (:id_usuario, :pergunta, :resposta)
         ");
 
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->commit();
 
         // Buscar dados do usuário recém-criado (sem a senha)
-        $stmt = $pdo->prepare("SELECT id, nome, email, login FROM usuario WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id, nome, email, login FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
         $usuario = $stmt->fetch();
 

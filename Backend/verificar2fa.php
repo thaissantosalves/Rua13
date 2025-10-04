@@ -29,7 +29,7 @@ try {
     $resposta2 = trim($data['resposta2']);
 
     // Buscar as duas respostas do banco
-    $stmt = $pdo->prepare("SELECT resposta_da_pergunta FROM dois_fa WHERE id_usuario = ?");
+    $stmt = $pdo->prepare("SELECT resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ?");
     $stmt->execute([$idUsuario]);
     $respostas = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
@@ -40,11 +40,20 @@ try {
 
     // Verificar se ambas batem
     if (in_array($resposta1, $respostas) && in_array($resposta2, $respostas) && $resposta1 !== $resposta2) {
-        echo json_encode([
-            'status' => 'sucesso',
-            'mensagem' => 'Login realizado com sucesso! Bem-vindo.',
-            'id_usuario' => $idUsuario
-        ]);
+        // Buscar dados completos do usuário
+        $stmt = $pdo->prepare("SELECT id, nome, email, login FROM usuarios WHERE id = ?");
+        $stmt->execute([$idUsuario]);
+        $usuario = $stmt->fetch();
+        
+        if ($usuario) {
+            echo json_encode([
+                'status' => 'sucesso',
+                'mensagem' => 'Login realizado com sucesso! Bem-vindo.',
+                'usuario' => $usuario
+            ]);
+        } else {
+            echo json_encode(['status' => 'erro', 'mensagem' => 'Erro ao buscar dados do usuário.']);
+        }
     } else {
         echo json_encode(['status' => 'erro', 'mensagem' => 'Respostas incorretas.']);
     }

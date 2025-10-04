@@ -54,10 +54,17 @@
             <div id="box-2fa" class="modal-2fa">
                 <div class="modal-content-2fa">
                     <h2>Confirme suas palavras-chave</h2>
-                    <p>Digite suas duas respostas cadastradas</p>
+                    <p>Responda às perguntas de segurança que você cadastrou:</p>
 
-                    <input type="text" id="resposta1" placeholder="Resposta 1" required />
-                    <input type="text" id="resposta2" placeholder="Resposta 2" required />
+                    <div class="pergunta-container">
+                        <label id="pergunta1-label" for="resposta1"></label>
+                        <input type="text" id="resposta1" placeholder="Digite sua resposta" required />
+                    </div>
+
+                    <div class="pergunta-container">
+                        <label id="pergunta2-label" for="resposta2"></label>
+                        <input type="text" id="resposta2" placeholder="Digite sua resposta" required />
+                    </div>
 
                     <button id="confirmar2fa">Confirmar</button>
                     <button id="cancelar2fa" class="btn-cancel">Cancelar</button>

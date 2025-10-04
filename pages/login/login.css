@@ -249,3 +249,21 @@ body {
     font-size: 0.9rem;
     color: red;
 }
+
+.pergunta-container {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.pergunta-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.pergunta-container input {
+    width: 100%;
+    margin: 0;
+}

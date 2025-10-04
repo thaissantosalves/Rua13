@@ -38,7 +38,7 @@ try {
     }
     
     // Buscar usuário
-    $stmt = $pdo->prepare("SELECT id, nome, email, login, senha FROM usuario WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id, nome, email, login, senha FROM usuarios WHERE email = ?");
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
     
@@ -47,11 +47,31 @@ try {
         exit;
     }
     
-    // Não retorna ainda como logado, apenas indica que precisa do 2FA
+    // Buscar as perguntas e respostas de segurança do usuário
+    $stmt = $pdo->prepare("SELECT perguntaescolhida, resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? ORDER BY id");
+    $stmt->execute([$usuario['id']]);
+    $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Extrair apenas as perguntas
+    $perguntas = [];
+    foreach ($dados as $dado) {
+        $perguntas[] = $dado['perguntaescolhida'];
+    }
+    
+    // Verificar se encontrou perguntas
+    if (empty($perguntas) || count($perguntas) < 2) {
+        echo json_encode([
+            'status' => 'erro', 
+            'mensagem' => 'Perguntas de segurança não encontradas.'
+        ]);
+        exit;
+    }
+    
     echo json_encode([
         'status' => '2fa',
         'mensagem' => 'Senha correta, confirme suas palavras-chave.',
-        'id_usuario' => $usuario['id']
+        'id_usuario' => $usuario['id'],
+        'perguntas' => $perguntas
     ]);
     
 } catch (\PDOException $e) {

@@ -2,265 +2,105 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>StreetKace — Masculino</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StreetKace — Masculino</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="masculino.css">
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="masculino.css">
+    
 </head>
 
 <body>
-  <!-- Header Component -->
-  <div id="header-container"></div>
+    <div id="header-container"></div>
 
-  <main class="container py-5">
-    <h1 class="mb-4 fw-bold title-gradient">Roupas Masculinas</h1>
+    <main class="container py-5">
+        <h1 class="mb-4 fw-bold title-gradient">Roupas Masculinas</h1>
 
-    <div class="row g-4">
-      <!-- 1 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem1.png" class="card-img-top" alt="Kimono Rework Preto" loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Kimono Rework Preto</h6>
-            <p class="price mb-3">R$ 89,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
+        <div id="produtos-container" class="row g-4">
             </div>
-          </div>
-        </div>
-      </div>
+    </main>
 
-      <!-- 2 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem2.png" class="card-img-top" alt="Camiseta Future Preta" loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Camiseta Future Preta</h6>
-            <p class="price mb-3">R$ 199,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
+    <footer class="py-4">
+        <div class="container">
+            <div class="row align-items-center gy-3">
+                <div class="col-12 col-md-4">
+                    <h5 class="mb-1" style="color:var(--warm2)">KaceWear</h5>
+                    <small class="text-secondary">&copy; 2025 Todos os direitos reservados</small>
+                </div>
+                <div class="col-12 col-md-4">
+                    <ul class="nav justify-content-md-center footer-links">
+                        <li class="nav-item"><a class="nav-link px-2" href="../principal/principal.html">Início</a></li>
+                        <li class="nav-item"><a class="nav-link px-2" href="../catalogo.html">Catálogo</a></li>
+                        <li class="nav-item"><a class="nav-link px-2" href="../sobre/sobre.html">Sobre</a></li>
+                        <li class="nav-item"><a class="nav-link px-2" href="../contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4 text-md-end footer-socials">
+                    <a href="#" class="me-3"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="me-3"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </footer>
 
-      <!-- 3 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem3.png" class="card-img-top" alt="Camiseta Estonada Cinza" loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Camiseta Estonada Cinza</h6>
-            <p class="price mb-3">R$ 159,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <link rel="stylesheet" href="../../cart.css">
+    <script src="../../cart-drawer.js" defer></script>
 
-      <!-- 4 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem4.png" class="card-img-top" alt="Camiseta Órbita Preta" loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Camiseta Órbita Preta</h6>
-            <p class="price mb-3">R$ 89,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <script type="module">
+        const MODAL_BASE = '../modal/';
 
-      <!-- 5 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem5.png" class="card-img-top" alt="Regata Gola Alta Cloud Preta"
-            loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Regata Gola Alta Cloud Preta</h6>
-            <p class="price mb-3">R$ 199,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+        const ensureModalLoaded = async () => {
+            if (!document.getElementById('comprarModal')) {
+                const res = await fetch(MODAL_BASE + 'modal.html', { cache: 'no-store' });
+                if (!res.ok) { console.error('Modal HTML não encontrado:', res.status, MODAL_BASE); return null; }
+                const html = await res.text();
+                document.body.insertAdjacentHTML('beforeend', html);
+                if (!document.getElementById('modal-css')) {
+                    const link = document.createElement('link');
+                    link.id = 'modal-css';
+                    link.rel = 'stylesheet';
+                    link.href = MODAL_BASE + 'modal.css';
+                    document.head.appendChild(link);
+                }
+            }
+            return import(MODAL_BASE + 'modal.js');
+        };
 
-      <!-- 6 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem6.png" class="card-img-top" alt="Camisa de Zíper Broxy Creme"
-            loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Camisa de Zíper Broxy Creme</h6>
-            <p class="price mb-3">R$ 159,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+        const getProductFromCard = (card) => ({
+            title: card.querySelector('.card-title')?.textContent.trim() || '',
+            priceStr: card.querySelector('.price')?.textContent.trim() || 'R$ 0,00',
+            img: card.querySelector('img.card-img-top')?.src || ''
+        });
 
-      <!-- 7 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem7.png" class="card-img-top" alt="Bermuda Rework Cinza" loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Bermuda Rework Cinza</h6>
-            <p class="price mb-3">R$ 89,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+        // Delegação para todos os .btn-comprar (presentes/futuros)
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.btn-comprar');
+            if (!btn) return;
+            e.preventDefault();
+            const card = btn.closest('.card');
+            const product = getProductFromCard(card);
+            const mod = await ensureModalLoaded();
+            if (mod?.openComprarModal) {
+                mod.openComprarModal(product);
+            } else {
+                console.error('modal.js não exporta openComprarModal');
+            }
+        });
+    </script>
+    
+    <script src="masculino.js" defer></script>
 
-      <!-- 8 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem8.png" class="card-img-top" alt="Camiseta Nebulosa Preta" loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Camiseta Nebulosa Preta</h6>
-            <p class="price mb-3">R$ 199,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 9 -->
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card card-hot h-100">
-          <img src="../../assets/imgmasculino/imagem9.png" class="card-img-top" alt="Bermuda Rework Preta" loading="lazy">
-          <div class="card-body">
-            <h6 class="card-title mb-1">Bermuda Rework Preta</h6>
-            <p class="price mb-3">R$ 159,90</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-icon" aria-label="Adicionar ao carrinho">
-                <img src="../../assets/icons/carrinho-de-compras (3).png" class="icon-cart" alt="">
-              </button>
-              <button class="btn btn-gradient flex-fill btn-comprar" type="button">Comprar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <footer class="py-4">
-    <div class="container">
-      <div class="row align-items-center gy-3">
-        <div class="col-12 col-md-4">
-          <h5 class="mb-1" style="color:var(--warm2)">KaceWear</h5>
-          <small class="text-secondary">&copy; 2025 Todos os direitos reservados</small>
-        </div>
-        <div class="col-12 col-md-4">
-          <ul class="nav justify-content-md-center footer-links">
-            <li class="nav-item"><a class="nav-link px-2" href="../principal/principal.html">Início</a></li>
-            <li class="nav-item"><a class="nav-link px-2" href="../catalogo.html">Catálogo</a></li>
-            <li class="nav-item"><a class="nav-link px-2" href="../sobre/sobre.html">Sobre</a></li>
-            <li class="nav-item"><a class="nav-link px-2" href="../contato.html">Contato</a></li>
-          </ul>
-        </div>
-        <div class="col-12 col-md-4 text-md-end footer-socials">
-          <a href="#" class="me-3"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" class="me-3"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#"><i class="fa-brands fa-facebook"></i></a>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-
-  <link rel="stylesheet" href="../../cart.css">
-  <script src="../../cart-drawer.js" defer></script>
-
-  <!-- Loader do modal (lazy, ESM) -->
-  <script type="module">
-    const MODAL_BASE = '../modal/';
-
-    const ensureModalLoaded = async () => {
-      if (!document.getElementById('comprarModal')) {
-        const res = await fetch(MODAL_BASE + 'modal.html', { cache: 'no-store' });
-        if (!res.ok) { console.error('Modal HTML não encontrado:', res.status, MODAL_BASE); return null; }
-        const html = await res.text();
-        document.body.insertAdjacentHTML('beforeend', html);
-
-        if (!document.getElementById('modal-css')) {
-          const link = document.createElement('link');
-          link.id = 'modal-css';
-          link.rel = 'stylesheet';
-          link.href = MODAL_BASE + 'modal.css';
-          document.head.appendChild(link);
-        }
-      }
-      return import(MODAL_BASE + 'modal.js');
-    };
-
-    const getProductFromCard = (card) => ({
-      title: card.querySelector('.card-title')?.textContent.trim() || '',
-      priceStr: card.querySelector('.price')?.textContent.trim() || 'R$ 0,00',
-      img: card.querySelector('img.card-img-top')?.src || ''
-    });
-
-    // Delegação para todos os .btn-comprar (presentes/futuros)
-    document.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.btn-comprar');
-      if (!btn) return;
-      e.preventDefault();
-
-      const card = btn.closest('.card');
-      const product = getProductFromCard(card);
-
-      const mod = await ensureModalLoaded();
-      if (mod?.openComprarModal) {
-        mod.openComprarModal(product);
-      } else {
-        console.error('modal.js não exporta openComprarModal');
-      }
-    });
-  </script>
-
-  <script src="../../components/header.js"></script>
-  <script src="../../global.js" defer></script>
-  <script src="../../cart.js" defer></script>
-
+    <script src="../../components/header.js"></script>
+    <script src="../../global.js" defer></script>
+    <script src="../../cart.js" defer></script>
 </body>
 
 </html>

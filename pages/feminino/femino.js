@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchProdutos = async (categoria) => {
         try {
-            const response = await fetch(`api.php?action=get_produtos&categoria=${categoria}`);
+            const response = await fetch(`../../Backend/api/produtos.php?action=get_produtos&categoria=${categoria}`);
             if (!response.ok) {
                 throw new Error('Erro ao buscar os produtos.');
             }
@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         produtos.forEach(produto => {
-            const precoFormatado = produto.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const precoFormatado = parseFloat(produto.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             const card = document.createElement('div');
             card.className = 'col-12 col-sm-6 col-lg-4';
             card.innerHTML = `
                 <div class="card card-hot h-100" data-product-id="${produto.id}">
-                    <img src="api.php?action=get_image&id=${produto.id}" class="card-img-top" alt="${produto.nome}" loading="lazy">
+                    <img src="../../Backend/api/produtos.php?action=get_image&id=${produto.id}" class="card-img-top" alt="${produto.nome}" loading="lazy">
                     <div class="card-body">
                         <h6 class="card-title mb-1">${produto.nome}</h6>
                         <p class="price mb-3">${precoFormatado}</p>
@@ -45,6 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Chama a função para buscar os produtos da categoria "Feminino"
-    fetchProdutos('Feminino');
+    // Chama a função para buscar os produtos da categoria "feminina"
+    fetchProdutos('feminina');
 });

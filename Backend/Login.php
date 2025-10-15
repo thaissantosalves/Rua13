@@ -41,16 +41,33 @@ try {
     $stmt = $pdo->prepare("SELECT id, nome, email, login, senha FROM usuarios WHERE email = ?");
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
+	
     
-    if (!$usuario || !password_verify($senha, $usuario['senha'])) {
-        echo json_encode(['status' => 'erro', 'mensagem' => 'Email ou senha incorretos']);
-        exit;
+    if (!$usuario || $senha !== $usuario['senha']) {
+    echo json_encode(['status' => 'erro', 'mensagem' => 'Email ou senha incorretos']);
+    exit;
     }
+
+    if ($usuario['perfil'] === 'master') {
+    // Redireciona o master para o painel de administração
+    echo json_encode([
+        'status' => 'master',
+        'mensagem' => 'Login de administrador bem-sucedido',
+        'id_usuario' => $usuario['id'],
+        'nome' => $usuario['nome'],        // retorna nome real do banco
+        'perfil' => $usuario['perfil'],    // retorna 'master'
+        'redirect' => '../admin/dashboard.html' // caminho do painel do master
+    ]);
+    exit; // interrompe o fluxo normal do login para cliente
+}
+
     
     // Buscar as perguntas e respostas de segurança do usuário
     $stmt = $pdo->prepare("SELECT perguntaescolhida, resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? ORDER BY id");
     $stmt->execute([$usuario['id']]);
     $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
     
     // Extrair apenas as perguntas
     $perguntas = [];
@@ -79,3 +96,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(['status' => 'erro', 'mensagem' => 'Erro interno: ' . $e->getMessage() ]);
 }
+

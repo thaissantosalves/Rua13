@@ -32,24 +32,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
 
                     console.log("Resposta do servidor:", response.status);
+
+
                     const result = await response.json();
                     console.log("Resultado:", result);
 
-                    if (result.status === "sucesso") {
-                        // Salva dados reais do usuário
-                        localStorage.setItem("userData", JSON.stringify(result.usuario));
-                        console.log("Dados do usuário salvos:", result.usuario);
+					if (result.status === "master") {
+                       // Salva dados do master
+                     localStorage.setItem("userData", JSON.stringify({
+                      id: result.id_usuario,
+                      nome: result.nome,      //vem do banco
+                      perfil: result.perfil   //vem do banco
+                      }));
 
-                        // Atualiza interface do header se estiver disponível
-                        if (window.headerComponent) {
-                            window.headerComponent.updateUserInterface(result.usuario);
-                        }
+                       // Redireciona automaticamente para painel de admin
+                       window.location.href = result.redirect;
 
-                        // Redireciona para página principal
-                        window.location.href = "../principal/principal.html";
+                      alert("Login de administrador realizado com sucesso!");
+                    }
 
-                        alert("Login realizado com sucesso!");
-                    } else if (result.status === "2fa") {
+                     else if (result.status === "2fa") {
                         console.log("=== DEBUG 2FA ===");
                         console.log("Resultado completo:", result);
                         console.log("Perguntas encontradas:", result.perguntas);

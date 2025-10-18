@@ -41,7 +41,7 @@ try {
     // Verificar se ambas batem
     if (in_array($resposta1, $respostas) && in_array($resposta2, $respostas) && $resposta1 !== $resposta2) {
         // Buscar dados completos do usuário
-        $stmt = $pdo->prepare("SELECT id, nome, email, login FROM usuarios WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT id_usuario, nome, email, login FROM usuario WHERE id_usuario = ?");
         $stmt->execute([$idUsuario]);
         $usuario = $stmt->fetch();
         

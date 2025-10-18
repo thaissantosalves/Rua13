@@ -38,19 +38,46 @@ try {
     }
     
     // Buscar usuário
-    $stmt = $pdo->prepare("SELECT id, nome, email, login, senha FROM usuarios WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id_usuario, nome, email, login, senha, perfil FROM usuario WHERE email = ?");
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
+	
     
-    if (!$usuario || !password_verify($senha, $usuario['senha'])) {
+    // Verificar senha (compatível com senhas em texto plano e hasheadas)
+    $senhaValida = false;
+    if (password_get_info($usuario['senha'])['algo'] !== null) {
+        // Senha está hasheada
+        $senhaValida = password_verify($senha, $usuario['senha']);
+    } else {
+        // Senha está em texto plano (usuário master)
+        $senhaValida = ($senha === $usuario['senha']);
+    }
+    
+    if (!$usuario || !$senhaValida) {
         echo json_encode(['status' => 'erro', 'mensagem' => 'Email ou senha incorretos']);
         exit;
     }
+
+    if ($usuario['perfil'] === 'master') {
+    // Redireciona o master para o painel de administração
+    echo json_encode([
+        'status' => 'master',
+        'mensagem' => 'Login de administrador bem-sucedido',
+        'id_usuario' => $usuario['id_usuario'],
+        'nome' => $usuario['nome'],        // retorna nome real do banco
+        'perfil' => $usuario['perfil'],    // retorna 'master'
+        'redirect' => 'http://localhost/Rua13/pages/admin/dashboard.html' // caminho do painel do master
+    ]);
+    exit; // interrompe o fluxo normal do login para cliente
+}
+
     
     // Buscar as perguntas e respostas de segurança do usuário
-    $stmt = $pdo->prepare("SELECT perguntaescolhida, resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? ORDER BY id");
-    $stmt->execute([$usuario['id']]);
+    $stmt = $pdo->prepare("SELECT perguntaescolhida, resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? ORDER BY id_2FA");
+    $stmt->execute([$usuario['id_usuario']]);
     $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
     
     // Extrair apenas as perguntas
     $perguntas = [];
@@ -70,7 +97,7 @@ try {
     echo json_encode([
         'status' => '2fa',
         'mensagem' => 'Senha correta, confirme suas palavras-chave.',
-        'id_usuario' => $usuario['id'],
+        'id_usuario' => $usuario['id_usuario'],
         'perguntas' => $perguntas
     ]);
     
@@ -79,3 +106,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(['status' => 'erro', 'mensagem' => 'Erro interno: ' . $e->getMessage() ]);
 }
+

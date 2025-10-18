@@ -1,6 +1,6 @@
 <?php
 // Inclui o arquivo de configuração com PDO
-require_once '../config.php';
+require_once __DIR__ . '/../config.php';
 
 // Define o tipo de requisição que o PHP irá processar
 $action = $_GET['action'] ?? null; 
@@ -11,7 +11,7 @@ if ($action === 'get_produtos') {
     $produtos = [];
     
     if ($categoria) {
-        $stmt = $pdo->prepare("SELECT id, nome, preco, imagem FROM produtos WHERE categoria = ?");
+        $stmt = $pdo->prepare("SELECT id_produto, nome, preco, categoria, imagem FROM produtos WHERE categoria = ?");
         $stmt->execute([$categoria]);
         $produtos = $stmt->fetchAll();
     }
@@ -26,7 +26,7 @@ if ($action === 'get_image') {
     $id_produto = $_GET['id'] ?? null;
 
     if ($id_produto) {
-        $stmt = $pdo->prepare("SELECT imagem FROM produtos WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT imagem FROM produtos WHERE id_produto = ?");
         $stmt->execute([$id_produto]);
         $row = $stmt->fetch();
 
@@ -42,8 +42,13 @@ if ($action === 'get_image') {
                 readfile($caminho_completo);
                 exit();
             } else {
-                header('HTTP/1.0 404 Not Found');
-                echo json_encode(['error' => 'Imagem não encontrada', 'path' => $caminho_imagem]);
+                // Retornar uma imagem placeholder em vez de JSON
+                header('Content-Type: image/svg+xml');
+                echo '<?xml version="1.0" encoding="UTF-8"?>
+                <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#333"/>
+                    <text x="50%" y="50%" font-family="Arial" font-size="14" fill="#fff" text-anchor="middle" dy=".3em">Imagem não encontrada</text>
+                </svg>';
                 exit();
             }
         } else {

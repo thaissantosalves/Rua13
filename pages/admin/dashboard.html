@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | STREET KACE</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="admin.css">
+    <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Header -->
+    <nav class="admin-header">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="../../assets/logo.png" alt="Logo" class="admin-logo">
+                    <h1 class="admin-title">Painel Administrativo</h1>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="admin-user-info">
+                        <i class="fas fa-user-shield"></i>
+                        <span id="admin-name">Master</span>
+                    </span>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <div class="container-fluid">
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stats-content">
+                            <h3 id="total-users">0</h3>
+                            <p>Total de Usuários</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="stats-content">
+                            <h3 id="new-registrations">0</h3>
+                            <p>Cadastros Hoje</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stats-content">
+                            <h3 id="total-orders">0</h3>
+                            <p>Total de Pedidos</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <div class="stats-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stats-content">
+                            <h3 id="revenue">R$ 0</h3>
+                            <p>Faturamento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="admin-tabs">
+                <button class="tab-btn active" onclick="showTab('users')">
+                    <i class="fas fa-users"></i>
+                    Gerenciar Usuários
+                </button>
+                <button class="tab-btn" onclick="showTab('logs')">
+                    <i class="fas fa-history"></i>
+                    Logs de Cadastro
+                </button>
+                <button class="tab-btn" onclick="showTab('products')">
+                    <i class="fas fa-box"></i>
+                    Produtos
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Users Tab -->
+                <div id="users-tab" class="tab-pane active">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h5><i class="fas fa-users"></i> Gerenciar Usuários</h5>
+                            <div class="card-actions">
+                                <button class="btn-refresh" onclick="loadUsers()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Atualizar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                            <th>Perfil</th>
+                                            <th>Data Cadastro</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="users-table-body">
+                                        <tr>
+                                            <td colspan="6" class="text-center">
+                                                <div class="loading-spinner">
+                                                    <i class="fas fa-spinner fa-spin"></i>
+                                                    Carregando usuários...
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs Tab -->
+                <div id="logs-tab" class="tab-pane">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h5><i class="fas fa-history"></i> Logs de Cadastro</h5>
+                            <div class="card-actions">
+                                <button class="btn-refresh" onclick="loadLogs()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Atualizar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Usuário</th>
+                                            <th>Ação</th>
+                                            <th>Data/Hora</th>
+                                            <th>IP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="logs-table-body">
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                <div class="loading-spinner">
+                                                    <i class="fas fa-spinner fa-spin"></i>
+                                                    Carregando logs...
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Tab -->
+                <div id="products-tab" class="tab-pane">
+                    <div class="admin-card">
+                        <div class="card-header">
+                            <h5><i class="fas fa-box"></i> Gerenciar Produtos</h5>
+                            <div class="card-actions">
+                                <button class="btn-primary">
+                                    <i class="fas fa-plus"></i>
+                                    Adicionar Produto
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center py-5">
+                                <i class="fas fa-box fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">Gerenciamento de Produtos</h5>
+                                <p class="text-muted">Funcionalidade em desenvolvimento</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5><i class="fas fa-exclamation-triangle"></i> Confirmar Exclusão</h5>
+                <button class="btn-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir este usuário?</p>
+                <div class="user-info">
+                    <strong>Nome:</strong> <span id="delete-user-name"></span><br>
+                    <strong>Email:</strong> <span id="delete-user-email"></span>
+                </div>
+                <p class="text-danger mt-3">
+                    <i class="fas fa-warning"></i>
+                    <strong>Atenção:</strong> Esta ação não pode ser desfeita!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
+                <button class="btn-danger" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i>
+                    Excluir Usuário
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

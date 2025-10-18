@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (form) {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
+            
+            // Verificar se o clique foi em um link
+            if (e.target.tagName === 'A') {
+                return; // Deixar o link funcionar normalmente
+            }
 
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;

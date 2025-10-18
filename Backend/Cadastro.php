@@ -69,10 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Inserir usuário
         $stmt = $pdo->prepare("
-            INSERT INTO usuarios 
-            (nome, email, login, senha, perfil, numero_celular, telefone_residencial, cep, endereco, numero, bairro, cidade, estado, data_nascimento, sexo, nome_materno, cpf, criado_em)
+            INSERT INTO usuario 
+            (nome, email, login, senha, perfil, numero_celular, telefone_residencial, cep, endereco, numero, bairro, cidade, estado, data_nascimento, sexo, cpf, criado_em)
             VALUES 
-            (:nome, :email, :login, :senha, 'cliente', :celular, :residencial, :cep, :endereco, :numero, :bairro, :cidade, :estado, :data_nasc, :sexo, :nome_mae, :cpf, NOW())
+            (:nome, :email, :login, :senha, 'cliente', :celular, :residencial, :cep, :endereco, :numero, :bairro, :cidade, :estado, :data_nasc, :sexo, :cpf, NOW())
         ");
         $senha_hash = password_hash($senha1, PASSWORD_DEFAULT);
         $stmt->execute([
@@ -90,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':estado' => $estado,
             ':data_nasc' => $dataNascimento,
             ':sexo' => $sexo,
-            ':nome_mae' => $nomeMaterno,
             ':cpf' => $cpf
         ]);
 
@@ -117,10 +116,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':resposta' => $resposta2
         ]);
 
+        // Registrar log de cadastro
+        $stmt3 = $pdo->prepare("
+            INSERT INTO acoes_usuario (id_usuario, acao, criado_em)
+            VALUES (:id_usuario, 'Usuário se cadastrou no sistema', NOW())
+        ");
+        $stmt3->execute([':id_usuario' => $idUsuario]);
+
         $pdo->commit();
 
         // Buscar dados do usuário recém-criado (sem a senha)
-        $stmt = $pdo->prepare("SELECT id, nome, email, login FROM usuarios WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id_usuario, nome, email, login FROM usuario WHERE email = ?");
         $stmt->execute([$email]);
         $usuario = $stmt->fetch();
 

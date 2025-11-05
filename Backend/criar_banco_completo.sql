@@ -1,25 +1,3 @@
--- =========================================
--- SCRIPT COMPLETO PARA CRIAR BANCO E TABELAS
--- PROJETO RUA13 - STREET KACE
--- =========================================
--- 
--- INSTRUÇÕES:
--- 1. Acesse http://localhost/phpmyadmin
--- 2. Vá na aba "SQL" (sem selecionar nenhum banco)
--- 3. Cole este código completo
--- 4. Execute
--- =========================================
-
--- =========================================
--- 1. REMOVER BANCO ANTIGO (se existir)
--- =========================================
-DROP DATABASE IF EXISTS `projetobackendfaculxamp`;
-DROP DATABASE IF EXISTS `ProjetoBackendFaculXAMP`;
-DROP DATABASE IF EXISTS `ProjetoBackendFaculXamp`;
-
--- =========================================
--- 2. CRIAR BANCO NOVO
--- =========================================
 CREATE DATABASE `ProjetoBackendFaculXamp` 
 DEFAULT CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
@@ -52,7 +30,8 @@ CREATE TABLE `usuario` (
     `data_nascimento` DATE,
     `sexo` ENUM('Feminino','Masculino','Outro'), 
     `cpf` VARCHAR(14) UNIQUE,
-    `criado_em` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    `criado_em` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `ultimo_login` DATETIME NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Tabela: produtos
@@ -177,7 +156,3 @@ UNION ALL
 SELECT '2FA:', COUNT(*) FROM `autenticacao_2fa`
 UNION ALL
 SELECT 'Estoque:', COUNT(*) FROM `estoque`;
-
--- =========================================
--- FIM DO SCRIPT
--- =========================================

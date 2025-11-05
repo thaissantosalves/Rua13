@@ -16,18 +16,44 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 require_once __DIR__ . '/../config.php';
 
 try {
-    // Buscar apenas usuários clientes (excluir master)
-    $stmt = $pdo->query("
+    // Receber parâmetro de busca
+    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+    
+    // Construir query com busca opcional
+    $sql = "
         SELECT 
             id_usuario, 
             nome, 
-            email, 
+            email,
+            cpf,
             perfil, 
-            criado_em
+            criado_em,
+            ultimo_login
         FROM usuario 
         WHERE perfil = 'cliente'
-        ORDER BY criado_em DESC
-    ");
+    ";
+    
+    $params = [];
+    
+    // Se houver busca, adicionar filtros
+    if (!empty($search)) {
+        $sql .= " AND (
+            nome LIKE ? OR 
+            email LIKE ? OR 
+            cpf LIKE ?
+        )";
+        $searchParam = '%' . $search . '%';
+        $params = [$searchParam, $searchParam, $searchParam];
+    }
+    
+    $sql .= " ORDER BY criado_em DESC";
+    
+    $stmt = $pdo->prepare($sql);
+    if (!empty($params)) {
+        $stmt->execute($params);
+    } else {
+        $stmt->execute();
+    }
     
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

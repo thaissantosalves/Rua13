@@ -1,0 +1,96 @@
+<!-- Modal Lateral para Cadastrar Produto -->
+<div id="productModal" class="sidebar-modal">
+    <div class="sidebar-overlay" onclick="closeProductModal()"></div>
+    <div class="sidebar-content">
+        <div class="sidebar-header">
+            <h5><i class="fas fa-box"></i> Cadastrar Novo Produto</h5>
+            <button class="btn-close-sidebar" onclick="closeProductModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-body">
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <div class="form-group">
+                    <label for="produto-nome">Nome do Produto *</label>
+                    <input type="text" 
+                           id="produto-nome" 
+                           class="form-control" 
+                           placeholder="Ex: Camiseta Future Preta"
+                           required 
+                           maxlength="150">
+                </div>
+
+                <div class="form-group">
+                    <label for="produto-descricao">Descrição</label>
+                    <textarea id="produto-descricao" 
+                              class="form-control" 
+                              rows="3"
+                              placeholder="Descrição detalhada do produto"></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="produto-preco">Preço (R$) *</label>
+                            <input type="number" 
+                                   id="produto-preco" 
+                                   class="form-control" 
+                                   placeholder="0.00"
+                                   step="0.01"
+                                   min="0"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="produto-estoque">Estoque</label>
+                            <input type="number" 
+                                   id="produto-estoque" 
+                                   class="form-control" 
+                                   placeholder="0"
+                                   min="0"
+                                   value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="produto-categoria">Categoria *</label>
+                    <select id="produto-categoria" class="form-control" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="produto-sku">SKU (Código do Produto)</label>
+                    <input type="text" 
+                           id="produto-sku" 
+                           class="form-control" 
+                           placeholder="Ex: CAMIFUTU002"
+                           maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label for="produto-imagem">URL da Imagem</label>
+                    <input type="text" 
+                           id="produto-imagem" 
+                           class="form-control" 
+                           placeholder="Ex: https://br.images.search.yahoo.com/images/">
+                </div>
+
+                <div class="sidebar-footer">
+                    <button type="button" class="btn-cancel" onclick="closeProductModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i>
+                        Salvar Produto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

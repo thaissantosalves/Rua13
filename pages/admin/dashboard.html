@@ -118,7 +118,15 @@
                         <div class="card-header">
                             <h5><i class="fas fa-users"></i> Gerenciar Usuários</h5>
                             <div class="card-actions">
-                                <button class="btn-refresh" onclick="loadUsers()">
+                                <div class="search-box">
+                                    <input type="text" 
+                                           id="user-search" 
+                                           class="form-control" 
+                                           placeholder="Buscar por nome, email ou CPF..."
+                                           onkeyup="handleSearch(event)">
+                                    <i class="fas fa-search search-icon"></i>
+                                </div>
+                                <button class="btn-refresh" onclick="refreshUsers()">
                                     <i class="fas fa-sync-alt"></i>
                                     Atualizar
                                 </button>
@@ -132,14 +140,16 @@
                                             <th>ID</th>
                                             <th>Nome</th>
                                             <th>Email</th>
+                                            <th>CPF</th>
                                             <th>Perfil</th>
                                             <th>Data Cadastro</th>
+                                            <th>Último Acesso</th>
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody id="users-table-body">
                                         <tr>
-                                            <td colspan="6" class="text-center">
+                                            <td colspan="8" class="text-center">
                                                 <div class="loading-spinner">
                                                     <i class="fas fa-spinner fa-spin"></i>
                                                     Carregando usuários...
@@ -199,7 +209,7 @@
                         <div class="card-header">
                             <h5><i class="fas fa-box"></i> Gerenciar Produtos</h5>
                             <div class="card-actions">
-                                <button class="btn-primary">
+                                <button class="btn-primary" onclick="openProductModal()">
                                     <i class="fas fa-plus"></i>
                                     Adicionar Produto
                                 </button>
@@ -245,6 +255,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Container para o modal de produto (será carregado dinamicamente) -->
+    <div id="productModalContainer"></div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -40,6 +40,15 @@ try {
 
     // Verificar se ambas batem
     if (in_array($resposta1, $respostas) && in_array($resposta2, $respostas) && $resposta1 !== $resposta2) {
+        // Registrar último acesso/login
+        try {
+            $stmt_update = $pdo->prepare("UPDATE usuario SET ultimo_login = NOW() WHERE id_usuario = ?");
+            $stmt_update->execute([$idUsuario]);
+        } catch (\PDOException $e) {
+            // Log erro mas não interrompe o login
+            error_log("Erro ao atualizar ultimo_login: " . $e->getMessage());
+        }
+        
         // Buscar dados completos do usuário
         $stmt = $pdo->prepare("SELECT id_usuario, nome, email, login FROM usuario WHERE id_usuario = ?");
         $stmt->execute([$idUsuario]);

@@ -4,7 +4,7 @@
     --panel: #181818;
     --line: #1f1f1f;
     --text: #f5f5f5;
-    --muted: #bdbdbd;
+    --muted: #e0e0e0;
     --warm1: #ff6a00;
     --warm2: #ff005c;
     --grad: linear-gradient(90deg, #ff6a00, #ff005c);
@@ -26,6 +26,34 @@ body {
     font-family: "Montserrat", sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+/* ====== ESTILOS GLOBAIS PARA PLACEHOLDERS E TEXTOS MUTED ====== */
+input::placeholder,
+textarea::placeholder {
+    color: #a0a0a0 !important;
+    opacity: 1;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #a0a0a0 !important;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    color: #a0a0a0 !important;
+    opacity: 1;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #a0a0a0 !important;
+}
+
+/* Override do Bootstrap text-muted */
+small.text-muted {
+    color: #d0d0d0 !important;
 }
 
 /* ====== HEADER ====== */
@@ -211,6 +239,41 @@ body {
 .card-actions {
     display: flex;
     gap: 0.5rem;
+    align-items: center;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box .form-control {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border-radius: 6px;
+    width: 300px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.search-box .form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(62, 99, 255, 0.1);
+}
+
+.search-box .form-control::placeholder {
+    color: #a0a0a0;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--muted);
+    pointer-events: none;
 }
 
 .card-body {
@@ -472,7 +535,7 @@ body {
 }
 
 .text-muted {
-    color: var(--muted);
+    color: #d0d0d0 !important;
 }
 
 .text-danger {
@@ -493,4 +556,176 @@ body {
 
 .fa-3x {
     font-size: 3rem;
+}
+
+/* ====== SIDEBAR MODAL ====== */
+.sidebar-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+}
+
+.sidebar-modal.active {
+    display: block;
+}
+
+.sidebar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.sidebar-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 500px;
+    max-width: 90vw;
+    height: 100%;
+    background: var(--panel);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    animation: slideInRight 0.3s ease-out;
+    overflow-y: auto;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.sidebar-header h5 {
+    margin: 0;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+}
+
+.btn-close-sidebar {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn-close-sidebar:hover {
+    color: var(--text);
+    background: var(--line);
+}
+
+.sidebar-body {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.sidebar-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    background: var(--bg);
+    position: sticky;
+    bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-group .form-control::placeholder {
+    color: #a0a0a0;
+    opacity: 1;
+}
+
+.form-group .form-control::-webkit-input-placeholder {
+    color: #a0a0a0;
+}
+
+.form-group .form-control::-moz-placeholder {
+    color: #a0a0a0;
+    opacity: 1;
+}
+
+.form-group .form-control:-ms-input-placeholder {
+    color: #a0a0a0;
+}
+
+.form-group .form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(62, 99, 255, 0.1);
+}
+
+.form-group textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group select.form-control {
+    cursor: pointer;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: #c0c0c0;
+}
+
+@media (max-width: 768px) {
+    .sidebar-content {
+        width: 100%;
+        max-width: 100%;
+    }
 }

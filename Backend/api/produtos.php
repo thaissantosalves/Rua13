@@ -1,4 +1,13 @@
 <?php
+// Headers CORS para permitir requisições do frontend
+header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
+
 // Inclui o arquivo de configuração com PDO
 require_once __DIR__ . '/../config.php';
 
@@ -59,8 +68,88 @@ if ($action === 'get_image') {
     }
 }
 
+// Lógica para criar produto
+if ($action === 'create') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'erro', 'mensagem' => 'Método não permitido']);
+        exit;
+    }
+    
+    try {
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+        
+        if (!$data) {
+            echo json_encode(['status' => 'erro', 'mensagem' => 'Dados inválidos']);
+            exit;
+        }
+        
+        // Validar campos obrigatórios
+        if (empty($data['nome']) || empty($data['preco']) || empty($data['categoria'])) {
+            echo json_encode(['status' => 'erro', 'mensagem' => 'Nome, preço e categoria são obrigatórios']);
+            exit;
+        }
+        
+        // Validar categoria
+        if (!in_array($data['categoria'], ['Masculino', 'Feminino'])) {
+            echo json_encode(['status' => 'erro', 'mensagem' => 'Categoria inválida']);
+            exit;
+        }
+        
+        // Preparar dados
+        $nome = trim($data['nome']);
+        $descricao = isset($data['descricao']) ? trim($data['descricao']) : null;
+        $preco = floatval($data['preco']);
+        $estoque = isset($data['estoque']) ? intval($data['estoque']) : 0;
+        $categoria = $data['categoria'];
+        $sku = isset($data['sku']) ? trim($data['sku']) : '';
+        $imagem = isset($data['imagem']) ? trim($data['imagem']) : '';
+        
+        // Validar preço
+        if ($preco <= 0) {
+            echo json_encode(['status' => 'erro', 'mensagem' => 'O preço deve ser maior que zero']);
+            exit;
+        }
+        
+        // Inserir produto
+        $stmt = $pdo->prepare("
+            INSERT INTO produtos (nome, descricao, preco, estoque, categoria, sku, imagem)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ");
+        
+        $stmt->execute([
+            $nome,
+            $descricao,
+            $preco,
+            $estoque,
+            $categoria,
+            $sku,
+            $imagem
+        ]);
+        
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'success',
+            'mensagem' => 'Produto cadastrado com sucesso!',
+            'id_produto' => $pdo->lastInsertId()
+        ]);
+        exit;
+        
+    } catch (\PDOException $e) {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'erro', 'mensagem' => 'Erro no banco de dados: ' . $e->getMessage()]);
+        exit;
+    } catch (Exception $e) {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'erro', 'mensagem' => 'Erro interno: ' . $e->getMessage()]);
+        exit;
+    }
+}
+
 // Se nenhuma ação válida foi solicitada
+header('Content-Type: application/json');
 http_response_code(400);
-echo json_encode(['error' => 'Ação inválida.']);
+echo json_encode(['status' => 'erro', 'mensagem' => 'Ação inválida.']);
 ?>
 

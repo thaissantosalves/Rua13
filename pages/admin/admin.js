@@ -50,7 +50,7 @@ function showTab(tabName) {
     
     // Load data for the tab
     if (tabName === 'users') {
-        loadUsers();
+        refreshUsers(); // Usar refreshUsers para preservar busca
     } else if (tabName === 'logs') {
         loadLogs();
     }
@@ -74,11 +74,13 @@ async function loadStats() {
 }
 
 // ====== USERS MANAGEMENT ======
-async function loadUsers() {
+let searchTimeout = null;
+
+async function loadUsers(searchTerm = '') {
     const tbody = document.getElementById('users-table-body');
     tbody.innerHTML = `
         <tr>
-            <td colspan="6" class="text-center">
+            <td colspan="8" class="text-center">
                 <div class="loading-spinner">
                     <i class="fas fa-spinner fa-spin"></i>
                     Carregando usuários...
@@ -88,7 +90,12 @@ async function loadUsers() {
     `;
     
     try {
-        const response = await fetch('../../Backend/api/admin-users.php');
+        let url = '../../Backend/api/admin-users.php';
+        if (searchTerm) {
+            url += '?search=' + encodeURIComponent(searchTerm);
+        }
+        
+        const response = await fetch(url);
         const data = await response.json();
         
         if (data.status === 'success') {
@@ -96,7 +103,7 @@ async function loadUsers() {
         } else {
             tbody.innerHTML = `
                 <tr>
-                    <td colspan="6" class="text-center text-danger">
+                    <td colspan="8" class="text-center text-danger">
                         <i class="fas fa-exclamation-triangle"></i>
                         Erro ao carregar usuários: ${data.mensagem}
                     </td>
@@ -107,13 +114,27 @@ async function loadUsers() {
         console.error('Erro ao carregar usuários:', error);
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" class="text-center text-danger">
+                <td colspan="8" class="text-center text-danger">
                     <i class="fas fa-exclamation-triangle"></i>
                     Erro de conexão
                 </td>
             </tr>
         `;
     }
+}
+
+// Função para lidar com busca em tempo real
+function handleSearch(event) {
+    // Limpar timeout anterior
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
+    }
+    
+    // Aguardar 500ms após o usuário parar de digitar
+    searchTimeout = setTimeout(() => {
+        const searchTerm = event.target.value.trim();
+        loadUsers(searchTerm);
+    }, 500);
 }
 
 function displayUsers(users) {
@@ -131,27 +152,49 @@ function displayUsers(users) {
         return;
     }
     
-    tbody.innerHTML = users.map(user => `
+    tbody.innerHTML = users.map(user => {
+        // Formatar CPF
+        let cpfFormatado = 'N/A';
+        if (user.cpf) {
+            const cpfLimpo = String(user.cpf).replace(/\D/g, '');
+            if (cpfLimpo.length === 11) {
+                cpfFormatado = cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            } else {
+                cpfFormatado = user.cpf;
+            }
+        }
+        
+        // Formatar último acesso
+        const ultimoAcesso = user.ultimo_login ? formatDateTime(user.ultimo_login) : 'Nunca';
+        
+        // Escapar caracteres especiais
+        const nomeEscapado = String(user.nome || '').replace(/'/g, "\\'");
+        const emailEscapado = String(user.email || '').replace(/'/g, "\\'");
+        
+        return `
         <tr>
             <td>${user.id_usuario}</td>
             <td>${user.nome}</td>
             <td>${user.email}</td>
+            <td>${cpfFormatado}</td>
             <td>
                 <span class="badge bg-primary">
                     Cliente
                 </span>
             </td>
             <td>${formatDate(user.criado_em)}</td>
+            <td>${ultimoAcesso}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn-action btn-delete" onclick="showDeleteModal(${user.id_usuario}, '${user.nome}', '${user.email}')">
+                    <button class="btn-action btn-delete" onclick="showDeleteModal(${user.id_usuario}, '${nomeEscapado}', '${emailEscapado}')">
                         <i class="fas fa-trash"></i>
                         Excluir
                     </button>
                 </div>
             </td>
         </tr>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // ====== LOGS MANAGEMENT ======
@@ -255,7 +298,7 @@ async function confirmDelete() {
         if (data.status === 'success') {
             alert('Usuário excluído com sucesso!');
             closeDeleteModal();
-            loadUsers(); // Reload users list
+            refreshUsers(); // Reload users list preservando busca
             loadStats(); // Reload stats
         } else {
             alert('Erro ao excluir usuário: ' + data.mensagem);
@@ -264,6 +307,13 @@ async function confirmDelete() {
         console.error('Erro ao excluir usuário:', error);
         alert('Erro de conexão ao excluir usuário');
     }
+}
+
+// Função para atualizar preservando a busca
+function refreshUsers() {
+    const searchInput = document.getElementById('user-search');
+    const searchTerm = searchInput ? searchInput.value.trim() : '';
+    loadUsers(searchTerm);
 }
 
 // ====== LOGOUT ======
@@ -297,14 +347,122 @@ window.onclick = function(event) {
 // Refresh stats every 30 seconds
 setInterval(loadStats, 30000);
 
-// Refresh current tab data every 60 seconds
+// Refresh current tab data every 15 seconds (mais frequente para atualizar último acesso)
 setInterval(() => {
     const activeTab = document.querySelector('.tab-pane.active');
     if (activeTab) {
         if (activeTab.id === 'users-tab') {
-            loadUsers();
+            // Preservar o termo de busca se houver
+            const searchInput = document.getElementById('user-search');
+            const searchTerm = searchInput ? searchInput.value.trim() : '';
+            loadUsers(searchTerm);
         } else if (activeTab.id === 'logs-tab') {
             loadLogs();
         }
     }
-}, 60000);
+}, 15000); // Atualiza a cada 15 segundos
+
+// ====== PRODUCT MANAGEMENT ======
+let productModalLoaded = false;
+
+async function loadProductModal() {
+    if (productModalLoaded) return;
+    
+    try {
+        const response = await fetch('modal-produto.html');
+        if (!response.ok) {
+            throw new Error('Arquivo não encontrado');
+        }
+        const html = await response.text();
+        document.getElementById('productModalContainer').innerHTML = html;
+        productModalLoaded = true;
+    } catch (error) {
+        console.error('Erro ao carregar modal de produto:', error);
+        alert('Erro ao carregar formulário de produto');
+    }
+}
+
+async function openProductModal() {
+    await loadProductModal();
+    const modal = document.getElementById('productModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('productModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        // Limpar formulário
+        const form = document.getElementById('productForm');
+        if (form) {
+            form.reset();
+        }
+    }
+}
+
+async function saveProduct(event) {
+    event.preventDefault();
+    
+    const formData = {
+        nome: document.getElementById('produto-nome').value.trim(),
+        descricao: document.getElementById('produto-descricao').value.trim(),
+        preco: parseFloat(document.getElementById('produto-preco').value),
+        estoque: parseInt(document.getElementById('produto-estoque').value) || 0,
+        categoria: document.getElementById('produto-categoria').value,
+        sku: document.getElementById('produto-sku').value.trim(),
+        imagem: document.getElementById('produto-imagem').value.trim()
+    };
+    
+    // Validação básica
+    if (!formData.nome || !formData.preco || !formData.categoria) {
+        alert('Por favor, preencha todos os campos obrigatórios!');
+        return;
+    }
+    
+    if (formData.preco <= 0) {
+        alert('O preço deve ser maior que zero!');
+        return;
+    }
+    
+    try {
+        const response = await fetch('../../Backend/api/produtos.php?action=create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            alert('Produto cadastrado com sucesso!');
+            closeProductModal();
+            // Recarregar produtos se estiver na aba de produtos
+            if (document.getElementById('products-tab').classList.contains('active')) {
+                // Aqui você pode adicionar uma função para recarregar a lista de produtos
+            }
+        } else {
+            alert('Erro ao cadastrar produto: ' + (data.mensagem || 'Erro desconhecido'));
+        }
+    } catch (error) {
+        console.error('Erro ao cadastrar produto:', error);
+        alert('Erro de conexão ao cadastrar produto');
+    }
+}
+
+// Fechar modal ao clicar no overlay
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('productModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal || e.target.classList.contains('sidebar-overlay')) {
+                closeProductModal();
+            }
+        });
+    }
+});

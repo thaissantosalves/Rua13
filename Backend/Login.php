@@ -58,6 +58,15 @@ try {
         exit;
     }
 
+    // Registrar último acesso/login
+    try {
+        $stmt_update = $pdo->prepare("UPDATE usuario SET ultimo_login = NOW() WHERE id_usuario = ?");
+        $stmt_update->execute([$usuario['id_usuario']]);
+    } catch (\PDOException $e) {
+        // Log erro mas não interrompe o login
+        error_log("Erro ao atualizar ultimo_login: " . $e->getMessage());
+    }
+
     if ($usuario['perfil'] === 'master') {
     // Redireciona o master para o painel de administração
     echo json_encode([

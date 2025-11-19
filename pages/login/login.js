@@ -59,19 +59,24 @@ document.addEventListener("DOMContentLoaded", () => {
                      else if (result.status === "2fa") {
                         console.log("=== DEBUG 2FA ===");
                         console.log("Resultado completo:", result);
-                        console.log("Perguntas encontradas:", result.perguntas);
+                        console.log("Pergunta sorteada:", result.pergunta);
                         
-                        // Guardar ID do usuário temporariamente
+                        // Guardar ID do usuário e da pergunta temporariamente
                         sessionStorage.setItem("id_usuario", result.id_usuario);
+                        sessionStorage.setItem("id_pergunta", result.id_pergunta);
 
-                        // Exibir as perguntas no modal
-                        if (result.perguntas && result.perguntas.length >= 2) {
-                            document.getElementById("pergunta1-label").textContent = result.perguntas[0];
-                            document.getElementById("pergunta2-label").textContent = result.perguntas[1];
-                            console.log("Perguntas carregadas do banco:", result.perguntas);
+                        // Exibir apenas a pergunta sorteada no modal
+                        if (result.pergunta) {
+                            document.getElementById("pergunta1-label").textContent = result.pergunta;
+                            // Esconder a segunda pergunta
+                            const pergunta2Container = document.querySelector(".pergunta-container:nth-child(4)");
+                            if (pergunta2Container) {
+                                pergunta2Container.style.display = "none";
+                            }
+                            console.log("Pergunta carregada do banco:", result.pergunta);
                         } else {
-                            console.error("Erro: Perguntas não encontradas no banco de dados!");
-                            alert("Erro: Perguntas de segurança não encontradas. Entre em contato com o suporte.");
+                            console.error("Erro: Pergunta não encontrada no banco de dados!");
+                            alert("Erro: Pergunta de segurança não encontrada. Entre em contato com o suporte.");
                         }
 
                         // Limpar campos de resposta
@@ -119,11 +124,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (confirmar2faBtn) {
         confirmar2faBtn.addEventListener("click", async () => {
             const id_usuario = sessionStorage.getItem("id_usuario");
+            const id_pergunta = sessionStorage.getItem("id_pergunta");
             const resposta1 = document.getElementById("resposta1").value.trim();
-            const resposta2 = document.getElementById("resposta2").value.trim();
 
-            if (!resposta1 || !resposta2) {
-                document.getElementById("msg-2fa").innerText = "Preencha as duas respostas.";
+            if (!resposta1) {
+                document.getElementById("msg-2fa").innerText = "Preencha a resposta.";
                 return;
             }
 
@@ -131,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const resp = await fetch("http://localhost/Rua13/Backend/verificar2fa.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id_usuario, resposta1, resposta2 }),
+                    body: JSON.stringify({ id_usuario, id_pergunta, resposta: resposta1 }),
                 });
 
                 const data = await resp.json();
@@ -153,9 +158,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Limpar dados temporários
                     sessionStorage.removeItem("id_usuario");
+                    sessionStorage.removeItem("id_pergunta");
                     
                     // Fechar modal
                     document.getElementById("box-2fa").style.display = "none";
+                    
+                    // Mostrar novamente a segunda pergunta para próxima vez
+                    const pergunta2Container = document.querySelector(".pergunta-container:nth-child(4)");
+                    if (pergunta2Container) {
+                        pergunta2Container.style.display = "block";
+                    }
                     
                     // Redirecionar para página principal
                     window.location.href = "../principal/principal.html";
@@ -177,6 +189,12 @@ document.addEventListener("DOMContentLoaded", () => {
         cancelar2faBtn.addEventListener("click", () => {
             document.getElementById("box-2fa").style.display = "none";
             sessionStorage.removeItem("id_usuario");
+            sessionStorage.removeItem("id_pergunta");
+            // Mostrar novamente a segunda pergunta
+            const pergunta2Container = document.querySelector(".pergunta-container:nth-child(4)");
+            if (pergunta2Container) {
+                pergunta2Container.style.display = "block";
+            }
         });
     }
 });

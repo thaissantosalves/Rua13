@@ -82,20 +82,12 @@ try {
 
     
     // Buscar as perguntas e respostas de segurança do usuário
-    $stmt = $pdo->prepare("SELECT perguntaescolhida, resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? ORDER BY id_2FA");
+    $stmt = $pdo->prepare("SELECT id_2FA, perguntaescolhida, resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? ORDER BY id_2FA");
     $stmt->execute([$usuario['id_usuario']]);
     $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-    
-    // Extrair apenas as perguntas
-    $perguntas = [];
-    foreach ($dados as $dado) {
-        $perguntas[] = $dado['perguntaescolhida'];
-    }
-    
     // Verificar se encontrou perguntas
-    if (empty($perguntas) || count($perguntas) < 2) {
+    if (empty($dados) || count($dados) < 2) {
         echo json_encode([
             'status' => 'erro', 
             'mensagem' => 'Perguntas de segurança não encontradas.'
@@ -103,11 +95,15 @@ try {
         exit;
     }
     
+    // Sortear uma pergunta aleatória entre as 2 cadastradas
+    $perguntaSorteada = $dados[array_rand($dados)];
+    
     echo json_encode([
         'status' => '2fa',
-        'mensagem' => 'Senha correta, confirme suas palavras-chave.',
+        'mensagem' => 'Senha correta, confirme sua palavra-chave.',
         'id_usuario' => $usuario['id_usuario'],
-        'perguntas' => $perguntas
+        'pergunta' => $perguntaSorteada['perguntaescolhida'],
+        'id_pergunta' => $perguntaSorteada['id_2FA'] // ID para verificação
     ]);
     
 } catch (\PDOException $e) {

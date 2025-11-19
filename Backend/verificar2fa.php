@@ -19,27 +19,27 @@ try {
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
-    if (!$data || !isset($data['id_usuario']) || !isset($data['resposta1']) || !isset($data['resposta2'])) {
+    if (!$data || !isset($data['id_usuario']) || !isset($data['id_pergunta']) || !isset($data['resposta'])) {
         echo json_encode(['status' => 'erro', 'mensagem' => 'Dados incompletos']);
         exit;
     }
 
     $idUsuario = (int)$data['id_usuario'];
-    $resposta1 = trim($data['resposta1']);
-    $resposta2 = trim($data['resposta2']);
+    $idPergunta = (int)$data['id_pergunta'];
+    $resposta = trim($data['resposta']);
 
-    // Buscar as duas respostas do banco
-    $stmt = $pdo->prepare("SELECT resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ?");
-    $stmt->execute([$idUsuario]);
-    $respostas = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    // Buscar a resposta específica da pergunta sorteada
+    $stmt = $pdo->prepare("SELECT resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? AND id_2FA = ?");
+    $stmt->execute([$idUsuario, $idPergunta]);
+    $respostaCorreta = $stmt->fetchColumn();
 
-    if (!$respostas || count($respostas) < 2) {
-        echo json_encode(['status' => 'erro', 'mensagem' => 'Perguntas de segurança não encontradas.']);
+    if (!$respostaCorreta) {
+        echo json_encode(['status' => 'erro', 'mensagem' => 'Pergunta de segurança não encontrada.']);
         exit;
     }
 
-    // Verificar se ambas batem
-    if (in_array($resposta1, $respostas) && in_array($resposta2, $respostas) && $resposta1 !== $resposta2) {
+    // Verificar se a resposta está correta (comparação case-insensitive)
+    if (strtolower(trim($resposta)) === strtolower(trim($respostaCorreta))) {
         // Registrar último acesso/login
         try {
             $stmt_update = $pdo->prepare("UPDATE usuario SET ultimo_login = NOW() WHERE id_usuario = ?");
@@ -64,7 +64,7 @@ try {
             echo json_encode(['status' => 'erro', 'mensagem' => 'Erro ao buscar dados do usuário.']);
         }
     } else {
-        echo json_encode(['status' => 'erro', 'mensagem' => 'Respostas incorretas.']);
+        echo json_encode(['status' => 'erro', 'mensagem' => 'Resposta incorreta.']);
     }
 
 } catch (\PDOException $e) {

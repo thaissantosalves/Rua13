@@ -558,6 +558,138 @@ function displayProducts(produtos) {
     }).join('');
 }
 
+// ====== PDF GENERATION ======
+async function printUsersPDF() {
+    try {
+        // Mostrar loading
+        const loadingMsg = 'Gerando PDF...';
+        if (confirm('Deseja gerar um PDF com a lista de todos os usuários cadastrados?')) {
+            // Buscar todos os usuários
+            const response = await fetch('../../Backend/api/admin-users.php');
+            const data = await response.json();
+            
+            if (data.status !== 'success' || !data.users || data.users.length === 0) {
+                alert('Nenhum usuário encontrado para gerar o PDF.');
+                return;
+            }
+            
+            // Gerar PDF usando jsPDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Configurações
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 15;
+            const startY = 20;
+            let yPos = startY;
+            const lineHeight = 8;
+            const maxY = doc.internal.pageSize.getHeight() - 20;
+            
+            // Título
+            doc.setFontSize(18);
+            doc.setFont(undefined, 'bold');
+            doc.text('Lista de Usuários Cadastrados', pageWidth / 2, yPos, { align: 'center' });
+            yPos += lineHeight * 2;
+            
+            // Data de geração
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'normal');
+            const dataGeracao = new Date().toLocaleString('pt-BR');
+            doc.text(`Gerado em: ${dataGeracao}`, pageWidth / 2, yPos, { align: 'center' });
+            yPos += lineHeight * 2;
+            
+            // Cabeçalho da tabela
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            const headers = ['ID', 'Nome', 'Email', 'CPF', 'Data Cadastro'];
+            const colWidths = [15, 60, 60, 35, 30];
+            let xPos = margin;
+            
+            // Desenhar cabeçalho
+            headers.forEach((header, index) => {
+                doc.text(header, xPos, yPos);
+                xPos += colWidths[index];
+            });
+            
+            yPos += lineHeight;
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += lineHeight;
+            
+            // Dados dos usuários
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(8);
+            
+            data.users.forEach((user, index) => {
+                // Verificar se precisa de nova página
+                if (yPos > maxY) {
+                    doc.addPage();
+                    yPos = startY;
+                }
+                
+                // Formatar CPF
+                let cpfFormatado = 'N/A';
+                if (user.cpf) {
+                    const cpfLimpo = String(user.cpf).replace(/\D/g, '');
+                    if (cpfLimpo.length === 11) {
+                        cpfFormatado = cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                    } else {
+                        cpfFormatado = user.cpf;
+                    }
+                }
+                
+                // Formatar data
+                const dataCadastro = user.criado_em ? formatDate(user.criado_em) : 'N/A';
+                
+                // Truncar textos longos
+                const nome = doc.splitTextToSize(user.nome || 'N/A', colWidths[1] - 2);
+                const email = doc.splitTextToSize(user.email || 'N/A', colWidths[2] - 2);
+                
+                // Desenhar linha
+                xPos = margin;
+                doc.text(String(user.id_usuario || ''), xPos, yPos);
+                xPos += colWidths[0];
+                
+                doc.text(nome[0] || 'N/A', xPos, yPos);
+                xPos += colWidths[1];
+                
+                doc.text(email[0] || 'N/A', xPos, yPos);
+                xPos += colWidths[2];
+                
+                doc.text(cpfFormatado, xPos, yPos);
+                xPos += colWidths[3];
+                
+                doc.text(dataCadastro, xPos, yPos);
+                
+                // Ajustar Y para múltiplas linhas
+                const maxLines = Math.max(nome.length, email.length);
+                yPos += lineHeight * maxLines;
+            });
+            
+            // Rodapé
+            const totalPages = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= totalPages; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.text(
+                    `Página ${i} de ${totalPages}`,
+                    pageWidth / 2,
+                    doc.internal.pageSize.getHeight() - 10,
+                    { align: 'center' }
+                );
+            }
+            
+            // Salvar PDF
+            const fileName = `usuarios_cadastrados_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
+            
+            alert('PDF gerado com sucesso!');
+        }
+    } catch (error) {
+        console.error('Erro ao gerar PDF:', error);
+        alert('Erro ao gerar PDF. Por favor, tente novamente.');
+    }
+}
+
 // Fechar modal ao clicar no overlay
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('productModal');

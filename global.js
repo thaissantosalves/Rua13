@@ -1,3 +1,17 @@
+// Aplicar dark mode imediatamente (antes do DOMContentLoaded)
+(function() {
+  const savedTheme = localStorage.getItem("darkMode");
+  // Dark mode é sempre o padrão - apenas usar light mode se explicitamente desabilitado
+  if (savedTheme !== "disabled") {
+    document.documentElement.classList.add("dark-mode");
+    document.body.classList.add("dark-mode");
+    // Garantir que localStorage reflita dark mode como padrão
+    if (savedTheme !== "enabled") {
+      localStorage.setItem("darkMode", "enabled");
+    }
+  }
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   // Detect relative prefix depending on nesting level
   const isNested = /\/pages\//.test(window.location.pathname) === false; // pages/ is at repo root under Rua13
@@ -67,13 +81,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Load saved theme (dark mode is default)
+  // Dark mode já foi aplicado antes do DOMContentLoaded
+  // Apenas garantir que está sincronizado e aplicar ícones
   const savedTheme = localStorage.getItem("darkMode");
-  // If no preference saved or if explicitly enabled, use dark mode
-  if (savedTheme === null || savedTheme === "enabled") {
+  if (savedTheme !== "disabled" && !document.body.classList.contains("dark-mode")) {
     document.body.classList.add("dark-mode");
-    localStorage.setItem("darkMode", "enabled");
   }
+  
   applyIconsForCurrentTheme();
   updateFooterButton();
 

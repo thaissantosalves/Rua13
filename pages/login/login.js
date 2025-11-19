@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 try {
                     // Enviar dados para o backend de login
-                    const response = await fetch("http://localhost/Rua13/Backend/Login.php", {
+                    const response = await fetch("../../Backend/Login.php", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     console.log("Resposta do servidor:", response.status);
 
+                    // Verificar se a resposta é válida
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error("Erro HTTP:", response.status, errorText);
+                        throw new Error(`Erro ${response.status}: ${errorText.substring(0, 100)}`);
+                    }
 
                     const result = await response.json();
                     console.log("Resultado:", result);
@@ -133,11 +139,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
-                const resp = await fetch("http://localhost/Rua13/Backend/verificar2fa.php", {
+                const resp = await fetch("../../Backend/verificar2fa.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ id_usuario, id_pergunta, resposta: resposta1 }),
                 });
+
+                // Verificar se a resposta é válida
+                if (!resp.ok) {
+                    const errorText = await resp.text();
+                    console.error("Erro HTTP:", resp.status, errorText);
+                    throw new Error(`Erro ${resp.status}: ${errorText.substring(0, 100)}`);
+                }
 
                 const data = await resp.json();
                 console.log("Resposta do verificar2fa:", data);

@@ -12,6 +12,19 @@
 
   <link rel="stylesheet" href="cadastro.css" />
   <link rel="shortcut icon" href="../../assets/logo.png" type="image/x-icon" />
+  
+  <!-- Script para aplicar dark mode imediatamente (antes do DOMContentLoaded) -->
+  <script>
+      // Dark mode é sempre o padrão - ignorar preferências do sistema
+      (function() {
+          const savedTheme = localStorage.getItem("darkMode");
+          // Apenas usar light mode se explicitamente desabilitado pelo usuário
+          if (savedTheme !== "disabled") {
+              document.documentElement.classList.add("dark-mode");
+              document.body.classList.add("dark-mode");
+          }
+      })();
+  </script>
 </head>
 <body>
   <!-- Header Component -->

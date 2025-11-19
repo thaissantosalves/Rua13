@@ -30,6 +30,43 @@ if ($action === 'get_produtos') {
     exit();
 }
 
+// Lógica para buscar todos os produtos (para admin)
+if ($action === 'get_all_produtos') {
+    try {
+        $stmt = $pdo->prepare("
+            SELECT 
+                id_produto, 
+                nome, 
+                descricao, 
+                preco, 
+                estoque, 
+                categoria, 
+                sku, 
+                imagem, 
+                criado_em, 
+                atualizado_em 
+            FROM produtos 
+            ORDER BY criado_em DESC
+        ");
+        $stmt->execute();
+        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'success',
+            'produtos' => $produtos
+        ]);
+        exit();
+    } catch (\PDOException $e) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'erro',
+            'mensagem' => 'Erro ao buscar produtos: ' . $e->getMessage()
+        ]);
+        exit();
+    }
+}
+
 // Lógica para servir as imagens
 if ($action === 'get_image') {
     $id_produto = $_GET['id'] ?? null;

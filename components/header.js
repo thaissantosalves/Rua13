@@ -276,6 +276,65 @@ class HeaderComponent {
                     display: none;
                 }
             }
+            
+            /* ====== LIGHT MODE STYLES ====== */
+            body:not(.dark-mode) .mobile-menu-responsivo .line1,
+            body:not(.dark-mode) .mobile-menu-responsivo .line2,
+            body:not(.dark-mode) .mobile-menu-responsivo .line3 {
+                background-color: #333;
+            }
+            
+            body:not(.dark-mode) .menu-mobile-responsivo {
+                background-color: #fff;
+                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            body:not(.dark-mode) .menu-mobile-responsivo .nav-menu-mobile .nav-list li a {
+                color: #333;
+            }
+            
+            body:not(.dark-mode) .menu-mobile-responsivo .nav-menu-mobile .nav-list li a:hover {
+                background-color: #f0f0f0;
+            }
+            
+            body:not(.dark-mode) .menu-mobile-responsivo .nav-menu-mobile .nav-list li a img {
+                filter: brightness(0);
+            }
+            
+            body:not(.dark-mode) .user-dropdown-btn {
+                color: #333 !important;
+            }
+            
+            body:not(.dark-mode) .user-dropdown-btn:hover {
+                background-color: rgba(0, 0, 0, 0.05) !important;
+            }
+            
+            body:not(.dark-mode) .user-dropdown-btn::after {
+                border-top-color: #333 !important;
+            }
+            
+            body:not(.dark-mode) .dropdown-menu {
+                background-color: #fff !important;
+                border: 1px solid #e0e0e0 !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+            }
+            
+            body:not(.dark-mode) .dropdown-item {
+                color: #333 !important;
+            }
+            
+            body:not(.dark-mode) .dropdown-item:hover {
+                background-color: #f5f5f5 !important;
+                color: #333 !important;
+            }
+            
+            body:not(.dark-mode) .dropdown-header {
+                color: #666 !important;
+            }
+            
+            body:not(.dark-mode) .dropdown-divider {
+                border-color: #e0e0e0 !important;
+            }
         `;
         
         document.head.appendChild(style);

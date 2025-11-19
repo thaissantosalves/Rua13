@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadStats();
     loadUsers();
     loadLogs();
+    loadProducts();
     
     // Set admin name
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
@@ -53,6 +54,8 @@ function showTab(tabName) {
         refreshUsers(); // Usar refreshUsers para preservar busca
     } else if (tabName === 'logs') {
         loadLogs();
+    } else if (tabName === 'products') {
+        loadProducts();
     }
 }
 
@@ -358,6 +361,8 @@ setInterval(() => {
             loadUsers(searchTerm);
         } else if (activeTab.id === 'logs-tab') {
             loadLogs();
+        } else if (activeTab.id === 'products-tab') {
+            loadProducts();
         }
     }
 }, 15000); // Atualiza a cada 15 segundos
@@ -444,7 +449,7 @@ async function saveProduct(event) {
             closeProductModal();
             // Recarregar produtos se estiver na aba de produtos
             if (document.getElementById('products-tab').classList.contains('active')) {
-                // Aqui você pode adicionar uma função para recarregar a lista de produtos
+                loadProducts();
             }
         } else {
             alert('Erro ao cadastrar produto: ' + (data.mensagem || 'Erro desconhecido'));
@@ -453,6 +458,104 @@ async function saveProduct(event) {
         console.error('Erro ao cadastrar produto:', error);
         alert('Erro de conexão ao cadastrar produto');
     }
+}
+
+// ====== PRODUCTS MANAGEMENT ======
+async function loadProducts() {
+    const tbody = document.getElementById('products-table-body');
+    if (!tbody) return; // Se a tabela não existir ainda, não faz nada
+    
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="8" class="text-center">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Carregando produtos...
+                </div>
+            </td>
+        </tr>
+    `;
+    
+    try {
+        const response = await fetch('../../Backend/api/produtos.php?action=get_all_produtos');
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            displayProducts(data.produtos);
+        } else {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center text-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Erro ao carregar produtos: ${data.mensagem}
+                    </td>
+                </tr>
+            `;
+        }
+    } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" class="text-center text-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Erro de conexão
+                </td>
+            </tr>
+        `;
+    }
+}
+
+function displayProducts(produtos) {
+    const tbody = document.getElementById('products-table-body');
+    if (!tbody) return;
+    
+    if (produtos.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" class="text-center text-muted">
+                    <i class="fas fa-box"></i>
+                    Nenhum produto cadastrado
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = produtos.map(produto => {
+        // Formatar preço
+        const precoFormatado = parseFloat(produto.preco).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+        
+        // Truncar descrição se for muito longa
+        const descricao = produto.descricao 
+            ? (produto.descricao.length > 50 
+                ? produto.descricao.substring(0, 50) + '...' 
+                : produto.descricao)
+            : 'N/A';
+        
+        // Formatar data
+        const dataCadastro = formatDate(produto.criado_em);
+        
+        // Badge para categoria
+        const categoriaBadge = produto.categoria === 'Masculino' 
+            ? '<span class="badge bg-primary">Masculino</span>'
+            : '<span class="badge bg-danger">Feminino</span>';
+        
+        return `
+        <tr>
+            <td>${produto.id_produto}</td>
+            <td>${produto.nome}</td>
+            <td>${descricao}</td>
+            <td>${precoFormatado}</td>
+            <td>${produto.estoque || 0}</td>
+            <td>${categoriaBadge}</td>
+            <td>${produto.sku || 'N/A'}</td>
+            <td>${dataCadastro}</td>
+        </tr>
+        `;
+    }).join('');
 }
 
 // Fechar modal ao clicar no overlay

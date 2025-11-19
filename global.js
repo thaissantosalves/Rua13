@@ -42,15 +42,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const enabled = document.body.classList.toggle("dark-mode");
     localStorage.setItem("darkMode", enabled ? "enabled" : "disabled");
     applyIconsForCurrentTheme();
+    updateFooterButton();
   }
 
-  // Load saved theme
-  const shouldEnableDark = localStorage.getItem("darkMode") === "enabled";
-  if (shouldEnableDark) document.body.classList.add("dark-mode");
+  // Function to update footer button text and icon based on current theme
+  function updateFooterButton() {
+    const btnLightModeFooter = document.getElementById("btn-light-mode-footer");
+    if (!btnLightModeFooter) return;
+    
+    const isDark = document.body.classList.contains("dark-mode");
+    const icon = btnLightModeFooter.querySelector("i");
+    const span = btnLightModeFooter.querySelector("span");
+    
+    if (isDark) {
+      // Currently dark mode, button should say "Modo Claro"
+      if (icon) icon.className = "fas fa-sun";
+      if (span) span.textContent = "Modo Claro";
+      btnLightModeFooter.title = "Ativar Modo Claro";
+    } else {
+      // Currently light mode, button should say "Modo Escuro"
+      if (icon) icon.className = "fas fa-moon";
+      if (span) span.textContent = "Modo Escuro";
+      btnLightModeFooter.title = "Ativar Modo Escuro";
+    }
+  }
+
+  // Load saved theme (dark mode is default)
+  const savedTheme = localStorage.getItem("darkMode");
+  // If no preference saved or if explicitly enabled, use dark mode
+  if (savedTheme === null || savedTheme === "enabled") {
+    document.body.classList.add("dark-mode");
+    localStorage.setItem("darkMode", "enabled");
+  }
   applyIconsForCurrentTheme();
+  updateFooterButton();
 
   btnDarkMode?.addEventListener("click", toggleDarkMode);
   btnDarkMenu?.addEventListener("click", toggleDarkMode);
+  
+  // Light/Dark mode toggle button in footer
+  const btnLightModeFooter = document.getElementById("btn-light-mode-footer");
+  btnLightModeFooter?.addEventListener("click", toggleDarkMode);
 
   // Accessibility menu (if present)
   const btnAcessibilidade = document.getElementById("btn-acessibilidade");

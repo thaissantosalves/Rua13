@@ -104,7 +104,16 @@ CREATE TABLE `estoque` (
 
 -- Usuário master (senha hasheada)
 INSERT INTO `usuario` (`nome`, `email`, `login`, `senha`, `perfil`) VALUES
-('Master', 'admin@gmail.com', 'Master', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'master');
+('Master', 'admin@gmail.com', 'Master', 'senhaforte', 'master');
+
+-- Perguntas de segurança 2FA para o usuário master
+-- Primeiro, precisamos obter o ID do usuário master
+SET @master_id = (SELECT id_usuario FROM usuario WHERE perfil = 'master' LIMIT 1);
+
+-- Inserir 2 perguntas de segurança para o master
+INSERT INTO `autenticacao_2fa` (`id_usuario`, `perguntaescolhida`, `resposta_da_pergunta`) VALUES
+(@master_id, 'Qual o cnpj da sua empresa?', '12345678'),
+(@master_id, 'Qual foi a sua primeira conquista?', 'loja fisica');
 
 -- Produtos completos
 INSERT INTO `produtos` (`nome`, `descricao`, `preco`, `estoque`, `categoria`, `sku`, `imagem`) VALUES

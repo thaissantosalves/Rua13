@@ -58,30 +58,10 @@ try {
         exit;
     }
 
-    // Registrar último acesso/login
-    try {
-        $stmt_update = $pdo->prepare("UPDATE usuario SET ultimo_login = NOW() WHERE id_usuario = ?");
-        $stmt_update->execute([$usuario['id_usuario']]);
-    } catch (\PDOException $e) {
-        // Log erro mas não interrompe o login
-        error_log("Erro ao atualizar ultimo_login: " . $e->getMessage());
-    }
-
-    if ($usuario['perfil'] === 'master') {
-    // Redireciona o master para o painel de administração
-    echo json_encode([
-        'status' => 'master',
-        'mensagem' => 'Login de administrador bem-sucedido',
-        'id_usuario' => $usuario['id_usuario'],
-        'nome' => $usuario['nome'],        // retorna nome real do banco
-        'perfil' => $usuario['perfil'],    // retorna 'master'
-        'redirect' => 'http://localhost/Rua13/pages/admin/dashboard.html' // caminho do painel do master
-    ]);
-    exit; // interrompe o fluxo normal do login para cliente
-}
-
+    // Registrar último acesso/login (será atualizado após 2FA)
+    // Removido daqui - será atualizado após verificação 2FA
     
-    // Buscar as perguntas e respostas de segurança do usuário
+    // Buscar as perguntas e respostas de segurança do usuário (incluindo master)
     $stmt = $pdo->prepare("SELECT id_2FA, perguntaescolhida, resposta_da_pergunta FROM autenticacao_2fa WHERE id_usuario = ? ORDER BY id_2FA");
     $stmt->execute([$usuario['id_usuario']]);
     $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -103,7 +83,8 @@ try {
         'mensagem' => 'Senha correta, confirme sua palavra-chave.',
         'id_usuario' => $usuario['id_usuario'],
         'pergunta' => $perguntaSorteada['perguntaescolhida'],
-        'id_pergunta' => $perguntaSorteada['id_2FA'] // ID para verificação
+        'id_pergunta' => $perguntaSorteada['id_2FA'], // ID para verificação
+        'perfil' => $usuario['perfil'] // Incluir perfil para redirecionamento correto
     ]);
     
 } catch (\PDOException $e) {

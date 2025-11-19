@@ -49,17 +49,30 @@ try {
             error_log("Erro ao atualizar ultimo_login: " . $e->getMessage());
         }
         
-        // Buscar dados completos do usuário
-        $stmt = $pdo->prepare("SELECT id_usuario, nome, email, login FROM usuario WHERE id_usuario = ?");
+        // Buscar dados completos do usuário (incluindo perfil)
+        $stmt = $pdo->prepare("SELECT id_usuario, nome, email, login, perfil FROM usuario WHERE id_usuario = ?");
         $stmt->execute([$idUsuario]);
         $usuario = $stmt->fetch();
         
         if ($usuario) {
-            echo json_encode([
+            $response = [
                 'status' => 'sucesso',
                 'mensagem' => 'Login realizado com sucesso! Bem-vindo.',
-                'usuario' => $usuario
-            ]);
+                'usuario' => [
+                    'id_usuario' => $usuario['id_usuario'],
+                    'nome' => $usuario['nome'],
+                    'email' => $usuario['email'],
+                    'login' => $usuario['login']
+                ]
+            ];
+            
+            // Se for master, incluir informação de redirecionamento
+            if ($usuario['perfil'] === 'master') {
+                $response['perfil'] = 'master';
+                $response['redirect'] = '../admin/dashboard.html';
+            }
+            
+            echo json_encode($response);
         } else {
             echo json_encode(['status' => 'erro', 'mensagem' => 'Erro ao buscar dados do usuário.']);
         }

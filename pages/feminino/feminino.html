@@ -18,15 +18,9 @@
 
     <!-- Script para aplicar dark mode imediatamente (antes do DOMContentLoaded) -->
     <script>
-        // Dark mode é sempre o padrão - ignorar preferências do sistema
-        (function() {
-            const savedTheme = localStorage.getItem("darkMode");
-            // Apenas usar light mode se explicitamente desabilitado pelo usuário
-            if (savedTheme !== "disabled") {
-                document.documentElement.classList.add("dark-mode");
-                document.body.classList.add("dark-mode");
-            }
-        })();
+        // Dark mode sempre ativo
+        document.documentElement.classList.add("dark-mode");
+        document.body.classList.add("dark-mode");
     </script>
 </head>
 
@@ -60,12 +54,6 @@
                     <a href="#" class="me-3"><i class="fa-brands fa-x-twitter"></i></a>
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                 </div>
-            </div>
-            <div class="footer-accessibility text-center mt-3">
-                <button id="btn-light-mode-footer" class="btn-accessibility" title="Ativar Modo Claro">
-                    <i class="fas fa-sun"></i>
-                    <span>Modo Claro</span>
-                </button>
             </div>
         </div>
     </footer>

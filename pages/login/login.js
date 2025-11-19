@@ -48,21 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const result = await response.json();
                     console.log("Resultado:", result);
 
-					if (result.status === "master") {
-                       // Salva dados do master
-                     localStorage.setItem("userData", JSON.stringify({
-                      id: result.id_usuario,
-                      nome: result.nome,      //vem do banco
-                      perfil: result.perfil   //vem do banco
-                      }));
-
-                       // Redireciona automaticamente para painel de admin
-                       window.location.href = result.redirect;
-
-                      alert("Login de administrador realizado com sucesso!");
-                    }
-
-                     else if (result.status === "2fa") {
+                    if (result.status === "2fa") {
                         console.log("=== DEBUG 2FA ===");
                         console.log("Resultado completo:", result);
                         console.log("Pergunta sorteada:", result.pergunta);
@@ -156,13 +142,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Resposta do verificar2fa:", data);
 
                 if (data.status === "sucesso") {
-                    // Salva dados do usuário
-                    localStorage.setItem("userData", JSON.stringify(data.usuario));
-                    console.log("Dados do usuário salvos no localStorage:", data.usuario);
+                    // Salva dados do usuário (incluindo perfil se for master)
+                    const userDataToSave = {
+                        id: data.usuario.id_usuario,
+                        nome: data.usuario.nome,
+                        email: data.usuario.email,
+                        login: data.usuario.login
+                    };
                     
-                    // Verificar se foi salvo corretamente
-                    const savedData = localStorage.getItem("userData");
-                    console.log("Dados recuperados do localStorage:", savedData);
+                    // Se for master, adicionar perfil
+                    if (data.perfil === 'master') {
+                        userDataToSave.perfil = 'master';
+                    }
+                    
+                    localStorage.setItem("userData", JSON.stringify(userDataToSave));
+                    console.log("Dados do usuário salvos no localStorage:", userDataToSave);
 
                     // Atualiza interface do header se estiver disponível
                     if (window.headerComponent) {
@@ -182,10 +176,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         pergunta2Container.style.display = "block";
                     }
                     
-                    // Redirecionar para página principal
-                    window.location.href = "../principal/principal.html";
-                    
-                    alert("Login realizado com sucesso!");
+                    // Redirecionar baseado no perfil
+                    if (data.perfil === 'master' && data.redirect) {
+                        // Master vai para dashboard
+                        window.location.href = data.redirect;
+                        alert("Login de administrador realizado com sucesso!");
+                    } else {
+                        // Cliente vai para página principal
+                        window.location.href = "../principal/principal.html";
+                        alert("Login realizado com sucesso!");
+                    }
                 } else {
                     document.getElementById("msg-2fa").innerText = data.mensagem;
                 }

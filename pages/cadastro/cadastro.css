@@ -75,6 +75,191 @@
   footer{background:#111;color:#eee;margin-top:40px}
   .footer-links .nav-link{color:#bbb}
   .footer-links .nav-link:hover{color:var(--warm1)}
+
+  /* Footer Controls */
+  .footer-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .font-size-button,
+  .theme-toggle-button {
+    background: transparent;
+    border: 2px solid var(--warm1);
+    color: var(--warm1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+  }
+
+  .font-size-button:hover,
+  .theme-toggle-button:hover {
+    background: var(--warm1);
+    color: #111;
+    transform: scale(1.1);
+  }
+
+  /* Font Size Classes */
+  html.font-size-medium {
+    font-size: 125% !important;
+  }
+
+  html.font-size-medium body,
+  html.font-size-medium p,
+  html.font-size-medium span,
+  html.font-size-medium div,
+  html.font-size-medium a,
+  html.font-size-medium li,
+  html.font-size-medium td,
+  html.font-size-medium th,
+  html.font-size-medium label,
+  html.font-size-medium input,
+  html.font-size-medium textarea,
+  html.font-size-medium select,
+  html.font-size-medium button {
+    font-size: 1em !important;
+  }
+
+  html.font-size-large {
+    font-size: 150% !important;
+  }
+
+  html.font-size-large body,
+  html.font-size-large p,
+  html.font-size-large span,
+  html.font-size-large div,
+  html.font-size-large a,
+  html.font-size-large li,
+  html.font-size-large td,
+  html.font-size-large th,
+  html.font-size-large label,
+  html.font-size-large input,
+  html.font-size-large textarea,
+  html.font-size-large select,
+  html.font-size-large button {
+    font-size: 1em !important;
+  }
+
+  /* ====== LIGHT MODE STYLES ====== */
+  body.light-mode {
+    background: #f5f5f5 !important;
+    color: #333 !important;
+  }
+
+  html.light-mode {
+    --bg: #f5f5f5;
+    --panel: #ffffff;
+    --line: #e0e0e0;
+    --text: #333333;
+    --muted: #666666;
+  }
+
+  .light-mode .faixa-promo {
+    background: linear-gradient(90deg, #6a6a6a, #777777) !important;
+    color: #fff !important;
+  }
+
+  .light-mode .header-principal {
+    background: #5a5a5a !important;
+    border-bottom: 1px solid #6a6a6a !important;
+  }
+
+  .light-mode .nav-roupas {
+    background: #666666 !important;
+  }
+
+  .light-mode .nav-roupas a {
+    color: #f5f5f5 !important;
+  }
+
+  .light-mode .title-gradient {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .light-mode .card-panel {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .light-mode .form-control,
+  .light-mode .form-select {
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+
+  .light-mode .form-control:focus,
+  .light-mode .form-select:focus {
+    border-color: #999;
+    box-shadow: 0 0 0 .25rem rgba(255, 106, 0, .1);
+  }
+
+  .light-mode .stepper li {
+    color: #666;
+  }
+
+  .light-mode .stepper li.active {
+    color: #333;
+  }
+
+  .light-mode .stepper li span {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    color: #666;
+  }
+
+  .light-mode .stepper li.active span {
+    background: var(--warm2);
+    border-color: transparent;
+    color: #fff;
+  }
+
+  .light-mode .review-box {
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+  }
+
+  .light-mode .step h6 {
+    color: #ff6a00;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .light-mode footer {
+    background: #ffffff;
+    color: #333;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .light-mode .footer-links .nav-link {
+    color: #666;
+  }
+
+  .light-mode .footer-links .nav-link:hover {
+    color: var(--warm1);
+  }
+
+  .light-mode .font-size-button,
+  .light-mode .theme-toggle-button {
+    border-color: var(--warm1) !important;
+    color: var(--warm1) !important;
+  }
+
+  .light-mode .font-size-button:hover,
+  .light-mode .theme-toggle-button:hover {
+    background: var(--warm1) !important;
+    color: #fff !important;
+  }
   
   /* Responsive */
   @media(max-width:768px){.header-principal{padding:14px 20px}.nav-roupas ul{gap:24px}}

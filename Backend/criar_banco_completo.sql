@@ -102,15 +102,13 @@ CREATE TABLE `estoque` (
 -- 5. INSERIR DADOS INICIAIS
 -- =========================================
 
--- Usuário master (senha hasheada)
+-- 1. Inserir usuário master
 INSERT INTO `usuario` (`nome`, `email`, `login`, `senha`, `perfil`) VALUES
 ('Master', 'admin@gmail.com', 'Master', 'senhaforte', 'master');
 
--- Perguntas de segurança 2FA para o usuário master
--- Primeiro, precisamos obter o ID do usuário master
+-- 2. Inserir perguntas 2FA (substitua @master_id pelo ID do master inserido)
 SET @master_id = (SELECT id_usuario FROM usuario WHERE perfil = 'master' LIMIT 1);
 
--- Inserir 2 perguntas de segurança para o master
 INSERT INTO `autenticacao_2fa` (`id_usuario`, `perguntaescolhida`, `resposta_da_pergunta`) VALUES
 (@master_id, 'Qual o cnpj da sua empresa?', '12345678'),
 (@master_id, 'Qual foi a sua primeira conquista?', 'loja fisica');

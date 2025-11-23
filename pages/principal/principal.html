@@ -17,11 +17,22 @@
     <link rel="shortcut icon" href="svgheader/logo.png" type="image/x-icon" />
     <title>StreetKace</title>
     
-    <!-- Script para aplicar dark mode imediatamente (antes do DOMContentLoaded) -->
+    <!-- Script para aplicar tema salvo (antes do DOMContentLoaded) -->
     <script>
-        // Dark mode sempre ativo
-        document.documentElement.classList.add("dark-mode");
-        document.body.classList.add("dark-mode");
+        (function() {
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            if (savedTheme === "dark") {
+                document.documentElement.classList.add("dark-mode");
+                if (document.body) {
+                    document.body.classList.add("dark-mode");
+                }
+            } else {
+                document.documentElement.classList.add("light-mode");
+                if (document.body) {
+                    document.body.classList.add("light-mode");
+                }
+            }
+        })();
     </script>
 </head>
 
@@ -120,6 +131,14 @@
                 <a href="#"><i class="fa-brands fa-instagram"></i></a>
                 <a href="#"><i class="fa-brands fa-twitter"></i></a>
                 <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+            <div class="footer-controls">
+                <button id="font-size-btn" class="font-size-button" aria-label="Ajustar tamanho da fonte">
+                    <i class="fa-solid fa-text-height" id="font-size-icon"></i>
+                </button>
+                <button id="theme-toggle-btn" class="theme-toggle-button" aria-label="Alternar tema">
+                    <i class="fa-solid fa-moon" id="theme-icon"></i>
+                </button>
             </div>
         </div>
     </footer>

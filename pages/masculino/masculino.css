@@ -188,4 +188,165 @@
   .btn-icon:hover{ background:#222 }
   .icon-cart{ width:20px;height:20px }
 
+  /* Footer Controls */
+  .font-size-button,
+  .theme-toggle-button {
+    background: transparent;
+    border: 2px solid var(--warm2);
+    color: var(--warm2);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    margin-left: 10px;
+  }
+
+  .font-size-button:hover,
+  .theme-toggle-button:hover {
+    background: var(--warm2);
+    color: #111;
+    transform: scale(1.1);
+  }
+
+  /* Font Size Classes */
+  html.font-size-medium {
+    font-size: 125% !important;
+  }
+
+  html.font-size-medium body,
+  html.font-size-medium p,
+  html.font-size-medium span,
+  html.font-size-medium div,
+  html.font-size-medium a,
+  html.font-size-medium li,
+  html.font-size-medium td,
+  html.font-size-medium th,
+  html.font-size-medium label,
+  html.font-size-medium input,
+  html.font-size-medium textarea,
+  html.font-size-medium select,
+  html.font-size-medium button {
+    font-size: 1em !important;
+  }
+
+  html.font-size-large {
+    font-size: 150% !important;
+  }
+
+  html.font-size-large body,
+  html.font-size-large p,
+  html.font-size-large span,
+  html.font-size-large div,
+  html.font-size-large a,
+  html.font-size-large li,
+  html.font-size-large td,
+  html.font-size-large th,
+  html.font-size-large label,
+  html.font-size-large input,
+  html.font-size-large textarea,
+  html.font-size-large select,
+  html.font-size-large button {
+    font-size: 1em !important;
+  }
+
+  /* ====== LIGHT MODE STYLES ====== */
+  body.light-mode {
+    background: #f5f5f5 !important;
+    color: #333 !important;
+  }
+
+  .light-mode .faixa-promo {
+    background: linear-gradient(90deg, #6a6a6a, #777777) !important;
+    color: #fff !important;
+  }
+
+  .light-mode .header-principal {
+    background: #5a5a5a !important;
+    border-bottom: 1px solid #6a6a6a !important;
+  }
+
+  .light-mode .nav-roupas {
+    background: #666666 !important;
+    border-top: 1px solid #6a6a6a !important;
+    border-bottom: 1px solid #6a6a6a !important;
+  }
+
+  .light-mode .nav-roupas a {
+    color: #f5f5f5 !important;
+  }
+
+  .light-mode .title-gradient {
+    background: linear-gradient(90deg, var(--warm), var(--hot));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .light-mode .card-title {
+    color: #333;
+  }
+
+  .light-mode .card-hot {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .light-mode .card-hot:hover {
+    box-shadow: 0 0 18px rgba(255, 0, 92, .15);
+  }
+
+  .light-mode .price {
+    color: #666;
+  }
+
+  .light-mode footer {
+    background: #ffffff;
+    color: #333;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .light-mode .footer-links .nav-link {
+    color: #666;
+  }
+
+  .light-mode .footer-links .nav-link:hover,
+  .light-mode .footer-links .nav-link:focus {
+    color: var(--warm2);
+  }
+
+  .light-mode .footer-socials a {
+    color: #333;
+  }
+
+  .light-mode .footer-socials a:hover {
+    color: var(--warm2);
+  }
+
+  .light-mode .btn-icon {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+  }
+
+  .light-mode .btn-icon:hover {
+    background: #e0e0e0;
+  }
+
+  .light-mode .font-size-button,
+  .light-mode .theme-toggle-button {
+    border-color: var(--warm2) !important;
+    color: var(--warm2) !important;
+  }
+
+  .light-mode .font-size-button:hover,
+  .light-mode .theme-toggle-button:hover {
+    background: var(--warm2) !important;
+    color: #fff !important;
+  }
+
   

@@ -76,11 +76,18 @@ if ($action === 'get_image') {
         $stmt->execute([$id_produto]);
         $row = $stmt->fetch();
 
-        if ($row) {
+        if ($row && !empty($row['imagem'])) {
             $caminho_imagem = $row['imagem'];
             
-            // Ajusta o caminho da imagem se for relativo (a partir da raiz do projeto)
-            $caminho_completo = '../../' . $caminho_imagem;
+            // Se for URL externa (http:// ou https://), redirecionar
+            if (strpos($caminho_imagem, 'http://') === 0 || strpos($caminho_imagem, 'https://') === 0) {
+                header('Location: ' . $caminho_imagem);
+                exit();
+            }
+            
+            // Se for caminho local, tentar servir o arquivo
+            // Tenta primeiro o caminho relativo a partir da raiz do projeto
+            $caminho_completo = __DIR__ . '/../../' . $caminho_imagem;
             
             if (file_exists($caminho_completo)) {
                 header('Content-Type: ' . mime_content_type($caminho_completo));
@@ -98,8 +105,13 @@ if ($action === 'get_image') {
                 exit();
             }
         } else {
-            header('HTTP/1.0 404 Not Found');
-            echo json_encode(['error' => 'Produto não encontrado']);
+            // Sem imagem cadastrada - retornar placeholder
+            header('Content-Type: image/svg+xml');
+            echo '<?xml version="1.0" encoding="UTF-8"?>
+            <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="#333"/>
+                <text x="50%" y="50%" font-family="Arial" font-size="14" fill="#fff" text-anchor="middle" dy=".3em">Sem imagem</text>
+            </svg>';
             exit();
         }
     }
@@ -114,39 +126,69 @@ if ($action === 'create') {
     }
     
     try {
-        $input = file_get_contents('php://input');
-        $data = json_decode($input, true);
-        
-        if (!$data) {
-            echo json_encode(['status' => 'erro', 'mensagem' => 'Dados inválidos']);
-            exit;
-        }
+        // Receber dados do FormData
+        $nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
+        $descricao = isset($_POST['descricao']) ? trim($_POST['descricao']) : null;
+        $preco = isset($_POST['preco']) ? floatval($_POST['preco']) : 0;
+        $estoque = isset($_POST['estoque']) ? intval($_POST['estoque']) : 0;
+        $categoria = isset($_POST['categoria']) ? trim($_POST['categoria']) : '';
+        $sku = isset($_POST['sku']) ? trim($_POST['sku']) : '';
         
         // Validar campos obrigatórios
-        if (empty($data['nome']) || empty($data['preco']) || empty($data['categoria'])) {
+        if (empty($nome) || empty($preco) || empty($categoria)) {
             echo json_encode(['status' => 'erro', 'mensagem' => 'Nome, preço e categoria são obrigatórios']);
             exit;
         }
         
         // Validar categoria
-        if (!in_array($data['categoria'], ['Masculino', 'Feminino'])) {
+        if (!in_array($categoria, ['Masculino', 'Feminino'])) {
             echo json_encode(['status' => 'erro', 'mensagem' => 'Categoria inválida']);
             exit;
         }
-        
-        // Preparar dados
-        $nome = trim($data['nome']);
-        $descricao = isset($data['descricao']) ? trim($data['descricao']) : null;
-        $preco = floatval($data['preco']);
-        $estoque = isset($data['estoque']) ? intval($data['estoque']) : 0;
-        $categoria = $data['categoria'];
-        $sku = isset($data['sku']) ? trim($data['sku']) : '';
-        $imagem = isset($data['imagem']) ? trim($data['imagem']) : '';
         
         // Validar preço
         if ($preco <= 0) {
             echo json_encode(['status' => 'erro', 'mensagem' => 'O preço deve ser maior que zero']);
             exit;
+        }
+        
+        // Processar upload de imagem
+        $caminho_imagem = '';
+        if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+            $arquivo = $_FILES['imagem'];
+            
+            // Validar tipo de arquivo
+            $tipos_permitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!in_array($arquivo['type'], $tipos_permitidos)) {
+                echo json_encode(['status' => 'erro', 'mensagem' => 'Tipo de arquivo inválido. Apenas imagens são permitidas (JPG, PNG, GIF, WEBP)']);
+                exit;
+            }
+            
+            // Validar tamanho (máximo 5MB)
+            if ($arquivo['size'] > 5 * 1024 * 1024) {
+                echo json_encode(['status' => 'erro', 'mensagem' => 'A imagem é muito grande! Máximo permitido: 5MB']);
+                exit;
+            }
+            
+            // Criar diretório de uploads se não existir
+            $upload_dir = __DIR__ . '/../../assets/uploads/';
+            if (!file_exists($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
+            }
+            
+            // Gerar nome único para o arquivo
+            $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
+            $nome_arquivo = uniqid('produto_', true) . '_' . time() . '.' . $extensao;
+            $caminho_completo = $upload_dir . $nome_arquivo;
+            
+            // Mover arquivo para o diretório de uploads
+            if (move_uploaded_file($arquivo['tmp_name'], $caminho_completo)) {
+                // Salvar caminho relativo no banco (a partir da raiz do projeto)
+                $caminho_imagem = 'assets/uploads/' . $nome_arquivo;
+            } else {
+                echo json_encode(['status' => 'erro', 'mensagem' => 'Erro ao fazer upload da imagem']);
+                exit;
+            }
         }
         
         // Inserir produto
@@ -162,7 +204,7 @@ if ($action === 'create') {
             $estoque,
             $categoria,
             $sku,
-            $imagem
+            $caminho_imagem
         ]);
         
         header('Content-Type: application/json');

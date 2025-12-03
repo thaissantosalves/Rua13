@@ -73,11 +73,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="produto-imagem">URL da Imagem</label>
-                    <input type="text" 
+                    <label for="produto-imagem">Imagem do Produto</label>
+                    <input type="file" 
                            id="produto-imagem" 
                            class="form-control" 
-                           placeholder="Ex: https://br.images.search.yahoo.com/images/">
+                           accept="image/*"
+                           onchange="previewImage(event)">
+                    <small class="text-muted">Selecione uma imagem do seu computador</small>
+                    <div id="imagem-preview" class="mt-2" style="display: none;">
+                        <img id="preview-img" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
                 </div>
 
                 <div class="sidebar-footer">

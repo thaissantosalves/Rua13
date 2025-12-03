@@ -406,40 +406,91 @@ function closeProductModal() {
         if (form) {
             form.reset();
         }
+        // Limpar preview da imagem
+        const previewDiv = document.getElementById('imagem-preview');
+        if (previewDiv) {
+            previewDiv.style.display = 'none';
+        }
+        const previewImg = document.getElementById('preview-img');
+        if (previewImg) {
+            previewImg.src = '';
+        }
+    }
+}
+
+// Função para preview da imagem
+function previewImage(event) {
+    const file = event.target.files[0];
+    const previewDiv = document.getElementById('imagem-preview');
+    const previewImg = document.getElementById('preview-img');
+    
+    if (file) {
+        // Validar tipo de arquivo
+        if (!file.type.startsWith('image/')) {
+            alert('Por favor, selecione apenas arquivos de imagem!');
+            event.target.value = '';
+            previewDiv.style.display = 'none';
+            return;
+        }
+        
+        // Validar tamanho (máximo 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('A imagem é muito grande! Por favor, selecione uma imagem menor que 5MB.');
+            event.target.value = '';
+            previewDiv.style.display = 'none';
+            return;
+        }
+        
+        // Criar URL temporária para preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            previewDiv.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    } else {
+        previewDiv.style.display = 'none';
     }
 }
 
 async function saveProduct(event) {
     event.preventDefault();
     
-    const formData = {
-        nome: document.getElementById('produto-nome').value.trim(),
-        descricao: document.getElementById('produto-descricao').value.trim(),
-        preco: parseFloat(document.getElementById('produto-preco').value),
-        estoque: parseInt(document.getElementById('produto-estoque').value) || 0,
-        categoria: document.getElementById('produto-categoria').value,
-        sku: document.getElementById('produto-sku').value.trim(),
-        imagem: document.getElementById('produto-imagem').value.trim()
-    };
-    
     // Validação básica
-    if (!formData.nome || !formData.preco || !formData.categoria) {
+    const nome = document.getElementById('produto-nome').value.trim();
+    const preco = parseFloat(document.getElementById('produto-preco').value);
+    const categoria = document.getElementById('produto-categoria').value;
+    
+    if (!nome || !preco || !categoria) {
         alert('Por favor, preencha todos os campos obrigatórios!');
         return;
     }
     
-    if (formData.preco <= 0) {
+    if (preco <= 0) {
         alert('O preço deve ser maior que zero!');
         return;
+    }
+    
+    // Criar FormData para enviar arquivo
+    const formData = new FormData();
+    formData.append('nome', nome);
+    formData.append('descricao', document.getElementById('produto-descricao').value.trim());
+    formData.append('preco', preco);
+    formData.append('estoque', parseInt(document.getElementById('produto-estoque').value) || 0);
+    formData.append('categoria', categoria);
+    formData.append('sku', document.getElementById('produto-sku').value.trim());
+    
+    // Adicionar arquivo de imagem se selecionado
+    const imagemInput = document.getElementById('produto-imagem');
+    if (imagemInput.files && imagemInput.files[0]) {
+        formData.append('imagem', imagemInput.files[0]);
     }
     
     try {
         const response = await fetch('../../Backend/api/produtos.php?action=create', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
+            body: formData
+            // Não definir Content-Type - o browser define automaticamente com boundary para FormData
         });
         
         const data = await response.json();

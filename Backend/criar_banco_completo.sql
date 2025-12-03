@@ -109,9 +109,17 @@ INSERT INTO `usuario` (`nome`, `email`, `login`, `senha`, `perfil`) VALUES
 -- 2. Inserir perguntas 2FA (substitua @master_id pelo ID do master inserido)
 SET @master_id = (SELECT id_usuario FROM usuario WHERE perfil = 'master' LIMIT 1);
 
-INSERT INTO `autenticacao_2fa` (`id_usuario`, `perguntaescolhida`, `resposta_da_pergunta`) VALUES
-(@master_id, 'Qual o cnpj da sua empresa?', '12345678'),
-(@master_id, 'Qual foi a sua primeira conquista?', 'loja fisica');
+-- Verificar se já existem perguntas para o master antes de inserir
+SET @existe_2fa = (SELECT COUNT(*) FROM autenticacao_2fa WHERE id_usuario = @master_id);
+
+-- Inserir perguntas 2FA apenas se não existirem
+INSERT INTO `autenticacao_2fa` (`id_usuario`, `perguntaescolhida`, `resposta_da_pergunta`) 
+SELECT @master_id, 'Qual o nome do seu primeiro animal de estimação?', 'admin123'
+WHERE @existe_2fa = 0;
+
+INSERT INTO `autenticacao_2fa` (`id_usuario`, `perguntaescolhida`, `resposta_da_pergunta`) 
+SELECT @master_id, 'Qual o nome da sua primeira escola?', 'admin456'
+WHERE @existe_2fa = 0;
 
 -- Produtos completos
 INSERT INTO `produtos` (`nome`, `descricao`, `preco`, `estoque`, `categoria`, `sku`, `imagem`) VALUES

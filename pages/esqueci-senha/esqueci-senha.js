@@ -1,51 +1,19 @@
-// Esqueci a senha — front-only com localStorage + sessionStorage
-// No futuro: trocar trechos marcados por chamadas ao teu back.
-
+// Esqueci a senha — Integrado com Backend
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 const byId = (id) => document.getElementById(id);
 
 const toast = new bootstrap.Toast(byId('toast'));
-const showToast = (msg) => { byId('toastMsg').textContent = msg; toast.show(); };
-
-// ------------ Storage "fake" de usuários -------------
-const LS_KEY = 'sk_users';
-// Estrutura: { "email@dominio": { passHash: "<sha256-hex>", createdAt: 1712345678901 } }
-
-const loadUsers = () => {
-  try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}') || {}; }
-  catch { return {}; }
+const showToast = (msg, type = 'info') => { 
+  byId('toastMsg').textContent = msg; 
+  const toastEl = byId('toast');
+  toastEl.classList.remove('text-bg-success', 'text-bg-danger', 'text-bg-info');
+  toastEl.classList.add(type === 'success' ? 'text-bg-success' : type === 'error' ? 'text-bg-danger' : 'text-bg-info');
+  toast.show(); 
 };
-const saveUsers = (obj) => localStorage.setItem(LS_KEY, JSON.stringify(obj));
 
-// SHA-256 em hex (pra não guardar senha pura)
-async function hashSHA256(str){
-  if (window.crypto?.subtle) {
-    const enc = new TextEncoder().encode(str);
-    const buf = await crypto.subtle.digest('SHA-256', enc);
-    const arr = Array.from(new Uint8Array(buf));
-    return arr.map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-  return 'plain:' + str;
-}
-
-// ---------- Código de reset: sessionStorage ----------
-function setResetCode(email, code, ttlMs=10*60*1000){
-  const key = `sk_reset_${email}`;
-  sessionStorage.setItem(key, JSON.stringify({ code, exp: Date.now()+ttlMs }));
-}
-function getResetCode(email){
-  const key = `sk_reset_${email}`;
-  try {
-    const o = JSON.parse(sessionStorage.getItem(key) || '{}');
-    if (!o.code || !o.exp) return null;
-    if (Date.now() > o.exp) { sessionStorage.removeItem(key); return null; }
-    return o;
-  } catch { return null; }
-}
-function clearResetCode(email){
-  sessionStorage.removeItem(`sk_reset_${email}`);
-}
+// API Base URL
+const API_BASE = '../../Backend/api/recuperar-senha.php';
 
 // -------------- UI: steps ----------------
 const panels = {
@@ -101,61 +69,146 @@ form.addEventListener('submit', async (evt) => {
   if (!ok) { form.classList.add('was-validated'); return; }
 
   if (step1Visible){
-    // verificar se email existe no "cadastro"
     const email = byId('email').value.trim().toLowerCase();
-    const users = loadUsers();
-    if (!users[email]) {
-      showToast('E-mail não encontrado. Crie uma conta antes de recuperar a senha.');
-      return;
+    
+    // Desabilitar botão durante requisição
+    const btnSend = byId('btnSendCode');
+    btnSend.disabled = true;
+    btnSend.textContent = 'Enviando...';
+    
+    try {
+      const response = await fetch(`${API_BASE}?action=solicitar_codigo`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        currentEmail = email;
+        byId('hintEmail').textContent = `Enviamos um código para ${email}.`;
+        byId('devCode').textContent = data.codigo_dev || '—'; // DEV only - remover em produção
+        byId('code').value = '';
+        
+        startResendTimer();
+        setStep(2);
+        showToast('Código enviado! Verifique seu e-mail.', 'success');
+      } else {
+        showToast(data.mensagem || 'Erro ao solicitar código.', 'error');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      showToast('Erro de conexão. Tente novamente.', 'error');
+    } finally {
+      btnSend.disabled = false;
+      btnSend.textContent = 'Enviar código';
     }
-
-    currentEmail = email;
-
-    // gerar código (no futuro: back envia por e-mail)
-    const code = (''+Math.floor(100000 + Math.random()*900000)).slice(-6);
-    setResetCode(currentEmail, code);
-    byId('hintEmail').textContent = `Enviamos um código para ${currentEmail}.`;
-    byId('devCode').textContent = code; // DEV only
-    byId('code').value = '';
-
-    startResendTimer();
-    setStep(2);
-    showToast('Código enviado (DEV: exibido na tela).');
     return;
   }
 
   if (step2Visible){
     const typed = byId('code').value.trim();
-    const payload = getResetCode(currentEmail);
-    if (!payload){
-      showToast('Código expirado. Reenvie o código.');
+    
+    if (typed.length !== 6 || !/^\d{6}$/.test(typed)) {
+      showToast('Código deve conter 6 dígitos.', 'error');
       return;
     }
-    if (typed !== payload.code){
-      showToast('Código inválido.');
-      return;
+    
+    // Desabilitar botão durante requisição
+    const btnValidate = byId('btnValidateCode');
+    btnValidate.disabled = true;
+    btnValidate.textContent = 'Validando...';
+    
+    try {
+      const response = await fetch(`${API_BASE}?action=validar_codigo`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email: currentEmail,
+          codigo: typed
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        // Armazenar token temporariamente
+        sessionStorage.setItem('reset_token', data.token);
+        setStep(3);
+        showToast('Código validado com sucesso!', 'success');
+      } else {
+        showToast(data.mensagem || 'Código inválido.', 'error');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      showToast('Erro de conexão. Tente novamente.', 'error');
+    } finally {
+      btnValidate.disabled = false;
+      btnValidate.textContent = 'Validar código';
     }
-    setStep(3);
     return;
   }
 
   if (step3Visible){
     const p1 = byId('pass1').value;
     const p2 = byId('pass2').value;
-    if (p1.length < 8){ showToast('Senha muito curta.'); return; }
-    if (p1 !== p2){ showToast('As senhas não coincidem.'); return; }
-
-    // salvar nova senha no "cadastro"
-    const users = loadUsers();
-    if (!users[currentEmail]){ showToast('Sessão inválida. Recomece o processo.'); setStep(1); return; }
-    const passHash = await hashSHA256(p1);
-    users[currentEmail].passHash = passHash;
-    users[currentEmail].updatedAt = Date.now();
-    saveUsers(users);
-    clearResetCode(currentEmail);
-
-    showToast('Senha atualizada! Redirecionando para o login...');
-    setTimeout(() => window.location.assign('/pages/login/login.html'), 1200);
+    
+    if (p1.length < 6){ 
+      showToast('A senha deve ter no mínimo 6 caracteres.', 'error'); 
+      return; 
+    }
+    if (p1 !== p2){ 
+      showToast('As senhas não coincidem.', 'error'); 
+      return; 
+    }
+    
+    const token = sessionStorage.getItem('reset_token');
+    if (!token) {
+      showToast('Sessão expirada. Recomece o processo.', 'error');
+      setStep(1);
+      return;
+    }
+    
+    // Desabilitar botão durante requisição
+    const btnSave = byId('btnSave');
+    btnSave.disabled = true;
+    btnSave.textContent = 'Salvando...';
+    
+    try {
+      const response = await fetch(`${API_BASE}?action=atualizar_senha`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email: currentEmail,
+          senha: p1,
+          token: token
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        sessionStorage.removeItem('reset_token');
+        showToast('Senha atualizada com sucesso! Redirecionando...', 'success');
+        setTimeout(() => window.location.assign('../login/login.html'), 1500);
+      } else {
+        showToast(data.mensagem || 'Erro ao atualizar senha.', 'error');
+        btnSave.disabled = false;
+        btnSave.textContent = 'Salvar nova senha';
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      showToast('Erro de conexão. Tente novamente.', 'error');
+      btnSave.disabled = false;
+      btnSave.textContent = 'Salvar nova senha';
+    }
   }
 });
 
@@ -163,13 +216,41 @@ form.addEventListener('submit', async (evt) => {
 byId('btnBack1').addEventListener('click', () => { setStep(1); });
 
 // Reenviar código
-byId('btnResend').addEventListener('click', () => {
-  const payload = getResetCode(currentEmail);
-  const code = (''+Math.floor(100000 + Math.random()*900000)).slice(-6);
-  setResetCode(currentEmail, code);
-  byId('devCode').textContent = code;
-  startResendTimer();
-  showToast('Novo código gerado (DEV).');
+byId('btnResend').addEventListener('click', async () => {
+  if (!currentEmail) {
+    showToast('Email não encontrado. Recomece o processo.', 'error');
+    setStep(1);
+    return;
+  }
+  
+  const btnResend = byId('btnResend');
+  btnResend.disabled = true;
+  btnResend.textContent = 'Enviando...';
+  
+  try {
+    const response = await fetch(`${API_BASE}?action=solicitar_codigo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: currentEmail })
+    });
+    
+    const data = await response.json();
+    
+    if (data.status === 'success') {
+      byId('devCode').textContent = data.codigo_dev || '—'; // DEV only
+      startResendTimer();
+      showToast('Novo código enviado!', 'success');
+    } else {
+      showToast(data.mensagem || 'Erro ao reenviar código.', 'error');
+    }
+  } catch (error) {
+    console.error('Erro:', error);
+    showToast('Erro de conexão. Tente novamente.', 'error');
+  } finally {
+    // O timer vai reabilitar o botão
+  }
 });
 
 // Mostrar/ocultar senha
@@ -182,11 +263,11 @@ byId('toggleShow').addEventListener('change', (e) => {
 // Estado inicial
 setStep(1);
 
-// ----------------- DICA P/ DEV -----------------
-// Se ainda não tem cadastro salvo no localStorage, você pode pré-criar:
-window.SK_DEV_seedUser = async (email='dev@streetkace.com', senha='12345678')=>{
-  const u = loadUsers();
-  u[email.toLowerCase()] = { passHash: await hashSHA256(senha), createdAt: Date.now() };
-  saveUsers(u);
-  console.log('Usuário seed:', email);
-};
+// Limpar token ao carregar a página (caso tenha ficado de sessão anterior)
+if (sessionStorage.getItem('reset_token')) {
+  // Manter token se estiver na etapa 3, senão limpar
+  const step3Visible = !panels[3].classList.contains('d-none');
+  if (!step3Visible) {
+    sessionStorage.removeItem('reset_token');
+  }
+}

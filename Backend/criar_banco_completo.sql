@@ -98,6 +98,19 @@ CREATE TABLE `estoque` (
     FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabela: recuperacao_senha
+CREATE TABLE `recuperacao_senha` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_usuario` INT NOT NULL,
+    `codigo` VARCHAR(6) NOT NULL,
+    `expirado_em` DATETIME NOT NULL,
+    `usado` TINYINT(1) DEFAULT 0,
+    `criado_em` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE,
+    INDEX `idx_codigo` (`codigo`),
+    INDEX `idx_expirado` (`expirado_em`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- =========================================
 -- 5. INSERIR DADOS INICIAIS
 -- =========================================

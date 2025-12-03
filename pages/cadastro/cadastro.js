@@ -291,6 +291,9 @@ form.addEventListener('submit', async (e)=>{
     loadingDiv.remove();
     
     if (result.status === 'sucesso') {
+      // Limpar tentativas de cadastro ao ter sucesso
+      sessionStorage.removeItem('cadastro_tentativas');
+      
       // Usar dados reais do usuário retornados pelo backend
       if (result.usuario) {
         // Salva dados reais do usuário
@@ -306,7 +309,26 @@ form.addEventListener('submit', async (e)=>{
       window.location.href = '../principal/principal.html';
       
     } else {
-      // Erro
+      // Erro - contar tentativas
+      const tentativasKey = 'cadastro_tentativas';
+      const tentativas = parseInt(sessionStorage.getItem(tentativasKey) || '0') + 1;
+      sessionStorage.setItem(tentativasKey, tentativas.toString());
+      
+      // Se exceder 3 tentativas com erro, redirecionar para tela de erro
+      if (tentativas >= 3) {
+        const mensagensErro = result.mensagens && Array.isArray(result.mensagens) 
+          ? result.mensagens.join(', ') 
+          : (result.mensagem || 'Erro desconhecido');
+        
+        const params = new URLSearchParams({
+          titulo: encodeURIComponent('Erro no Cadastro'),
+          desc: encodeURIComponent(`Não foi possível concluir seu cadastro após ${tentativas} tentativas. Motivo: ${mensagensErro}. Por favor, verifique os dados informados e tente novamente.`)
+        });
+        window.location.href = `../TelaErro/erro.php?${params.toString()}`;
+        return;
+      }
+      
+      // Erro - não mostrar contador, apenas o erro
       const errorDiv = document.createElement('div');
       errorDiv.className = 'alert alert-danger mt-3';
       
@@ -325,8 +347,24 @@ form.addEventListener('submit', async (e)=>{
     }
     
   } catch (error) {
-    // Erro de conexão
+    // Erro de conexão crítico - redirecionar para tela de erro após 3 tentativas
     loadingDiv.remove();
+    
+    // Contar tentativas de cadastro falhas
+    const tentativasKey = 'cadastro_tentativas';
+    const tentativas = parseInt(sessionStorage.getItem(tentativasKey) || '0') + 1;
+    sessionStorage.setItem(tentativasKey, tentativas.toString());
+    
+    if (tentativas >= 3) {
+      // Redirecionar para tela de erro após 3 tentativas
+      const params = new URLSearchParams({
+        titulo: encodeURIComponent('Erro de Conexão'),
+        desc: encodeURIComponent('Não foi possível processar seu cadastro após múltiplas tentativas. Verifique sua conexão com a internet e tente novamente.')
+      });
+      window.location.href = `../TelaErro/erro.php?${params.toString()}`;
+      return;
+    }
+    
     const errorDiv = document.createElement('div');
     errorDiv.className = 'alert alert-danger mt-3';
     errorDiv.innerHTML = `

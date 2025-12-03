@@ -1,4 +1,35 @@
 // Sistema de Login com Backend e 2FA
+// Sistema de contagem de tentativas falhas (silencioso)
+const MAX_TENTATIVAS = 3;
+const TENTATIVAS_KEY = 'login_tentativas';
+
+// Função para obter tentativas
+function getTentativas() {
+    const tentativas = sessionStorage.getItem(TENTATIVAS_KEY);
+    return tentativas ? parseInt(tentativas) : 0;
+}
+
+// Função para incrementar tentativas
+function incrementarTentativa() {
+    const tentativas = getTentativas() + 1;
+    sessionStorage.setItem(TENTATIVAS_KEY, tentativas.toString());
+    return tentativas;
+}
+
+// Função para resetar tentativas (quando login for bem-sucedido)
+function resetarTentativas() {
+    sessionStorage.removeItem(TENTATIVAS_KEY);
+}
+
+// Função para redirecionar para tela de erro
+function redirecionarErro(titulo, descricao) {
+    const params = new URLSearchParams({
+        titulo: encodeURIComponent(titulo),
+        desc: encodeURIComponent(descricao)
+    });
+    window.location.href = `../TelaErro/erro.php?${params.toString()}`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
 
@@ -42,6 +73,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (!response.ok) {
                         const errorText = await response.text();
                         console.error("Erro HTTP:", response.status, errorText);
+                        
+                        // Incrementar tentativa silenciosamente
+                        const tentativas = incrementarTentativa();
+                        
+                        if (tentativas >= MAX_TENTATIVAS) {
+                            redirecionarErro(
+                                "Múltiplas Tentativas de Login Falhas",
+                                `Você excedeu ${MAX_TENTATIVAS} tentativas de login com falha. Por favor, verifique suas credenciais e tente novamente.`
+                            );
+                            return;
+                        }
+                        
                         throw new Error(`Erro ${response.status}: ${errorText.substring(0, 100)}`);
                     }
 
@@ -49,6 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("Resultado:", result);
 
                     if (result.status === "2fa") {
+                        // Resetar tentativas ao chegar na etapa 2FA (credenciais corretas)
+                        resetarTentativas();
+                        
                         console.log("=== DEBUG 2FA ===");
                         console.log("Resultado completo:", result);
                         console.log("Pergunta sorteada:", result.pergunta);
@@ -68,7 +114,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             console.log("Pergunta carregada do banco:", result.pergunta);
                         } else {
                             console.error("Erro: Pergunta não encontrada no banco de dados!");
-                            alert("Erro: Pergunta de segurança não encontrada. Entre em contato com o suporte.");
+                            redirecionarErro(
+                                "Erro de Configuração",
+                                "Pergunta de segurança não encontrada no sistema. Entre em contato com o suporte técnico."
+                            );
+                            return;
                         }
 
                         // Limpar campos de resposta
@@ -87,14 +137,41 @@ document.addEventListener("DOMContentLoaded", () => {
                             console.log("Modal aberto com sucesso!");
                         } else {
                             console.error("Erro: Modal box-2fa não encontrado!");
+                            redirecionarErro(
+                                "Erro de Interface",
+                                "Erro ao carregar interface de autenticação. Recarregue a página e tente novamente."
+                            );
                         }
                         console.log("=== FIM DEBUG ===");
                     } else {
-                        alert("Erro no login: " + result.mensagem);
+                        // Login falhou - incrementar tentativa silenciosamente
+                        const tentativas = incrementarTentativa();
+                        
+                        if (tentativas >= MAX_TENTATIVAS) {
+                            redirecionarErro(
+                                "Múltiplas Tentativas de Login Falhas",
+                                `Você excedeu ${MAX_TENTATIVAS} tentativas de login com falha. Motivo: ${result.mensagem || 'Credenciais inválidas'}. Por favor, verifique suas credenciais e tente novamente.`
+                            );
+                        } else {
+                            // Não mostrar aviso, apenas contar silenciosamente
+                            alert(`Erro no login: ${result.mensagem}`);
+                        }
                     }
                 } catch (error) {
                     console.error("Erro no login:", error);
-                    alert("Erro de conexão. Verifique se o servidor está rodando.");
+                    
+                    // Incrementar tentativa em caso de erro de conexão
+                    const tentativas = incrementarTentativa();
+                    
+                    if (tentativas >= MAX_TENTATIVAS) {
+                        redirecionarErro(
+                            "Erro de Conexão",
+                            `Não foi possível conectar ao servidor após ${MAX_TENTATIVAS} tentativas. Verifique sua conexão com a internet e tente novamente.`
+                        );
+                    } else {
+                        // Não mostrar aviso de tentativas restantes
+                        alert("Erro de conexão. Verifique se o servidor está rodando.");
+                    }
                 } finally {
                     // Restaurar botão
                     submitBtn.textContent = originalText;
@@ -142,6 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Resposta do verificar2fa:", data);
 
                 if (data.status === "sucesso") {
+                    // Resetar tentativas ao fazer login com sucesso
+                    resetarTentativas();
+                    
                     // Salva dados do usuário (incluindo perfil se for master)
                     const userDataToSave = {
                         id: data.usuario.id_usuario,
@@ -187,11 +267,34 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("Login realizado com sucesso!");
                     }
                 } else {
-                    document.getElementById("msg-2fa").innerText = data.mensagem;
+                    // Resposta 2FA incorreta - incrementar tentativa silenciosamente
+                    const tentativas = incrementarTentativa();
+                    
+                    if (tentativas >= MAX_TENTATIVAS) {
+                        redirecionarErro(
+                            "Múltiplas Tentativas de Autenticação Falhas",
+                            `Você excedeu ${MAX_TENTATIVAS} tentativas de autenticação com falha. Motivo: ${data.mensagem || 'Resposta de segurança incorreta'}. Por favor, tente novamente.`
+                        );
+                    } else {
+                        // Não mostrar tentativas restantes
+                        document.getElementById("msg-2fa").innerText = data.mensagem;
+                    }
                 }
             } catch (error) {
                 console.error("Erro na verificação 2FA:", error);
-                document.getElementById("msg-2fa").innerText = "Erro de conexão. Tente novamente.";
+                
+                // Incrementar tentativa em caso de erro de conexão
+                const tentativas = incrementarTentativa();
+                
+                if (tentativas >= MAX_TENTATIVAS) {
+                    redirecionarErro(
+                        "Erro de Conexão",
+                        `Não foi possível conectar ao servidor após ${MAX_TENTATIVAS} tentativas. Verifique sua conexão com a internet e tente novamente.`
+                    );
+                } else {
+                    // Não mostrar tentativas restantes
+                    document.getElementById("msg-2fa").innerText = "Erro de conexão. Tente novamente.";
+                }
             }
         });
     }
